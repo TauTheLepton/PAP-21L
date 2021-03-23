@@ -10,3 +10,8 @@ Powiadomienia (animowany banner?)
 Dodawanie i usuwanie eventow (także cyklicznych)
 
 Wyszukiwanie eventów po nazwie
+
+### Twórcy:
+- Mateusz Palczuk
+- Kacper Markowski
+- Tymon Kobylecki
