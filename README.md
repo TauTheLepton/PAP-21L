@@ -3,6 +3,9 @@
 Projekt PAP grupa 04 - Kalendarz (aplikacja webowa)
 
 ## Wymagania:
+
+### Podstawowe:
+
 Podgląd kalendarza do przodu i do tyłu
 
 Powiadomienia (animowany banner?)
@@ -10,6 +13,8 @@ Powiadomienia (animowany banner?)
 Dodawanie i usuwanie eventow (także cyklicznych)
 
 Wyszukiwanie eventów po nazwie
+
+### Dodatkowe:
 
 Możliwość planowania eventów grupowych, dodawanie innych użytkowników do eventu
 
