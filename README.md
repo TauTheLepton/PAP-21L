@@ -1,6 +1,6 @@
 # PAP21L-Z04
 
-Projekt PAP grupa 04 - Kalendarz **_xd365_** (aplikacja webowa)
+## Projekt PAP grupa 04 - Kalendarz **_xd365_** (aplikacja webowa)
 
 ## Wymagania:
 
@@ -24,7 +24,7 @@ Dodawanie tagów do eventów (związanych z zainteresowaniami np. event sportowy
 
 Eventy w okolicy
 
-### Twórcy:
+## Twórcy:
 - Mateusz Palczuk
 - Kacper Markowski
 - Tymon Kobylecki
