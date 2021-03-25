@@ -1,3 +1,37 @@
+// package tst;
+
+// public class App {
+//     public static void main(String[] args) throws Exception {
+//         System.out.println("Hello, World!");
+//     }
+// }
+
+
+// package tst;
+// import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
+// import javax.swing.JButton;
+// import javax.swing.JFrame;
+// import javax.swing.SwingUtilities;
+// public class App {
+//     public static void main(String[] args) {
+//         SwingUtilities.invokeLater(() -> {
+//         JFrame frame = new JFrame("Pierwszy Przycisk");
+//         frame.setBounds(100, 100, 450, 300); // nadaje rozmiar oknu
+//         // zakoncz aplikacje po zamknieciu okna
+//         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//         JButton closeButton = new JButton("jeszcze nie nacisnieto");
+//         closeButton.addActionListener(e->((JButton)e.getSource()).setText("nacisnieto"));
+//         frame.getContentPane().add(closeButton);
+//         frame.setVisible(true); // pokaz okno
+//         });
+//     }
+// }
+
+// SimpleSwing.main();
+
+// import static org.junit.Assert.*
+
 public class App 
 {
   int a, b;
@@ -38,8 +72,7 @@ public class App
     ksiazka.print();
 
     testApp test = new testApp();
-    boolean result = test.test_count2();
-    System.out.println("Test went well?: " + result);
+    test.test_count2();
   }
 }
 
@@ -52,19 +85,10 @@ class testApp
     test1 = new App(21, 37);
   }
 
-  boolean test_count2()
+  void test_count2()
   {
-    boolean out;
     int test = test1.count2();
-    if(test == 2137)
-    {
-      out = true;
-    }
-    else
-    {
-      out = false;
-    }
-    return out;
+    assert test == 2137 : "Error: test niezaliczony";
   }
 }
 
