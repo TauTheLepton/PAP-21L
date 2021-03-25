@@ -1,37 +1,3 @@
-// package tst;
-
-// public class App {
-//     public static void main(String[] args) throws Exception {
-//         System.out.println("Hello, World!");
-//     }
-// }
-
-
-// package tst;
-// import java.awt.event.ActionEvent;
-// import java.awt.event.ActionListener;
-// import javax.swing.JButton;
-// import javax.swing.JFrame;
-// import javax.swing.SwingUtilities;
-// public class App {
-//     public static void main(String[] args) {
-//         SwingUtilities.invokeLater(() -> {
-//         JFrame frame = new JFrame("Pierwszy Przycisk");
-//         frame.setBounds(100, 100, 450, 300); // nadaje rozmiar oknu
-//         // zakoncz aplikacje po zamknieciu okna
-//         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//         JButton closeButton = new JButton("jeszcze nie nacisnieto");
-//         closeButton.addActionListener(e->((JButton)e.getSource()).setText("nacisnieto"));
-//         frame.getContentPane().add(closeButton);
-//         frame.setVisible(true); // pokaz okno
-//         });
-//     }
-// }
-
-// SimpleSwing.main();
-
-// import static org.junit.Assert.*
-
 public class App 
 {
   int a, b;
