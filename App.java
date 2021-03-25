@@ -64,8 +64,7 @@ class testApp
 
   void test_count2()
   {
-    int test = test1.count2();
-    assert test == 2137 : "Test failed!";
+    assert test1.count2() == 2137 : "Test failed";
   }
 }
 
