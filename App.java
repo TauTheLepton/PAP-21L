@@ -38,8 +38,7 @@ public class App
     ksiazka.print();
 
     testApp test = new testApp();
-    boolean result = test.test_count2();
-    System.out.println("Test went well?: " + result);
+    test.test_all();
   }
 }
 
@@ -52,19 +51,21 @@ class testApp
     test1 = new App(21, 37);
   }
 
-  boolean test_count2()
+  void test_all()
   {
-    boolean out;
+    test_count();
+    test_count2();
+  }
+
+  void test_count()
+  {
+    assert test1.count() == 77700 : "Test failed!";
+  }
+
+  void test_count2()
+  {
     int test = test1.count2();
-    if(test == 2137)
-    {
-      out = true;
-    }
-    else
-    {
-      out = false;
-    }
-    return out;
+    assert test == 2137 : "Test failed!";
   }
 }
 
