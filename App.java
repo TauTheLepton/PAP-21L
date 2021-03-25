@@ -36,6 +36,35 @@ public class App
 
     Book ksiazka = new Book("Ferdydurke", "Witold Gombrowicz", 300);
     ksiazka.print();
+
+    testApp test = new testApp();
+    boolean result = test.test_count2();
+    System.out.println("Test went well?: " + result);
+  }
+}
+
+class testApp
+{
+  App test1;
+
+  testApp()
+  {
+    test1 = new App(21, 37);
+  }
+
+  boolean test_count2()
+  {
+    boolean out;
+    int test = test1.count2();
+    if(test == 2137)
+    {
+      out = true;
+    }
+    else
+    {
+      out = false;
+    }
+    return out;
   }
 }
 
