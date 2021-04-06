@@ -1,0 +1,47 @@
+{
+  "name": "Event",
+  "fields": [
+    {
+      "fieldName": "eventName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventDay",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "isCyclical",
+      "fieldType": "YesNo",
+      "fieldValues": "YES,NO",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cycleLength",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "isPublic",
+      "fieldType": "YesNo",
+      "fieldValues": "YES,NO",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "Category",
+      "fieldValues": "RECREATION,STUDYING,SPORTS"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "event",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210406111336"
+}
