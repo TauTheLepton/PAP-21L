@@ -19,12 +19,6 @@ export class EventService {
   /**
   * Convert a ItemStockLevel to a JSON which can be sent to the server.
   */
-  private convert(event: Event): Event {
-    const copy: Event = Object.assign({}, event);
-
-    // copy.stockDate = this.dateUtils.toDate(itemStockLevel.stockDate);
-    return copy;
-  }
 
   create(event: IEvent): Observable<EntityResponseType> {
     return this.http.post<IEvent>(this.resourceUrl, event, { observe: 'response' });
@@ -66,5 +60,11 @@ export class EventService {
       return [...eventsToAdd, ...eventCollection];
     }
     return eventCollection;
+  }
+  private convert(event: Event): Event {
+    const copy: Event = Object.assign({}, event);
+
+    // copy.stockDate = this.dateUtils.toDate(itemStockLevel.stockDate);
+    return copy;
   }
 }
