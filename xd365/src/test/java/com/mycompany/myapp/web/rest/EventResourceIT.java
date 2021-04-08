@@ -8,9 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.mycompany.myapp.IntegrationTest;
 import com.mycompany.myapp.domain.Event;
 import com.mycompany.myapp.domain.enumeration.Category;
+import com.mycompany.myapp.domain.enumeration.TimeUnits;
 import com.mycompany.myapp.domain.enumeration.YesNo;
 import com.mycompany.myapp.domain.enumeration.YesNo;
 import com.mycompany.myapp.repository.EventRepository;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -35,14 +38,17 @@ class EventResourceIT {
     private static final String DEFAULT_EVENT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_EVENT_NAME = "BBBBBBBBBB";
 
-    private static final Long DEFAULT_EVENT_DAY = 1L;
-    private static final Long UPDATED_EVENT_DAY = 2L;
+    private static final LocalDate DEFAULT_EVENT_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_EVENT_DATE = LocalDate.now(ZoneId.systemDefault());
 
     private static final YesNo DEFAULT_IS_CYCLICAL = YesNo.YES;
     private static final YesNo UPDATED_IS_CYCLICAL = YesNo.NO;
 
     private static final Long DEFAULT_CYCLE_LENGTH = 1L;
     private static final Long UPDATED_CYCLE_LENGTH = 2L;
+
+    private static final TimeUnits DEFAULT_CYCLE_UNIT = TimeUnits.DAYS;
+    private static final TimeUnits UPDATED_CYCLE_UNIT = TimeUnits.WEEKS;
 
     private static final YesNo DEFAULT_IS_PUBLIC = YesNo.YES;
     private static final YesNo UPDATED_IS_PUBLIC = YesNo.NO;
@@ -76,9 +82,10 @@ class EventResourceIT {
     public static Event createEntity(EntityManager em) {
         Event event = new Event()
             .eventName(DEFAULT_EVENT_NAME)
-            .eventDay(DEFAULT_EVENT_DAY)
+            .eventDate(DEFAULT_EVENT_DATE)
             .isCyclical(DEFAULT_IS_CYCLICAL)
             .cycleLength(DEFAULT_CYCLE_LENGTH)
+            .cycleUnit(DEFAULT_CYCLE_UNIT)
             .isPublic(DEFAULT_IS_PUBLIC)
             .category(DEFAULT_CATEGORY);
         return event;
@@ -93,9 +100,10 @@ class EventResourceIT {
     public static Event createUpdatedEntity(EntityManager em) {
         Event event = new Event()
             .eventName(UPDATED_EVENT_NAME)
-            .eventDay(UPDATED_EVENT_DAY)
+            .eventDate(UPDATED_EVENT_DATE)
             .isCyclical(UPDATED_IS_CYCLICAL)
             .cycleLength(UPDATED_CYCLE_LENGTH)
+            .cycleUnit(UPDATED_CYCLE_UNIT)
             .isPublic(UPDATED_IS_PUBLIC)
             .category(UPDATED_CATEGORY);
         return event;
@@ -120,9 +128,10 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeCreate + 1);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(DEFAULT_EVENT_NAME);
-        assertThat(testEvent.getEventDay()).isEqualTo(DEFAULT_EVENT_DAY);
+        assertThat(testEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
         assertThat(testEvent.getIsCyclical()).isEqualTo(DEFAULT_IS_CYCLICAL);
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
+        assertThat(testEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(DEFAULT_IS_PUBLIC);
         assertThat(testEvent.getCategory()).isEqualTo(DEFAULT_CATEGORY);
     }
@@ -164,10 +173,10 @@ class EventResourceIT {
 
     @Test
     @Transactional
-    void checkEventDayIsRequired() throws Exception {
+    void checkEventDateIsRequired() throws Exception {
         int databaseSizeBeforeTest = eventRepository.findAll().size();
         // set the field null
-        event.setEventDay(null);
+        event.setEventDate(null);
 
         // Create the Event, which fails.
 
@@ -226,9 +235,10 @@ class EventResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
             .andExpect(jsonPath("$.[*].eventName").value(hasItem(DEFAULT_EVENT_NAME)))
-            .andExpect(jsonPath("$.[*].eventDay").value(hasItem(DEFAULT_EVENT_DAY.intValue())))
+            .andExpect(jsonPath("$.[*].eventDate").value(hasItem(DEFAULT_EVENT_DATE.toString())))
             .andExpect(jsonPath("$.[*].isCyclical").value(hasItem(DEFAULT_IS_CYCLICAL.toString())))
             .andExpect(jsonPath("$.[*].cycleLength").value(hasItem(DEFAULT_CYCLE_LENGTH.intValue())))
+            .andExpect(jsonPath("$.[*].cycleUnit").value(hasItem(DEFAULT_CYCLE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].isPublic").value(hasItem(DEFAULT_IS_PUBLIC.toString())))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())));
     }
@@ -246,9 +256,10 @@ class EventResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(event.getId().intValue()))
             .andExpect(jsonPath("$.eventName").value(DEFAULT_EVENT_NAME))
-            .andExpect(jsonPath("$.eventDay").value(DEFAULT_EVENT_DAY.intValue()))
+            .andExpect(jsonPath("$.eventDate").value(DEFAULT_EVENT_DATE.toString()))
             .andExpect(jsonPath("$.isCyclical").value(DEFAULT_IS_CYCLICAL.toString()))
             .andExpect(jsonPath("$.cycleLength").value(DEFAULT_CYCLE_LENGTH.intValue()))
+            .andExpect(jsonPath("$.cycleUnit").value(DEFAULT_CYCLE_UNIT.toString()))
             .andExpect(jsonPath("$.isPublic").value(DEFAULT_IS_PUBLIC.toString()))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()));
     }
@@ -274,9 +285,10 @@ class EventResourceIT {
         em.detach(updatedEvent);
         updatedEvent
             .eventName(UPDATED_EVENT_NAME)
-            .eventDay(UPDATED_EVENT_DAY)
+            .eventDate(UPDATED_EVENT_DATE)
             .isCyclical(UPDATED_IS_CYCLICAL)
             .cycleLength(UPDATED_CYCLE_LENGTH)
+            .cycleUnit(UPDATED_CYCLE_UNIT)
             .isPublic(UPDATED_IS_PUBLIC)
             .category(UPDATED_CATEGORY);
 
@@ -293,9 +305,10 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeUpdate);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
-        assertThat(testEvent.getEventDay()).isEqualTo(UPDATED_EVENT_DAY);
+        assertThat(testEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
         assertThat(testEvent.getIsCyclical()).isEqualTo(UPDATED_IS_CYCLICAL);
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
+        assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(UPDATED_IS_PUBLIC);
         assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
     }
@@ -371,8 +384,8 @@ class EventResourceIT {
         partialUpdatedEvent
             .eventName(UPDATED_EVENT_NAME)
             .isCyclical(UPDATED_IS_CYCLICAL)
-            .isPublic(UPDATED_IS_PUBLIC)
-            .category(UPDATED_CATEGORY);
+            .cycleUnit(UPDATED_CYCLE_UNIT)
+            .isPublic(UPDATED_IS_PUBLIC);
 
         restEventMockMvc
             .perform(
@@ -387,11 +400,12 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeUpdate);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
-        assertThat(testEvent.getEventDay()).isEqualTo(DEFAULT_EVENT_DAY);
+        assertThat(testEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
         assertThat(testEvent.getIsCyclical()).isEqualTo(UPDATED_IS_CYCLICAL);
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
+        assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(UPDATED_IS_PUBLIC);
-        assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testEvent.getCategory()).isEqualTo(DEFAULT_CATEGORY);
     }
 
     @Test
@@ -408,9 +422,10 @@ class EventResourceIT {
 
         partialUpdatedEvent
             .eventName(UPDATED_EVENT_NAME)
-            .eventDay(UPDATED_EVENT_DAY)
+            .eventDate(UPDATED_EVENT_DATE)
             .isCyclical(UPDATED_IS_CYCLICAL)
             .cycleLength(UPDATED_CYCLE_LENGTH)
+            .cycleUnit(UPDATED_CYCLE_UNIT)
             .isPublic(UPDATED_IS_PUBLIC)
             .category(UPDATED_CATEGORY);
 
@@ -427,9 +442,10 @@ class EventResourceIT {
         assertThat(eventList).hasSize(databaseSizeBeforeUpdate);
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
-        assertThat(testEvent.getEventDay()).isEqualTo(UPDATED_EVENT_DAY);
+        assertThat(testEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
         assertThat(testEvent.getIsCyclical()).isEqualTo(UPDATED_IS_CYCLICAL);
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
+        assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(UPDATED_IS_PUBLIC);
         assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
     }

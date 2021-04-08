@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import * as dayjs from 'dayjs';
 
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { YesNo } from 'app/entities/enumerations/yes-no.model';
+import { TimeUnits } from 'app/entities/enumerations/time-units.model';
 import { Category } from 'app/entities/enumerations/category.model';
 import { IEvent, Event } from '../event.model';
 
@@ -13,6 +16,7 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IEvent;
     let expectedResult: IEvent | IEvent[] | boolean | null;
+    let currentDate: dayjs.Dayjs;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -21,13 +25,15 @@ describe('Service Tests', () => {
       expectedResult = null;
       service = TestBed.inject(EventService);
       httpMock = TestBed.inject(HttpTestingController);
+      currentDate = dayjs();
 
       elemDefault = {
         id: 0,
         eventName: 'AAAAAAA',
-        eventDay: 0,
+        eventDate: currentDate,
         isCyclical: YesNo.YES,
         cycleLength: 0,
+        cycleUnit: TimeUnits.DAYS,
         isPublic: YesNo.YES,
         category: Category.RECREATION,
       };
@@ -35,7 +41,12 @@ describe('Service Tests', () => {
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            eventDate: currentDate.format(DATE_FORMAT),
+          },
+          elemDefault
+        );
 
         service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -48,11 +59,17 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            eventDate: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            eventDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.create(new Event()).subscribe(resp => (expectedResult = resp.body));
 
@@ -66,16 +83,22 @@ describe('Service Tests', () => {
           {
             id: 1,
             eventName: 'BBBBBB',
-            eventDay: 1,
+            eventDate: currentDate.format(DATE_FORMAT),
             isCyclical: 'BBBBBB',
             cycleLength: 1,
+            cycleUnit: 'BBBBBB',
             isPublic: 'BBBBBB',
             category: 'BBBBBB',
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            eventDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -89,15 +112,20 @@ describe('Service Tests', () => {
           {
             eventName: 'BBBBBB',
             isCyclical: 'BBBBBB',
+            cycleUnit: 'BBBBBB',
             isPublic: 'BBBBBB',
-            category: 'BBBBBB',
           },
           new Event()
         );
 
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            eventDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -111,16 +139,22 @@ describe('Service Tests', () => {
           {
             id: 1,
             eventName: 'BBBBBB',
-            eventDay: 1,
+            eventDate: currentDate.format(DATE_FORMAT),
             isCyclical: 'BBBBBB',
             cycleLength: 1,
+            cycleUnit: 'BBBBBB',
             isPublic: 'BBBBBB',
             category: 'BBBBBB',
           },
           elemDefault
         );
 
-        const expected = Object.assign({}, returnedFromService);
+        const expected = Object.assign(
+          {
+            eventDate: currentDate,
+          },
+          returnedFromService
+        );
 
         service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -167,7 +201,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Event to an array', () => {
-          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 36847 }];
+          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 77471 }];
           const eventCollection: IEvent[] = [{ id: 123 }];
           expectedResult = service.addEventToCollectionIfMissing(eventCollection, ...eventArray);
           expect(expectedResult).toHaveLength(3);

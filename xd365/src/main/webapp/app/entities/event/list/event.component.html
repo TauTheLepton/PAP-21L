@@ -36,14 +36,17 @@
           <th scope="col" jhiSortBy="eventName">
             <span jhiTranslate="xd365App.event.eventName">Event Name</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="eventDay">
-            <span jhiTranslate="xd365App.event.eventDay">Event Day</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="eventDate">
+            <span jhiTranslate="xd365App.event.eventDate">Event Date</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="isCyclical">
             <span jhiTranslate="xd365App.event.isCyclical">Is Cyclical</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="cycleLength">
             <span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="cycleUnit">
+            <span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="isPublic">
             <span jhiTranslate="xd365App.event.isPublic">Is Public</span> <fa-icon icon="sort"></fa-icon>
@@ -60,9 +63,10 @@
             <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
           </td>
           <td>{{ event.eventName }}</td>
-          <td>{{ event.eventDay }}</td>
+          <td>{{ event.eventDate | formatMediumDate }}</td>
           <td jhiTranslate="{{ 'xd365App.YesNo.' + event.isCyclical }}">{{ event.isCyclical }}</td>
           <td>{{ event.cycleLength }}</td>
+          <td jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
           <td jhiTranslate="{{ 'xd365App.YesNo.' + event.isPublic }}">{{ event.isPublic }}</td>
           <td jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
           <td class="text-right">

@@ -1,8 +1,10 @@
 package com.mycompany.myapp.domain;
 
 import com.mycompany.myapp.domain.enumeration.Category;
+import com.mycompany.myapp.domain.enumeration.TimeUnits;
 import com.mycompany.myapp.domain.enumeration.YesNo;
 import java.io.Serializable;
+import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -28,8 +30,8 @@ public class Event implements Serializable {
     private String eventName;
 
     @NotNull
-    @Column(name = "event_day", nullable = false)
-    private Long eventDay;
+    @Column(name = "event_date", nullable = false)
+    private LocalDate eventDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -38,6 +40,10 @@ public class Event implements Serializable {
 
     @Column(name = "cycle_length")
     private Long cycleLength;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "cycle_unit")
+    private TimeUnits cycleUnit;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -75,17 +81,17 @@ public class Event implements Serializable {
         this.eventName = eventName;
     }
 
-    public Long getEventDay() {
-        return this.eventDay;
+    public LocalDate getEventDate() {
+        return this.eventDate;
     }
 
-    public Event eventDay(Long eventDay) {
-        this.eventDay = eventDay;
+    public Event eventDate(LocalDate eventDate) {
+        this.eventDate = eventDate;
         return this;
     }
 
-    public void setEventDay(Long eventDay) {
-        this.eventDay = eventDay;
+    public void setEventDate(LocalDate eventDate) {
+        this.eventDate = eventDate;
     }
 
     public YesNo getIsCyclical() {
@@ -112,6 +118,19 @@ public class Event implements Serializable {
 
     public void setCycleLength(Long cycleLength) {
         this.cycleLength = cycleLength;
+    }
+
+    public TimeUnits getCycleUnit() {
+        return this.cycleUnit;
+    }
+
+    public Event cycleUnit(TimeUnits cycleUnit) {
+        this.cycleUnit = cycleUnit;
+        return this;
+    }
+
+    public void setCycleUnit(TimeUnits cycleUnit) {
+        this.cycleUnit = cycleUnit;
     }
 
     public YesNo getIsPublic() {
@@ -165,9 +184,10 @@ public class Event implements Serializable {
         return "Event{" +
             "id=" + getId() +
             ", eventName='" + getEventName() + "'" +
-            ", eventDay=" + getEventDay() +
+            ", eventDate='" + getEventDate() + "'" +
             ", isCyclical='" + getIsCyclical() + "'" +
             ", cycleLength=" + getCycleLength() +
+            ", cycleUnit='" + getCycleUnit() + "'" +
             ", isPublic='" + getIsPublic() + "'" +
             ", category='" + getCategory() + "'" +
             "}";

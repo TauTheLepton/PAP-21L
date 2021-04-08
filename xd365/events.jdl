@@ -10,11 +10,16 @@ enum YesNo{
   YES, NO
 }
 
+enum TimeUnits{
+  DAYS, WEEKS, MONTHS, YEARS
+}
+
 entity Event {
   eventName String required
-  eventDay Long required
+  eventDate LocalDate required
   isCyclical YesNo required
   cycleLength Long
+  cycleUnit TimeUnits
   isPublic YesNo required
   category Category
 }

@@ -17,13 +17,16 @@
             <column name="event_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="event_day" type="bigint">
+            <column name="event_date" type="date">
                 <constraints nullable="false" />
             </column>
             <column name="is_cyclical" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
             <column name="cycle_length" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="cycle_unit" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="is_public" type="varchar(255)">
@@ -53,9 +56,10 @@
                   tableName="event">
             <column name="id" type="numeric"/>
             <column name="event_name" type="string"/>
-            <column name="event_day" type="numeric"/>
+            <column name="event_date" type="date"/>
             <column name="is_cyclical" type="string"/>
             <column name="cycle_length" type="numeric"/>
+            <column name="cycle_unit" type="string"/>
             <column name="is_public" type="string"/>
             <column name="category" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->

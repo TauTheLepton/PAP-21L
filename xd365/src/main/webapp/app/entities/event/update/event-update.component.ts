@@ -18,9 +18,10 @@ export class EventUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     eventName: [null, [Validators.required]],
-    eventDay: [null, [Validators.required]],
+    eventDate: [null, [Validators.required]],
     isCyclical: [null, [Validators.required]],
     cycleLength: [],
+    cycleUnit: [],
     isPublic: [null, [Validators.required]],
     category: [],
   });
@@ -70,9 +71,10 @@ export class EventUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: event.id,
       eventName: event.eventName,
-      eventDay: event.eventDay,
+      eventDate: event.eventDate,
       isCyclical: event.isCyclical,
       cycleLength: event.cycleLength,
+      cycleUnit: event.cycleUnit,
       isPublic: event.isPublic,
       category: event.category,
     });
@@ -83,9 +85,10 @@ export class EventUpdateComponent implements OnInit {
       ...new Event(),
       id: this.editForm.get(['id'])!.value,
       eventName: this.editForm.get(['eventName'])!.value,
-      eventDay: this.editForm.get(['eventDay'])!.value,
+      eventDate: this.editForm.get(['eventDate'])!.value,
       isCyclical: this.editForm.get(['isCyclical'])!.value,
       cycleLength: this.editForm.get(['cycleLength'])!.value,
+      cycleUnit: this.editForm.get(['cycleUnit'])!.value,
       isPublic: this.editForm.get(['isPublic'])!.value,
       category: this.editForm.get(['category'])!.value,
     };
