@@ -1,13 +1,13 @@
 import * as dayjs from 'dayjs';
-import { YesNo } from 'app/entities/enumerations/yes-no.model';
 import { TimeUnits } from 'app/entities/enumerations/time-units.model';
+import { YesNo } from 'app/entities/enumerations/yes-no.model';
 import { Category } from 'app/entities/enumerations/category.model';
 
 export interface IEvent {
   id?: number;
   eventName?: string;
   eventDate?: dayjs.Dayjs;
-  isCyclical?: YesNo;
+  howManyInstances?: number;
   cycleLength?: number | null;
   cycleUnit?: TimeUnits | null;
   isPublic?: YesNo;
@@ -19,7 +19,7 @@ export class Event implements IEvent {
     public id?: number,
     public eventName?: string,
     public eventDate?: dayjs.Dayjs,
-    public isCyclical?: YesNo,
+    public howManyInstances?: number,
     public cycleLength?: number | null,
     public cycleUnit?: TimeUnits | null,
     public isPublic?: YesNo,

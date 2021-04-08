@@ -17,7 +17,7 @@ enum TimeUnits{
 entity Event {
   eventName String required
   eventDate LocalDate required
-  isCyclical YesNo required
+  howManyInstances Long min(1) required
   cycleLength Long min(1)
   cycleUnit TimeUnits
   isPublic YesNo required

@@ -34,9 +34,9 @@ public class Event implements Serializable {
     private LocalDate eventDate;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "is_cyclical", nullable = false)
-    private YesNo isCyclical;
+    @Min(value = 1L)
+    @Column(name = "how_many_instances", nullable = false)
+    private Long howManyInstances;
 
     @Min(value = 1L)
     @Column(name = "cycle_length")
@@ -95,17 +95,17 @@ public class Event implements Serializable {
         this.eventDate = eventDate;
     }
 
-    public YesNo getIsCyclical() {
-        return this.isCyclical;
+    public Long getHowManyInstances() {
+        return this.howManyInstances;
     }
 
-    public Event isCyclical(YesNo isCyclical) {
-        this.isCyclical = isCyclical;
+    public Event howManyInstances(Long howManyInstances) {
+        this.howManyInstances = howManyInstances;
         return this;
     }
 
-    public void setIsCyclical(YesNo isCyclical) {
-        this.isCyclical = isCyclical;
+    public void setHowManyInstances(Long howManyInstances) {
+        this.howManyInstances = howManyInstances;
     }
 
     public Long getCycleLength() {
@@ -186,7 +186,7 @@ public class Event implements Serializable {
             "id=" + getId() +
             ", eventName='" + getEventName() + "'" +
             ", eventDate='" + getEventDate() + "'" +
-            ", isCyclical='" + getIsCyclical() + "'" +
+            ", howManyInstances=" + getHowManyInstances() +
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +
             ", isPublic='" + getIsPublic() + "'" +

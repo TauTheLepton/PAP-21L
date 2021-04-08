@@ -39,8 +39,8 @@
           <th scope="col" jhiSortBy="eventDate">
             <span jhiTranslate="xd365App.event.eventDate">Event Date</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="isCyclical">
-            <span jhiTranslate="xd365App.event.isCyclical">Is Cyclical</span> <fa-icon icon="sort"></fa-icon>
+          <th scope="col" jhiSortBy="howManyInstances">
+            <span jhiTranslate="xd365App.event.howManyInstances">How Many Instances</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col" jhiSortBy="cycleLength">
             <span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span> <fa-icon icon="sort"></fa-icon>
@@ -64,7 +64,7 @@
           </td>
           <td>{{ event.eventName }}</td>
           <td>{{ event.eventDate | formatMediumDate }}</td>
-          <td jhiTranslate="{{ 'xd365App.YesNo.' + event.isCyclical }}">{{ event.isCyclical }}</td>
+          <td>{{ event.howManyInstances }}</td>
           <td>{{ event.cycleLength }}</td>
           <td jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
           <td jhiTranslate="{{ 'xd365App.YesNo.' + event.isPublic }}">{{ event.isPublic }}</td>

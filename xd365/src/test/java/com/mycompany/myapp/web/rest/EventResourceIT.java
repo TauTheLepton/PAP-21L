@@ -10,7 +10,6 @@ import com.mycompany.myapp.domain.Event;
 import com.mycompany.myapp.domain.enumeration.Category;
 import com.mycompany.myapp.domain.enumeration.TimeUnits;
 import com.mycompany.myapp.domain.enumeration.YesNo;
-import com.mycompany.myapp.domain.enumeration.YesNo;
 import com.mycompany.myapp.repository.EventRepository;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -41,8 +40,8 @@ class EventResourceIT {
     private static final LocalDate DEFAULT_EVENT_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_EVENT_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final YesNo DEFAULT_IS_CYCLICAL = YesNo.YES;
-    private static final YesNo UPDATED_IS_CYCLICAL = YesNo.NO;
+    private static final Long DEFAULT_HOW_MANY_INSTANCES = 1L;
+    private static final Long UPDATED_HOW_MANY_INSTANCES = 2L;
 
     private static final Long DEFAULT_CYCLE_LENGTH = 1L;
     private static final Long UPDATED_CYCLE_LENGTH = 2L;
@@ -83,7 +82,7 @@ class EventResourceIT {
         Event event = new Event()
             .eventName(DEFAULT_EVENT_NAME)
             .eventDate(DEFAULT_EVENT_DATE)
-            .isCyclical(DEFAULT_IS_CYCLICAL)
+            .howManyInstances(DEFAULT_HOW_MANY_INSTANCES)
             .cycleLength(DEFAULT_CYCLE_LENGTH)
             .cycleUnit(DEFAULT_CYCLE_UNIT)
             .isPublic(DEFAULT_IS_PUBLIC)
@@ -101,7 +100,7 @@ class EventResourceIT {
         Event event = new Event()
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
-            .isCyclical(UPDATED_IS_CYCLICAL)
+            .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .isPublic(UPDATED_IS_PUBLIC)
@@ -129,7 +128,7 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(DEFAULT_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
-        assertThat(testEvent.getIsCyclical()).isEqualTo(DEFAULT_IS_CYCLICAL);
+        assertThat(testEvent.getHowManyInstances()).isEqualTo(DEFAULT_HOW_MANY_INSTANCES);
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(DEFAULT_IS_PUBLIC);
@@ -190,10 +189,10 @@ class EventResourceIT {
 
     @Test
     @Transactional
-    void checkIsCyclicalIsRequired() throws Exception {
+    void checkHowManyInstancesIsRequired() throws Exception {
         int databaseSizeBeforeTest = eventRepository.findAll().size();
         // set the field null
-        event.setIsCyclical(null);
+        event.setHowManyInstances(null);
 
         // Create the Event, which fails.
 
@@ -236,7 +235,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
             .andExpect(jsonPath("$.[*].eventName").value(hasItem(DEFAULT_EVENT_NAME)))
             .andExpect(jsonPath("$.[*].eventDate").value(hasItem(DEFAULT_EVENT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].isCyclical").value(hasItem(DEFAULT_IS_CYCLICAL.toString())))
+            .andExpect(jsonPath("$.[*].howManyInstances").value(hasItem(DEFAULT_HOW_MANY_INSTANCES.intValue())))
             .andExpect(jsonPath("$.[*].cycleLength").value(hasItem(DEFAULT_CYCLE_LENGTH.intValue())))
             .andExpect(jsonPath("$.[*].cycleUnit").value(hasItem(DEFAULT_CYCLE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].isPublic").value(hasItem(DEFAULT_IS_PUBLIC.toString())))
@@ -257,7 +256,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.id").value(event.getId().intValue()))
             .andExpect(jsonPath("$.eventName").value(DEFAULT_EVENT_NAME))
             .andExpect(jsonPath("$.eventDate").value(DEFAULT_EVENT_DATE.toString()))
-            .andExpect(jsonPath("$.isCyclical").value(DEFAULT_IS_CYCLICAL.toString()))
+            .andExpect(jsonPath("$.howManyInstances").value(DEFAULT_HOW_MANY_INSTANCES.intValue()))
             .andExpect(jsonPath("$.cycleLength").value(DEFAULT_CYCLE_LENGTH.intValue()))
             .andExpect(jsonPath("$.cycleUnit").value(DEFAULT_CYCLE_UNIT.toString()))
             .andExpect(jsonPath("$.isPublic").value(DEFAULT_IS_PUBLIC.toString()))
@@ -286,7 +285,7 @@ class EventResourceIT {
         updatedEvent
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
-            .isCyclical(UPDATED_IS_CYCLICAL)
+            .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .isPublic(UPDATED_IS_PUBLIC)
@@ -306,7 +305,7 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
-        assertThat(testEvent.getIsCyclical()).isEqualTo(UPDATED_IS_CYCLICAL);
+        assertThat(testEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(UPDATED_IS_PUBLIC);
@@ -383,7 +382,7 @@ class EventResourceIT {
 
         partialUpdatedEvent
             .eventName(UPDATED_EVENT_NAME)
-            .isCyclical(UPDATED_IS_CYCLICAL)
+            .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .isPublic(UPDATED_IS_PUBLIC);
 
@@ -401,7 +400,7 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
-        assertThat(testEvent.getIsCyclical()).isEqualTo(UPDATED_IS_CYCLICAL);
+        assertThat(testEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(UPDATED_IS_PUBLIC);
@@ -423,7 +422,7 @@ class EventResourceIT {
         partialUpdatedEvent
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
-            .isCyclical(UPDATED_IS_CYCLICAL)
+            .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .isPublic(UPDATED_IS_PUBLIC)
@@ -443,7 +442,7 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
-        assertThat(testEvent.getIsCyclical()).isEqualTo(UPDATED_IS_CYCLICAL);
+        assertThat(testEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getIsPublic()).isEqualTo(UPDATED_IS_PUBLIC);
