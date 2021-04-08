@@ -28,22 +28,31 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="xd365App.event.eventDay" for="field_eventDay">Event Day</label>
-          <input type="number" class="form-control" name="eventDay" id="field_eventDay" data-cy="eventDay" formControlName="eventDay" />
-          <div *ngIf="editForm.get('eventDay')!.invalid && (editForm.get('eventDay')!.dirty || editForm.get('eventDay')!.touched)">
+          <label class="form-control-label" jhiTranslate="xd365App.event.eventDate" for="field_eventDate">Event Date</label>
+          <div class="input-group">
+            <input
+              id="field_eventDate"
+              data-cy="eventDate"
+              type="text"
+              class="form-control"
+              name="eventDate"
+              ngbDatepicker
+              #eventDateDp="ngbDatepicker"
+              formControlName="eventDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="eventDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+          <div *ngIf="editForm.get('eventDate')!.invalid && (editForm.get('eventDate')!.dirty || editForm.get('eventDate')!.touched)">
             <small
               class="form-text text-danger"
-              *ngIf="editForm.get('eventDay')?.errors?.required"
+              *ngIf="editForm.get('eventDate')?.errors?.required"
               jhiTranslate="entity.validation.required"
             >
               This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('eventDay')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
             </small>
           </div>
         </div>
@@ -76,6 +85,17 @@
             data-cy="cycleLength"
             formControlName="cycleLength"
           />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.event.cycleUnit" for="field_cycleUnit">Cycle Unit</label>
+          <select class="form-control" name="cycleUnit" formControlName="cycleUnit" id="field_cycleUnit" data-cy="cycleUnit">
+            <option [ngValue]="null">{{ 'xd365App.TimeUnits.null' | translate }}</option>
+            <option value="DAYS">{{ 'xd365App.TimeUnits.DAYS' | translate }}</option>
+            <option value="WEEKS">{{ 'xd365App.TimeUnits.WEEKS' | translate }}</option>
+            <option value="MONTHS">{{ 'xd365App.TimeUnits.MONTHS' | translate }}</option>
+            <option value="YEARS">{{ 'xd365App.TimeUnits.YEARS' | translate }}</option>
+          </select>
         </div>
 
         <div class="form-group">

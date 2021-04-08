@@ -1,0 +1,11 @@
+{
+  "xd365App": {
+    "TimeUnits": {
+      "null": "",
+      "DAYS": "DAYS",
+      "WEEKS": "WEEKS",
+      "MONTHS": "MONTHS",
+      "YEARS": "YEARS"
+    }
+  }
+}

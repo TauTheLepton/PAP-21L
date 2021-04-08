@@ -7,8 +7,8 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "eventDay",
-      "fieldType": "Long",
+      "fieldName": "eventDate",
+      "fieldType": "LocalDate",
       "fieldValidateRules": ["required"]
     },
     {
@@ -20,6 +20,11 @@
     {
       "fieldName": "cycleLength",
       "fieldType": "Long"
+    },
+    {
+      "fieldName": "cycleUnit",
+      "fieldType": "TimeUnits",
+      "fieldValues": "DAYS,WEEKS,MONTHS,YEARS"
     },
     {
       "fieldName": "isPublic",

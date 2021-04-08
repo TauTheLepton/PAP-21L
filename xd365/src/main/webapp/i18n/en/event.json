@@ -19,9 +19,10 @@
       },
       "id": "ID",
       "eventName": "Event Name",
-      "eventDay": "Event Day",
+      "eventDate": "Event Date",
       "isCyclical": "Is Cyclical",
       "cycleLength": "Cycle Length",
+      "cycleUnit": "Cycle Unit",
       "isPublic": "Is Public",
       "category": "Category"
     }
