@@ -22,9 +22,9 @@
         <dd>
           <span>{{ event.eventDate | formatMediumDate }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.event.isCyclical">Is Cyclical</span></dt>
+        <dt><span jhiTranslate="xd365App.event.howManyInstances">How Many Instances</span></dt>
         <dd>
-          <span jhiTranslate="{{ 'xd365App.YesNo.' + event.isCyclical }}">{{ event.isCyclical }}</span>
+          <span>{{ event.howManyInstances }}</span>
         </dd>
         <dt><span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span></dt>
         <dd>
