@@ -20,7 +20,7 @@
             <column name="event_date" type="date">
                 <constraints nullable="false" />
             </column>
-            <column name="is_cyclical" type="varchar(255)">
+            <column name="how_many_instances" type="bigint">
                 <constraints nullable="false" />
             </column>
             <column name="cycle_length" type="bigint">
@@ -57,7 +57,7 @@
             <column name="id" type="numeric"/>
             <column name="event_name" type="string"/>
             <column name="event_date" type="date"/>
-            <column name="is_cyclical" type="string"/>
+            <column name="how_many_instances" type="numeric"/>
             <column name="cycle_length" type="numeric"/>
             <column name="cycle_unit" type="string"/>
             <column name="is_public" type="string"/>

@@ -12,10 +12,10 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "isCyclical",
-      "fieldType": "YesNo",
-      "fieldValues": "YES,NO",
-      "fieldValidateRules": ["required"]
+      "fieldName": "howManyInstances",
+      "fieldType": "Long",
+      "fieldValidateRules": ["min", "required"],
+      "fieldValidateRulesMin": "1"
     },
     {
       "fieldName": "cycleLength",

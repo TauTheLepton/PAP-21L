@@ -3,8 +3,8 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import * as dayjs from 'dayjs';
 
 import { DATE_FORMAT } from 'app/config/input.constants';
-import { YesNo } from 'app/entities/enumerations/yes-no.model';
 import { TimeUnits } from 'app/entities/enumerations/time-units.model';
+import { YesNo } from 'app/entities/enumerations/yes-no.model';
 import { Category } from 'app/entities/enumerations/category.model';
 import { IEvent, Event } from '../event.model';
 
@@ -31,7 +31,7 @@ describe('Service Tests', () => {
         id: 0,
         eventName: 'AAAAAAA',
         eventDate: currentDate,
-        isCyclical: YesNo.YES,
+        howManyInstances: 0,
         cycleLength: 0,
         cycleUnit: TimeUnits.DAYS,
         isPublic: YesNo.YES,
@@ -84,7 +84,7 @@ describe('Service Tests', () => {
             id: 1,
             eventName: 'BBBBBB',
             eventDate: currentDate.format(DATE_FORMAT),
-            isCyclical: 'BBBBBB',
+            howManyInstances: 1,
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             isPublic: 'BBBBBB',
@@ -111,7 +111,7 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             eventName: 'BBBBBB',
-            isCyclical: 'BBBBBB',
+            howManyInstances: 1,
             cycleUnit: 'BBBBBB',
             isPublic: 'BBBBBB',
           },
@@ -140,7 +140,7 @@ describe('Service Tests', () => {
             id: 1,
             eventName: 'BBBBBB',
             eventDate: currentDate.format(DATE_FORMAT),
-            isCyclical: 'BBBBBB',
+            howManyInstances: 1,
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             isPublic: 'BBBBBB',

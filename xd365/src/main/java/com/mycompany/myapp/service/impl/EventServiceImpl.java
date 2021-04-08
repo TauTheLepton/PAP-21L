@@ -46,8 +46,8 @@ public class EventServiceImpl implements EventService {
                     if (event.getEventDate() != null) {
                         existingEvent.setEventDate(event.getEventDate());
                     }
-                    if (event.getIsCyclical() != null) {
-                        existingEvent.setIsCyclical(event.getIsCyclical());
+                    if (event.getHowManyInstances() != null) {
+                        existingEvent.setHowManyInstances(event.getHowManyInstances());
                     }
                     if (event.getCycleLength() != null) {
                         existingEvent.setCycleLength(event.getCycleLength());
