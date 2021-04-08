@@ -18,7 +18,7 @@ entity Event {
   eventName String required
   eventDate LocalDate required
   isCyclical YesNo required
-  cycleLength Long
+  cycleLength Long min(1)
   cycleUnit TimeUnits
   isPublic YesNo required
   category Category
@@ -67,7 +67,7 @@ paginate Event with infinite-scroll
 // dto * with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl except Category
+service all with serviceImpl // except Category
 
 // Set an angular suffix
 // angularSuffix * with mySuffix

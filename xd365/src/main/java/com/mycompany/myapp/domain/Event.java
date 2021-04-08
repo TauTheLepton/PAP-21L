@@ -38,6 +38,7 @@ public class Event implements Serializable {
     @Column(name = "is_cyclical", nullable = false)
     private YesNo isCyclical;
 
+    @Min(value = 1L)
     @Column(name = "cycle_length")
     private Long cycleLength;
 

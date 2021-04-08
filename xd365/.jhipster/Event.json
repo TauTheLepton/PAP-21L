@@ -19,7 +19,9 @@
     },
     {
       "fieldName": "cycleLength",
-      "fieldType": "Long"
+      "fieldType": "Long",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "1"
     },
     {
       "fieldName": "cycleUnit",
