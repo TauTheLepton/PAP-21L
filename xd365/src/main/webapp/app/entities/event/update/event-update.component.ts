@@ -20,7 +20,7 @@ export class EventUpdateComponent implements OnInit {
     eventName: [null, [Validators.required]],
     eventDate: [null, [Validators.required]],
     isCyclical: [null, [Validators.required]],
-    cycleLength: [],
+    cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
     isPublic: [null, [Validators.required]],
     category: [],
