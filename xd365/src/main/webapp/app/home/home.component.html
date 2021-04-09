@@ -1,8 +1,24 @@
+<button (click)="updateEvents()">Update events</button>
+  
+<ng-container *ngIf="options">
+  <ng-fullcalendar
+    #fullcalendar
+    (dateClick)="dateClick($event)"
+    (clickButton)="clickButton($event)"
+    (eventDragStop)="eventDragStop($event)"
+    [eventsModel]="eventsModel"
+    [options]="options"
+    (eventClick)="eventClick($event)"
+  ></ng-fullcalendar>
+</ng-container>
+
+
 <div class="row">
   <div class="col-md-3">
     <span class="hipster img-fluid rounded"></span>
   </div>
 
+ 
   <div class="col-md-9">
     <h1 class="display-4" jhiTranslate="home.title">Welcome to xd365!</h1>
 
@@ -68,11 +84,11 @@
       </li> -->
     </ul>
 
-    <p>
+    <!-- <p>
       <span jhiTranslate="home.like">If you like JHipster, don't forget to give us a star on</span>
       <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" jhiTranslate="home.github"
         >GitHub</a
       >!
-    </p>
+    </p> -->
   </div>
 </div>
