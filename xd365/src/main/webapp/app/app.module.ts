@@ -29,6 +29,11 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 
+// import { FormsModule } from '@angular/forms';
+// import { AppComponent } from './app.component';
+// import { HelloComponent } from './hello.component';
+// import { FullCalendarModule } from 'ng-fullcalendar';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -77,3 +82,10 @@ export class AppModule {
     translateService.use('en');
   }
 }
+
+
+// @NgModule({
+//   imports:      [ BrowserModule, FormsModule, FullCalendarModule ],
+//   declarations: [ AppComponent, HelloComponent ],
+//   bootstrap:    [ AppComponent ]
+// })
