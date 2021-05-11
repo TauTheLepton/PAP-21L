@@ -13,8 +13,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * A Event.
  */
 @Entity
-@Table(name = "event")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Table(name = "Event")
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;

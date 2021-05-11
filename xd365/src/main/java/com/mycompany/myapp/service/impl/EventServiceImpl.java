@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Service Implementation for managing {@link Event}.
  */
@@ -71,6 +73,13 @@ public class EventServiceImpl implements EventService {
         log.debug("Request to get all Events");
         return eventRepository.findAll(pageable);
     }
+
+  //   @Override
+  //   @Transactional(readOnly = true)
+  //   public List<Event> findByUserIsCurrentUser() {
+  //     log.debug("Request to get all Events of Current User");
+  //     return eventRepository.findByUserIsCurrentUser();
+  // }
 
     @Override
     @Transactional(readOnly = true)

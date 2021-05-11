@@ -4,6 +4,9 @@ import com.mycompany.myapp.domain.Event;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import org.springframework.data.domain.Page;
+
 /**
  * Spring Data SQL repository for the Event entity.
  */

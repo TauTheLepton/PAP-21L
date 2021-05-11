@@ -39,7 +39,7 @@ public class EventResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final xd365.src.main.java.com.mycompany.myapp.service.EventService eventService;
+    private final com.mycompany.myapp.service.EventService eventService;
 
     private final EventRepository eventRepository;
 
@@ -143,13 +143,17 @@ public class EventResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of events in body.
      */
     @GetMapping("/events")
-    public ResponseEntity<List<Event>> getAllEvents(Pageable pageable) {
-        log.debug("REST request to get a page of Events");
-        Page<Event> page = eventService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-        // return eventRepository.findByUserIsCurrentUser();
-    }
+    public List<Event> getAllEvents() {
+      log.debug("REST request to get a page of Events");
+      return eventRepository.findByUserIsCurrentUser();
+  }
+    // public ResponseEntity<List<Event>> getAllEvents(Pageable pageable) {
+    //     log.debug("REST request to get a page of Events");
+    //     // Page<Event> page = eventService.findAll(pageable);
+    //     // HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+    //     // return ResponseEntity.ok().headers(headers).body(page.getContent());
+    //     return eventRepository.findByUserIsCurrentUser();
+    // }
 
     /**
      * {@code GET  /events/:id} : get the "id" event.
