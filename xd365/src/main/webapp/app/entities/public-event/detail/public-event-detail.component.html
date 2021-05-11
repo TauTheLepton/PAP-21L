@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="publicEvent">
+      <h2 data-cy="publicEventDetailsHeading"><span jhiTranslate="xd365App.publicEvent.detail.title">Public Event</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ publicEvent.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.eventName">Event Name</span></dt>
+        <dd>
+          <span>{{ publicEvent.eventName }}</span>
+        </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.eventDate">Event Date</span></dt>
+        <dd>
+          <span>{{ publicEvent.eventDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.howManyInstances">How Many Instances</span></dt>
+        <dd>
+          <span>{{ publicEvent.howManyInstances }}</span>
+        </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.cycleLength">Cycle Length</span></dt>
+        <dd>
+          <span>{{ publicEvent.cycleLength }}</span>
+        </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.cycleUnit">Cycle Unit</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">{{ publicEvent.cycleUnit }}</span>
+        </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.category">Category</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">{{ publicEvent.category }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/public-event', publicEvent.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

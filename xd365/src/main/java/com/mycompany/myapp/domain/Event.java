@@ -2,7 +2,6 @@ package com.mycompany.myapp.domain;
 
 import com.mycompany.myapp.domain.enumeration.Category;
 import com.mycompany.myapp.domain.enumeration.TimeUnits;
-import com.mycompany.myapp.domain.enumeration.YesNo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -45,11 +44,6 @@ public class Event implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "cycle_unit")
     private TimeUnits cycleUnit;
-
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "is_public", nullable = false)
-    private YesNo isPublic;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
@@ -134,19 +128,6 @@ public class Event implements Serializable {
         this.cycleUnit = cycleUnit;
     }
 
-    public YesNo getIsPublic() {
-        return this.isPublic;
-    }
-
-    public Event isPublic(YesNo isPublic) {
-        this.isPublic = isPublic;
-        return this;
-    }
-
-    public void setIsPublic(YesNo isPublic) {
-        this.isPublic = isPublic;
-    }
-
     public Category getCategory() {
         return this.category;
     }
@@ -189,7 +170,6 @@ public class Event implements Serializable {
             ", howManyInstances=" + getHowManyInstances() +
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +
-            ", isPublic='" + getIsPublic() + "'" +
             ", category='" + getCategory() + "'" +
             "}";
     }

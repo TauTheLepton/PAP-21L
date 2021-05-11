@@ -4,7 +4,6 @@ import * as dayjs from 'dayjs';
 
 import { DATE_FORMAT } from 'app/config/input.constants';
 import { TimeUnits } from 'app/entities/enumerations/time-units.model';
-import { YesNo } from 'app/entities/enumerations/yes-no.model';
 import { Category } from 'app/entities/enumerations/category.model';
 import { IEvent, Event } from '../event.model';
 
@@ -34,7 +33,6 @@ describe('Service Tests', () => {
         howManyInstances: 0,
         cycleLength: 0,
         cycleUnit: TimeUnits.DAYS,
-        isPublic: YesNo.YES,
         category: Category.RECREATION,
       };
     });
@@ -87,7 +85,6 @@ describe('Service Tests', () => {
             howManyInstances: 1,
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
-            isPublic: 'BBBBBB',
             category: 'BBBBBB',
           },
           elemDefault
@@ -113,7 +110,7 @@ describe('Service Tests', () => {
             eventName: 'BBBBBB',
             howManyInstances: 1,
             cycleUnit: 'BBBBBB',
-            isPublic: 'BBBBBB',
+            category: 'BBBBBB',
           },
           new Event()
         );
@@ -143,7 +140,6 @@ describe('Service Tests', () => {
             howManyInstances: 1,
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
-            isPublic: 'BBBBBB',
             category: 'BBBBBB',
           },
           elemDefault
@@ -201,7 +197,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Event to an array', () => {
-          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 77471 }];
+          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 36847 }];
           const eventCollection: IEvent[] = [{ id: 123 }];
           expectedResult = service.addEventToCollectionIfMissing(eventCollection, ...eventArray);
           expect(expectedResult).toHaveLength(3);

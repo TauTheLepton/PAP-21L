@@ -48,9 +48,6 @@
           <th scope="col" jhiSortBy="cycleUnit">
             <span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="isPublic">
-            <span jhiTranslate="xd365App.event.isPublic">Is Public</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="category">
             <span jhiTranslate="xd365App.event.category">Category</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -67,7 +64,6 @@
           <td>{{ event.howManyInstances }}</td>
           <td>{{ event.cycleLength }}</td>
           <td jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
-          <td jhiTranslate="{{ 'xd365App.YesNo.' + event.isPublic }}">{{ event.isPublic }}</td>
           <td jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
           <td class="text-right">
             <div class="btn-group">

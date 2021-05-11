@@ -1,0 +1,48 @@
+{
+  "name": "PublicEvent",
+  "fields": [
+    {
+      "fieldName": "eventName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "eventDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "howManyInstances",
+      "fieldType": "Long",
+      "fieldValidateRules": ["min", "required"],
+      "fieldValidateRulesMin": "1"
+    },
+    {
+      "fieldName": "cycleLength",
+      "fieldType": "Long",
+      "fieldValidateRules": ["min"],
+      "fieldValidateRulesMin": "1"
+    },
+    {
+      "fieldName": "cycleUnit",
+      "fieldType": "TimeUnits",
+      "fieldValues": "DAYS,WEEKS,MONTHS,YEARS"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "Category",
+      "fieldValues": "RECREATION,STUDYING,SPORTS"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "public_event",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210511090143"
+}

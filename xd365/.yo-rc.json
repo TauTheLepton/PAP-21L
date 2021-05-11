@@ -43,7 +43,7 @@
     "clientTheme": "none",
     "clientThemeVariant": "",
     "reactive": false,
-    "entities": ["Event"],
-    "lastLiquibaseTimestamp": 1617707616000
+    "entities": ["Event", "PublicEvent"],
+    "lastLiquibaseTimestamp": 1620723703000
   }
 }

@@ -39,7 +39,7 @@ public class EventResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final EventService eventService;
+    private final xd365.src.main.java.com.mycompany.myapp.service.EventService eventService;
 
     private final EventRepository eventRepository;
 
@@ -148,6 +148,7 @@ public class EventResource {
         Page<Event> page = eventService.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+        // return eventRepository.findByUserIsCurrentUser();
     }
 
     /**

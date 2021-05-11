@@ -29,12 +29,6 @@
       "fieldValues": "DAYS,WEEKS,MONTHS,YEARS"
     },
     {
-      "fieldName": "isPublic",
-      "fieldType": "YesNo",
-      "fieldValues": "YES,NO",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "category",
       "fieldType": "Category",
       "fieldValues": "RECREATION,STUDYING,SPORTS"
