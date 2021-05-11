@@ -3,7 +3,7 @@
     <span jhiTranslate="xd365App.event.home.title">Events</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="reset()" [disabled]="isLoading">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="xd365App.event.home.refreshListLabel">Refresh List</span>
       </button>
@@ -31,30 +31,19 @@
   <div class="table-responsive" id="entities" *ngIf="events && events.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
-          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="eventName">
-            <span jhiTranslate="xd365App.event.eventName">Event Name</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="eventDate">
-            <span jhiTranslate="xd365App.event.eventDate">Event Date</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="howManyInstances">
-            <span jhiTranslate="xd365App.event.howManyInstances">How Many Instances</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="cycleLength">
-            <span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="cycleUnit">
-            <span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="category">
-            <span jhiTranslate="xd365App.event.category">Category</span> <fa-icon icon="sort"></fa-icon>
-          </th>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.eventName">Event Name</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.eventDate">Event Date</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.howManyInstances">How Many Instances</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.category">Category</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.login">Login</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+      <tbody>
         <tr *ngFor="let event of events; trackBy: trackId" data-cy="entityTable">
           <td>
             <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
@@ -65,6 +54,7 @@
           <td>{{ event.cycleLength }}</td>
           <td jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
           <td jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
+          <td>{{ event.login }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

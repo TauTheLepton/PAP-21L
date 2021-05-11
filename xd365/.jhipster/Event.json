@@ -32,13 +32,18 @@
       "fieldName": "category",
       "fieldType": "Category",
       "fieldValues": "RECREATION,STUDYING,SPORTS"
+    },
+    {
+      "fieldName": "login",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "relationships": [],
   "entityTableName": "event",
   "dto": "no",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
+  "pagination": "no",
+  "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

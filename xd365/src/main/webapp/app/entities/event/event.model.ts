@@ -10,6 +10,7 @@ export interface IEvent {
   cycleLength?: number | null;
   cycleUnit?: TimeUnits | null;
   category?: Category | null;
+  login?: string;
 }
 
 export class Event implements IEvent {
@@ -20,7 +21,8 @@ export class Event implements IEvent {
     public howManyInstances?: number,
     public cycleLength?: number | null,
     public cycleUnit?: TimeUnits | null,
-    public category?: Category | null
+    public category?: Category | null,
+    public login?: string
   ) {}
 }
 

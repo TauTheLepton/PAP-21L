@@ -34,6 +34,7 @@ describe('Service Tests', () => {
         cycleLength: 0,
         cycleUnit: TimeUnits.DAYS,
         category: Category.RECREATION,
+        login: 'AAAAAAA',
       };
     });
 
@@ -86,6 +87,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
+            login: 'BBBBBB',
           },
           elemDefault
         );
@@ -141,6 +143,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
+            login: 'BBBBBB',
           },
           elemDefault
         );
@@ -197,7 +200,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Event to an array', () => {
-          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 36847 }];
+          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 77471 }];
           const eventCollection: IEvent[] = [{ id: 123 }];
           expectedResult = service.addEventToCollectionIfMissing(eventCollection, ...eventArray);
           expect(expectedResult).toHaveLength(3);

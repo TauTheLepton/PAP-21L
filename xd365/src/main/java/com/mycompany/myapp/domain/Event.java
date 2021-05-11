@@ -13,8 +13,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * A Event.
  */
 @Entity
-@Table(name = "Event")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Table(name = "event")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Event implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +48,10 @@ public class Event implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private Category category;
+
+    @NotNull
+    @Column(name = "login", nullable = false)
+    private String login;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -141,6 +145,19 @@ public class Event implements Serializable {
         this.category = category;
     }
 
+    public String getLogin() {
+        return this.login;
+    }
+
+    public Event login(String login) {
+        this.login = login;
+        return this;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -171,6 +188,7 @@ public class Event implements Serializable {
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +
             ", category='" + getCategory() + "'" +
+            ", login='" + getLogin() + "'" +
             "}";
     }
 }

@@ -23,7 +23,8 @@
       "howManyInstances": "How Many Instances",
       "cycleLength": "Cycle Length",
       "cycleUnit": "Cycle Unit",
-      "category": "Category"
+      "category": "Category",
+      "login": "Login"
     }
   }
 }
