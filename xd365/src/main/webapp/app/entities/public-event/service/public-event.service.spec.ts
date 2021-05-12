@@ -34,6 +34,7 @@ describe('Service Tests', () => {
         cycleLength: 0,
         cycleUnit: TimeUnits.DAYS,
         category: Category.RECREATION,
+        userlogin: 'AAAAAAA',
       };
     });
 
@@ -86,6 +87,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
+            userlogin: 'BBBBBB',
           },
           elemDefault
         );
@@ -110,6 +112,7 @@ describe('Service Tests', () => {
             eventName: 'BBBBBB',
             cycleLength: 1,
             category: 'BBBBBB',
+            userlogin: 'BBBBBB',
           },
           new PublicEvent()
         );
@@ -140,6 +143,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
+            userlogin: 'BBBBBB',
           },
           elemDefault
         );
@@ -196,7 +200,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique PublicEvent to an array', () => {
-          const publicEventArray: IPublicEvent[] = [{ id: 123 }, { id: 456 }, { id: 84642 }];
+          const publicEventArray: IPublicEvent[] = [{ id: 123 }, { id: 456 }, { id: 46586 }];
           const publicEventCollection: IPublicEvent[] = [{ id: 123 }];
           expectedResult = service.addPublicEventToCollectionIfMissing(publicEventCollection, ...publicEventArray);
           expect(expectedResult).toHaveLength(3);
