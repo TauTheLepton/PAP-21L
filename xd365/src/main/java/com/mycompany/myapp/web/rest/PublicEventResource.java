@@ -87,12 +87,11 @@ public class PublicEventResource {
         if (!publicEventRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-        // if(publicEventRepository.getCurrentLogin() == publicEvent.getUserlogin()){ - TODO - ZEBY NIE MOZNA BYLO ZMIENIAC CUDZEGO PUBLICEVENTU!!!!!
-          PublicEvent result = publicEventRepository.save(publicEvent);
-        // }
-        // else{
-          
-        // }
+
+        if (publicEventRepository.getCurrentLogin() != publicEvent.getUserlogin()) {
+          throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
+        }
+        PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, publicEvent.getId().toString()))
