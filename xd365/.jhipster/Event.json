@@ -29,22 +29,20 @@
       "fieldValues": "DAYS,WEEKS,MONTHS,YEARS"
     },
     {
-      "fieldName": "isPublic",
-      "fieldType": "YesNo",
-      "fieldValues": "YES,NO",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "category",
       "fieldType": "Category",
       "fieldValues": "RECREATION,STUDYING,SPORTS"
+    },
+    {
+      "fieldName": "userlogin",
+      "fieldType": "String"
     }
   ],
   "relationships": [],
   "entityTableName": "event",
   "dto": "no",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
+  "pagination": "no",
+  "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

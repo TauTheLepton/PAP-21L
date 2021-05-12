@@ -1,0 +1,171 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-public-event-heading" data-cy="PublicEventCreateUpdateHeading" jhiTranslate="xd365App.publicEvent.home.createOrEditLabel">
+        Create or edit a Public Event
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.eventName" for="field_eventName">Event Name</label>
+          <input type="text" class="form-control" name="eventName" id="field_eventName" data-cy="eventName" formControlName="eventName" />
+          <div *ngIf="editForm.get('eventName')!.invalid && (editForm.get('eventName')!.dirty || editForm.get('eventName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('eventName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.eventDate" for="field_eventDate">Event Date</label>
+          <div class="input-group">
+            <input
+              id="field_eventDate"
+              data-cy="eventDate"
+              type="text"
+              class="form-control"
+              name="eventDate"
+              ngbDatepicker
+              #eventDateDp="ngbDatepicker"
+              formControlName="eventDate"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="eventDateDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+          <div *ngIf="editForm.get('eventDate')!.invalid && (editForm.get('eventDate')!.dirty || editForm.get('eventDate')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('eventDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.howManyInstances" for="field_howManyInstances"
+            >How Many Instances</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="howManyInstances"
+            id="field_howManyInstances"
+            data-cy="howManyInstances"
+            formControlName="howManyInstances"
+          />
+          <div
+            *ngIf="
+              editForm.get('howManyInstances')!.invalid &&
+              (editForm.get('howManyInstances')!.dirty || editForm.get('howManyInstances')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('howManyInstances')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('howManyInstances')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 1 }"
+            >
+              This field should be at least 1.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('howManyInstances')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.cycleLength" for="field_cycleLength">Cycle Length</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cycleLength"
+            id="field_cycleLength"
+            data-cy="cycleLength"
+            formControlName="cycleLength"
+          />
+          <div *ngIf="editForm.get('cycleLength')!.invalid && (editForm.get('cycleLength')!.dirty || editForm.get('cycleLength')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('cycleLength')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 1 }"
+            >
+              This field should be at least 1.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('cycleLength')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.cycleUnit" for="field_cycleUnit">Cycle Unit</label>
+          <select class="form-control" name="cycleUnit" formControlName="cycleUnit" id="field_cycleUnit" data-cy="cycleUnit">
+            <option [ngValue]="null">{{ 'xd365App.TimeUnits.null' | translate }}</option>
+            <option value="DAYS">{{ 'xd365App.TimeUnits.DAYS' | translate }}</option>
+            <option value="WEEKS">{{ 'xd365App.TimeUnits.WEEKS' | translate }}</option>
+            <option value="MONTHS">{{ 'xd365App.TimeUnits.MONTHS' | translate }}</option>
+            <option value="YEARS">{{ 'xd365App.TimeUnits.YEARS' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.category" for="field_category">Category</label>
+          <select class="form-control" name="category" formControlName="category" id="field_category" data-cy="category">
+            <option [ngValue]="null">{{ 'xd365App.Category.null' | translate }}</option>
+            <option value="RECREATION">{{ 'xd365App.Category.RECREATION' | translate }}</option>
+            <option value="STUDYING">{{ 'xd365App.Category.STUDYING' | translate }}</option>
+            <option value="SPORTS">{{ 'xd365App.Category.SPORTS' | translate }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

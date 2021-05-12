@@ -141,24 +141,6 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="xd365App.event.isPublic" for="field_isPublic">Is Public</label>
-          <select class="form-control" name="isPublic" formControlName="isPublic" id="field_isPublic" data-cy="isPublic">
-            <option [ngValue]="null">{{ 'xd365App.YesNo.null' | translate }}</option>
-            <option value="YES">{{ 'xd365App.YesNo.YES' | translate }}</option>
-            <option value="NO">{{ 'xd365App.YesNo.NO' | translate }}</option>
-          </select>
-          <div *ngIf="editForm.get('isPublic')!.invalid && (editForm.get('isPublic')!.dirty || editForm.get('isPublic')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('isPublic')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-          </div>
-        </div>
-
-        <div class="form-group">
           <label class="form-control-label" jhiTranslate="xd365App.event.category" for="field_category">Category</label>
           <select class="form-control" name="category" formControlName="category" id="field_category" data-cy="category">
             <option [ngValue]="null">{{ 'xd365App.Category.null' | translate }}</option>
@@ -166,6 +148,11 @@
             <option value="STUDYING">{{ 'xd365App.Category.STUDYING' | translate }}</option>
             <option value="SPORTS">{{ 'xd365App.Category.SPORTS' | translate }}</option>
           </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.event.userlogin" for="field_userlogin">Userlogin</label>
+          <input type="text" class="form-control" name="userlogin" id="field_userlogin" data-cy="userlogin" formControlName="userlogin" />
         </div>
       </div>
 

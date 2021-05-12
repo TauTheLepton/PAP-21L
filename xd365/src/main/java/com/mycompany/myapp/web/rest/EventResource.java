@@ -2,7 +2,6 @@ package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.domain.Event;
 import com.mycompany.myapp.repository.EventRepository;
-import com.mycompany.myapp.service.EventService;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,15 +13,10 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -30,6 +24,7 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class EventResource {
 
     private final Logger log = LoggerFactory.getLogger(EventResource.class);
@@ -39,12 +34,9 @@ public class EventResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final EventService eventService;
-
     private final EventRepository eventRepository;
 
-    public EventResource(EventService eventService, EventRepository eventRepository) {
-        this.eventService = eventService;
+    public EventResource(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 
@@ -61,7 +53,8 @@ public class EventResource {
         if (event.getId() != null) {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Event result = eventService.save(event);
+        event.setUserlogin(eventRepository.getCurrentLogin());
+        Event result = eventRepository.save(event);
         return ResponseEntity
             .created(new URI("/api/events/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -93,7 +86,7 @@ public class EventResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Event result = eventService.save(event);
+        Event result = eventRepository.save(event);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, event.getId().toString()))
@@ -128,7 +121,36 @@ public class EventResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Event> result = eventService.partialUpdate(event);
+        Optional<Event> result = eventRepository
+            .findById(event.getId())
+            .map(
+                existingEvent -> {
+                    if (event.getEventName() != null) {
+                        existingEvent.setEventName(event.getEventName());
+                    }
+                    if (event.getEventDate() != null) {
+                        existingEvent.setEventDate(event.getEventDate());
+                    }
+                    if (event.getHowManyInstances() != null) {
+                        existingEvent.setHowManyInstances(event.getHowManyInstances());
+                    }
+                    if (event.getCycleLength() != null) {
+                        existingEvent.setCycleLength(event.getCycleLength());
+                    }
+                    if (event.getCycleUnit() != null) {
+                        existingEvent.setCycleUnit(event.getCycleUnit());
+                    }
+                    if (event.getCategory() != null) {
+                        existingEvent.setCategory(event.getCategory());
+                    }
+                    if (event.getUserlogin() != null) {
+                        existingEvent.setUserlogin(event.getUserlogin());
+                    }
+
+                    return existingEvent;
+                }
+            )
+            .map(eventRepository::save);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -139,15 +161,12 @@ public class EventResource {
     /**
      * {@code GET  /events} : get all the events.
      *
-     * @param pageable the pagination information.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of events in body.
      */
     @GetMapping("/events")
-    public ResponseEntity<List<Event>> getAllEvents(Pageable pageable) {
-        log.debug("REST request to get a page of Events");
-        Page<Event> page = eventService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    public List<Event> getAllEvents() {
+        log.debug("REST request to get all Events");
+        return eventRepository.findByUserIsCurrentUser();
     }
 
     /**
@@ -159,7 +178,7 @@ public class EventResource {
     @GetMapping("/events/{id}")
     public ResponseEntity<Event> getEvent(@PathVariable Long id) {
         log.debug("REST request to get Event : {}", id);
-        Optional<Event> event = eventService.findOne(id);
+        Optional<Event> event = eventRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(event);
     }
 
@@ -172,7 +191,7 @@ public class EventResource {
     @DeleteMapping("/events/{id}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
         log.debug("REST request to delete Event : {}", id);
-        eventService.delete(id);
+        eventRepository.deleteById(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

@@ -55,11 +55,11 @@ public class EventServiceImpl implements EventService {
                     if (event.getCycleUnit() != null) {
                         existingEvent.setCycleUnit(event.getCycleUnit());
                     }
-                    if (event.getIsPublic() != null) {
-                        existingEvent.setIsPublic(event.getIsPublic());
-                    }
                     if (event.getCategory() != null) {
                         existingEvent.setCategory(event.getCategory());
+                    }
+                    if (event.getUserlogin() != null) {
+                        existingEvent.setUserlogin(event.getUserlogin());
                     }
 
                     return existingEvent;
