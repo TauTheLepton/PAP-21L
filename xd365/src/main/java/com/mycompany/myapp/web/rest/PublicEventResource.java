@@ -53,6 +53,7 @@ public class PublicEventResource {
         if (publicEvent.getId() != null) {
             throw new BadRequestAlertException("A new publicEvent cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        publicEvent.setUserlogin(publicEventRepository.getCurrentLogin());
         PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
             .created(new URI("/api/public-events/" + result.getId()))
@@ -86,8 +87,12 @@ public class PublicEventResource {
         if (!publicEventRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
-
-        PublicEvent result = publicEventRepository.save(publicEvent);
+        // if(publicEventRepository.getCurrentLogin() == publicEvent.getUserlogin()){ - TODO - ZEBY NIE MOZNA BYLO ZMIENIAC CUDZEGO PUBLICEVENTU!!!!!
+          PublicEvent result = publicEventRepository.save(publicEvent);
+        // }
+        // else{
+          
+        // }
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, publicEvent.getId().toString()))
@@ -144,6 +149,9 @@ public class PublicEventResource {
                     if (publicEvent.getCategory() != null) {
                         existingPublicEvent.setCategory(publicEvent.getCategory());
                     }
+                    if (publicEvent.getUserlogin() != null) {
+                        existingPublicEvent.setUserlogin(publicEvent.getUserlogin());
+                    }
 
                     return existingPublicEvent;
                 }
@@ -188,8 +196,11 @@ public class PublicEventResource {
      */
     @DeleteMapping("/public-events/{id}")
     public ResponseEntity<Void> deletePublicEvent(@PathVariable Long id) {
+      Optional<PublicEvent> publicEvent = publicEventRepository.findById(id);
+      if(publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()){
         log.debug("REST request to delete PublicEvent : {}", id);
         publicEventRepository.deleteById(id);
+      }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

@@ -49,6 +49,9 @@ public class PublicEvent implements Serializable {
     @Column(name = "category")
     private Category category;
 
+    @Column(name = "userlogin")
+    private String userlogin;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -141,6 +144,19 @@ public class PublicEvent implements Serializable {
         this.category = category;
     }
 
+    public String getUserlogin() {
+        return this.userlogin;
+    }
+
+    public PublicEvent userlogin(String userlogin) {
+        this.userlogin = userlogin;
+        return this;
+    }
+
+    public void setUserlogin(String userlogin) {
+        this.userlogin = userlogin;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -171,6 +187,7 @@ public class PublicEvent implements Serializable {
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +
             ", category='" + getCategory() + "'" +
+            ", userlogin='" + getUserlogin() + "'" +
             "}";
     }
 }
