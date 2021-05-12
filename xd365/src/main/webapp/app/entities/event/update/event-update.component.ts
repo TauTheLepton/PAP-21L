@@ -22,8 +22,8 @@ export class EventUpdateComponent implements OnInit {
     howManyInstances: [null, [Validators.required, Validators.min(1)]],
     cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
-    isPublic: [null, [Validators.required]],
     category: [],
+    userlogin: [],
   });
 
   constructor(protected eventService: EventService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -75,8 +75,8 @@ export class EventUpdateComponent implements OnInit {
       howManyInstances: event.howManyInstances,
       cycleLength: event.cycleLength,
       cycleUnit: event.cycleUnit,
-      isPublic: event.isPublic,
       category: event.category,
+      userlogin: event.userlogin,
     });
   }
 
@@ -89,8 +89,8 @@ export class EventUpdateComponent implements OnInit {
       howManyInstances: this.editForm.get(['howManyInstances'])!.value,
       cycleLength: this.editForm.get(['cycleLength'])!.value,
       cycleUnit: this.editForm.get(['cycleUnit'])!.value,
-      isPublic: this.editForm.get(['isPublic'])!.value,
       category: this.editForm.get(['category'])!.value,
+      userlogin: this.editForm.get(['userlogin'])!.value,
     };
   }
 }

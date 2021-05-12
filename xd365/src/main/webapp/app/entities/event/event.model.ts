@@ -1,6 +1,5 @@
 import * as dayjs from 'dayjs';
 import { TimeUnits } from 'app/entities/enumerations/time-units.model';
-import { YesNo } from 'app/entities/enumerations/yes-no.model';
 import { Category } from 'app/entities/enumerations/category.model';
 
 export interface IEvent {
@@ -10,8 +9,8 @@ export interface IEvent {
   howManyInstances?: number;
   cycleLength?: number | null;
   cycleUnit?: TimeUnits | null;
-  isPublic?: YesNo;
   category?: Category | null;
+  userlogin?: string | null;
 }
 
 export class Event implements IEvent {
@@ -22,8 +21,8 @@ export class Event implements IEvent {
     public howManyInstances?: number,
     public cycleLength?: number | null,
     public cycleUnit?: TimeUnits | null,
-    public isPublic?: YesNo,
-    public category?: Category | null
+    public category?: Category | null,
+    public userlogin?: string | null
   ) {}
 }
 

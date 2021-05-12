@@ -1,0 +1,29 @@
+{
+  "xd365App": {
+    "publicEvent": {
+      "home": {
+        "title": "Public Events",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Public Event",
+        "createOrEditLabel": "Create or edit a Public Event",
+        "notFound": "No Public Events found"
+      },
+      "created": "A new Public Event is created with identifier {{ param }}",
+      "updated": "A Public Event is updated with identifier {{ param }}",
+      "deleted": "A Public Event is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Public Event {{ id }}?"
+      },
+      "detail": {
+        "title": "Public Event"
+      },
+      "id": "ID",
+      "eventName": "Event Name",
+      "eventDate": "Event Date",
+      "howManyInstances": "How Many Instances",
+      "cycleLength": "Cycle Length",
+      "cycleUnit": "Cycle Unit",
+      "category": "Category"
+    }
+  }
+}

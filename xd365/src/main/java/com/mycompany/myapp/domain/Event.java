@@ -2,7 +2,6 @@ package com.mycompany.myapp.domain;
 
 import com.mycompany.myapp.domain.enumeration.Category;
 import com.mycompany.myapp.domain.enumeration.TimeUnits;
-import com.mycompany.myapp.domain.enumeration.YesNo;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -46,14 +45,12 @@ public class Event implements Serializable {
     @Column(name = "cycle_unit")
     private TimeUnits cycleUnit;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "is_public", nullable = false)
-    private YesNo isPublic;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
     private Category category;
+
+    @Column(name = "userlogin")
+    private String userlogin;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -134,19 +131,6 @@ public class Event implements Serializable {
         this.cycleUnit = cycleUnit;
     }
 
-    public YesNo getIsPublic() {
-        return this.isPublic;
-    }
-
-    public Event isPublic(YesNo isPublic) {
-        this.isPublic = isPublic;
-        return this;
-    }
-
-    public void setIsPublic(YesNo isPublic) {
-        this.isPublic = isPublic;
-    }
-
     public Category getCategory() {
         return this.category;
     }
@@ -158,6 +142,19 @@ public class Event implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getUserlogin() {
+        return this.userlogin;
+    }
+
+    public Event userlogin(String userlogin) {
+        this.userlogin = userlogin;
+        return this;
+    }
+
+    public void setUserlogin(String userlogin) {
+        this.userlogin = userlogin;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -189,8 +186,8 @@ public class Event implements Serializable {
             ", howManyInstances=" + getHowManyInstances() +
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +
-            ", isPublic='" + getIsPublic() + "'" +
             ", category='" + getCategory() + "'" +
+            ", userlogin='" + getUserlogin() + "'" +
             "}";
     }
 }

@@ -8,6 +8,7 @@
     "events": "Today's events",
     "link": {
       "homepage": "Important event",
+      "homepage2": "Very important event",
       "gitlab": "xd365 repository on GitLab"
     }
   }

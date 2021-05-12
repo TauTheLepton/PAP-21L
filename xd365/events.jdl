@@ -20,7 +20,16 @@ entity Event {
   howManyInstances Long min(1) required
   cycleLength Long min(1)
   cycleUnit TimeUnits
-  isPublic YesNo required
+  category Category
+  userlogin String
+}
+
+entity PublicEvent {
+  eventName String required
+  eventDate LocalDate required
+  howManyInstances Long min(1) required
+  cycleLength Long min(1)
+  cycleUnit TimeUnits
   category Category
 }
 
@@ -60,14 +69,14 @@ entity Event {
 // Set pagination options
 //paginate JobHistory, Employee with infinite-scroll
 //paginate Job with pagination
-paginate Event with infinite-scroll
+//paginate Event with infinite-scroll
 //paginate Category with pagination
 
 // Use Data Transfer Objects (DTO)
 // dto * with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl // except Category
+// service all with serviceImpl // except Category
 
 // Set an angular suffix
 // angularSuffix * with mySuffix
