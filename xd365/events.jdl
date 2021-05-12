@@ -21,7 +21,7 @@ entity Event {
   cycleLength Long min(1)
   cycleUnit TimeUnits
   category Category
-  login String required
+  userlogin String
 }
 
 entity PublicEvent {

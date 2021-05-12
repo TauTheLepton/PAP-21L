@@ -58,8 +58,8 @@ public class EventServiceImpl implements EventService {
                     if (event.getCategory() != null) {
                         existingEvent.setCategory(event.getCategory());
                     }
-                    if (event.getLogin() != null) {
-                        existingEvent.setLogin(event.getLogin());
+                    if (event.getUserlogin() != null) {
+                        existingEvent.setUserlogin(event.getUserlogin());
                     }
 
                     return existingEvent;

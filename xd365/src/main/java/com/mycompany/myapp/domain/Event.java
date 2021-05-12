@@ -49,9 +49,8 @@ public class Event implements Serializable {
     @Column(name = "category")
     private Category category;
 
-    @NotNull
-    @Column(name = "login", nullable = false)
-    private String login;
+    @Column(name = "userlogin")
+    private String userlogin;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -145,17 +144,17 @@ public class Event implements Serializable {
         this.category = category;
     }
 
-    public String getLogin() {
-        return this.login;
+    public String getUserlogin() {
+        return this.userlogin;
     }
 
-    public Event login(String login) {
-        this.login = login;
+    public Event userlogin(String userlogin) {
+        this.userlogin = userlogin;
         return this;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setUserlogin(String userlogin) {
+        this.userlogin = userlogin;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -188,7 +187,7 @@ public class Event implements Serializable {
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +
             ", category='" + getCategory() + "'" +
-            ", login='" + getLogin() + "'" +
+            ", userlogin='" + getUserlogin() + "'" +
             "}";
     }
 }

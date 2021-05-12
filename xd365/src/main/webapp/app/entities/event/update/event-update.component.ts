@@ -23,7 +23,7 @@ export class EventUpdateComponent implements OnInit {
     cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
     category: [],
-    login: [null, [Validators.required]],
+    userlogin: [],
   });
 
   constructor(protected eventService: EventService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -76,7 +76,7 @@ export class EventUpdateComponent implements OnInit {
       cycleLength: event.cycleLength,
       cycleUnit: event.cycleUnit,
       category: event.category,
-      login: event.login,
+      userlogin: event.userlogin,
     });
   }
 
@@ -90,7 +90,7 @@ export class EventUpdateComponent implements OnInit {
       cycleLength: this.editForm.get(['cycleLength'])!.value,
       cycleUnit: this.editForm.get(['cycleUnit'])!.value,
       category: this.editForm.get(['category'])!.value,
-      login: this.editForm.get(['login'])!.value,
+      userlogin: this.editForm.get(['userlogin'])!.value,
     };
   }
 }

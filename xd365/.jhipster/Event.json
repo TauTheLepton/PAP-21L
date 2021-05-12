@@ -34,9 +34,8 @@
       "fieldValues": "RECREATION,STUDYING,SPORTS"
     },
     {
-      "fieldName": "login",
-      "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldName": "userlogin",
+      "fieldType": "String"
     }
   ],
   "relationships": [],

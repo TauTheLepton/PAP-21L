@@ -34,7 +34,7 @@ describe('Service Tests', () => {
         cycleLength: 0,
         cycleUnit: TimeUnits.DAYS,
         category: Category.RECREATION,
-        login: 'AAAAAAA',
+        userlogin: 'AAAAAAA',
       };
     });
 
@@ -87,7 +87,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
-            login: 'BBBBBB',
+            userlogin: 'BBBBBB',
           },
           elemDefault
         );
@@ -143,7 +143,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
-            login: 'BBBBBB',
+            userlogin: 'BBBBBB',
           },
           elemDefault
         );

@@ -53,6 +53,7 @@ public class EventResource {
         if (event.getId() != null) {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        event.setUserlogin(eventRepository.getCurrentLogin());
         Event result = eventRepository.save(event);
         return ResponseEntity
             .created(new URI("/api/events/" + result.getId()))
@@ -142,8 +143,8 @@ public class EventResource {
                     if (event.getCategory() != null) {
                         existingEvent.setCategory(event.getCategory());
                     }
-                    if (event.getLogin() != null) {
-                        existingEvent.setLogin(event.getLogin());
+                    if (event.getUserlogin() != null) {
+                        existingEvent.setUserlogin(event.getUserlogin());
                     }
 
                     return existingEvent;
@@ -165,7 +166,7 @@ public class EventResource {
     @GetMapping("/events")
     public List<Event> getAllEvents() {
         log.debug("REST request to get all Events");
-        return eventRepository.findAll();
+        return eventRepository.findByUserIsCurrentUser();
     }
 
     /**

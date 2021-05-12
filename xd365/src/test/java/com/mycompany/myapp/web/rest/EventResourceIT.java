@@ -51,8 +51,8 @@ class EventResourceIT {
     private static final Category DEFAULT_CATEGORY = Category.RECREATION;
     private static final Category UPDATED_CATEGORY = Category.STUDYING;
 
-    private static final String DEFAULT_LOGIN = "AAAAAAAAAA";
-    private static final String UPDATED_LOGIN = "BBBBBBBBBB";
+    private static final String DEFAULT_USERLOGIN = "AAAAAAAAAA";
+    private static final String UPDATED_USERLOGIN = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/events";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -85,7 +85,7 @@ class EventResourceIT {
             .cycleLength(DEFAULT_CYCLE_LENGTH)
             .cycleUnit(DEFAULT_CYCLE_UNIT)
             .category(DEFAULT_CATEGORY)
-            .login(DEFAULT_LOGIN);
+            .userlogin(DEFAULT_USERLOGIN);
         return event;
     }
 
@@ -103,7 +103,7 @@ class EventResourceIT {
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .category(UPDATED_CATEGORY)
-            .login(UPDATED_LOGIN);
+            .userlogin(UPDATED_USERLOGIN);
         return event;
     }
 
@@ -131,7 +131,7 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(DEFAULT_CATEGORY);
-        assertThat(testEvent.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(testEvent.getUserlogin()).isEqualTo(DEFAULT_USERLOGIN);
     }
 
     @Test
@@ -205,23 +205,6 @@ class EventResourceIT {
 
     @Test
     @Transactional
-    void checkLoginIsRequired() throws Exception {
-        int databaseSizeBeforeTest = eventRepository.findAll().size();
-        // set the field null
-        event.setLogin(null);
-
-        // Create the Event, which fails.
-
-        restEventMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(event)))
-            .andExpect(status().isBadRequest());
-
-        List<Event> eventList = eventRepository.findAll();
-        assertThat(eventList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllEvents() throws Exception {
         // Initialize the database
         eventRepository.saveAndFlush(event);
@@ -238,7 +221,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.[*].cycleLength").value(hasItem(DEFAULT_CYCLE_LENGTH.intValue())))
             .andExpect(jsonPath("$.[*].cycleUnit").value(hasItem(DEFAULT_CYCLE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
-            .andExpect(jsonPath("$.[*].login").value(hasItem(DEFAULT_LOGIN)));
+            .andExpect(jsonPath("$.[*].userlogin").value(hasItem(DEFAULT_USERLOGIN)));
     }
 
     @Test
@@ -259,7 +242,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.cycleLength").value(DEFAULT_CYCLE_LENGTH.intValue()))
             .andExpect(jsonPath("$.cycleUnit").value(DEFAULT_CYCLE_UNIT.toString()))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
-            .andExpect(jsonPath("$.login").value(DEFAULT_LOGIN));
+            .andExpect(jsonPath("$.userlogin").value(DEFAULT_USERLOGIN));
     }
 
     @Test
@@ -288,7 +271,7 @@ class EventResourceIT {
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .category(UPDATED_CATEGORY)
-            .login(UPDATED_LOGIN);
+            .userlogin(UPDATED_USERLOGIN);
 
         restEventMockMvc
             .perform(
@@ -308,7 +291,7 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
-        assertThat(testEvent.getLogin()).isEqualTo(UPDATED_LOGIN);
+        assertThat(testEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 
     @Test
@@ -403,7 +386,7 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
-        assertThat(testEvent.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(testEvent.getUserlogin()).isEqualTo(DEFAULT_USERLOGIN);
     }
 
     @Test
@@ -425,7 +408,7 @@ class EventResourceIT {
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .category(UPDATED_CATEGORY)
-            .login(UPDATED_LOGIN);
+            .userlogin(UPDATED_USERLOGIN);
 
         restEventMockMvc
             .perform(
@@ -445,7 +428,7 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
-        assertThat(testEvent.getLogin()).isEqualTo(UPDATED_LOGIN);
+        assertThat(testEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 
     @Test

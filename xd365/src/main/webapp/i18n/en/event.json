@@ -24,7 +24,7 @@
       "cycleLength": "Cycle Length",
       "cycleUnit": "Cycle Unit",
       "category": "Category",
-      "login": "Login"
+      "userlogin": "Userlogin"
     }
   }
 }
