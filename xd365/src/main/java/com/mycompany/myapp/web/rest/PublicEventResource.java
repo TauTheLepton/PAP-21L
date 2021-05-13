@@ -196,6 +196,9 @@ public class PublicEventResource {
     @DeleteMapping("/public-events/{id}")
     public ResponseEntity<Void> deletePublicEvent(@PathVariable Long id) {
       Optional<PublicEvent> publicEvent = publicEventRepository.findById(id);
+      if (publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()) {
+        throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
+      }
       if(publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()){
         log.debug("REST request to delete PublicEvent : {}", id);
         publicEventRepository.deleteById(id);
