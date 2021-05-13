@@ -1,18 +1,3 @@
-<button (click)="updateEvents()">Update events</button>
-  
-<ng-container *ngIf="options">
-  <ng-fullcalendar
-    #fullcalendar
-    (dateClick)="dateClick($event)"
-    (clickButton)="clickButton($event)"
-    (eventDragStop)="eventDragStop($event)"
-    [eventsModel]="eventsModel"
-    [options]="options"
-    (eventClick)="eventClick($event)"
-  ></ng-fullcalendar>
-</ng-container>
-
-
 <div class="row">
   <div class="col-md-3">
     <span class="hipster img-fluid rounded"></span>

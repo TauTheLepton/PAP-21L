@@ -38,6 +38,10 @@
         <dd>
           <span jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">{{ publicEvent.category }}</span>
         </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.userlogin">Userlogin</span></dt>
+        <dd>
+          <span>{{ publicEvent.userlogin }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

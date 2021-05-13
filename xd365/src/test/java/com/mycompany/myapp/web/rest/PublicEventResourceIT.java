@@ -51,6 +51,9 @@ class PublicEventResourceIT {
     private static final Category DEFAULT_CATEGORY = Category.RECREATION;
     private static final Category UPDATED_CATEGORY = Category.STUDYING;
 
+    private static final String DEFAULT_USERLOGIN = "AAAAAAAAAA";
+    private static final String UPDATED_USERLOGIN = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/public-events";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -81,7 +84,8 @@ class PublicEventResourceIT {
             .howManyInstances(DEFAULT_HOW_MANY_INSTANCES)
             .cycleLength(DEFAULT_CYCLE_LENGTH)
             .cycleUnit(DEFAULT_CYCLE_UNIT)
-            .category(DEFAULT_CATEGORY);
+            .category(DEFAULT_CATEGORY)
+            .userlogin(DEFAULT_USERLOGIN);
         return publicEvent;
     }
 
@@ -98,7 +102,8 @@ class PublicEventResourceIT {
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
-            .category(UPDATED_CATEGORY);
+            .category(UPDATED_CATEGORY)
+            .userlogin(UPDATED_USERLOGIN);
         return publicEvent;
     }
 
@@ -126,6 +131,7 @@ class PublicEventResourceIT {
         assertThat(testPublicEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testPublicEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
         assertThat(testPublicEvent.getCategory()).isEqualTo(DEFAULT_CATEGORY);
+        assertThat(testPublicEvent.getUserlogin()).isEqualTo(DEFAULT_USERLOGIN);
     }
 
     @Test
@@ -214,7 +220,8 @@ class PublicEventResourceIT {
             .andExpect(jsonPath("$.[*].howManyInstances").value(hasItem(DEFAULT_HOW_MANY_INSTANCES.intValue())))
             .andExpect(jsonPath("$.[*].cycleLength").value(hasItem(DEFAULT_CYCLE_LENGTH.intValue())))
             .andExpect(jsonPath("$.[*].cycleUnit").value(hasItem(DEFAULT_CYCLE_UNIT.toString())))
-            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())));
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
+            .andExpect(jsonPath("$.[*].userlogin").value(hasItem(DEFAULT_USERLOGIN)));
     }
 
     @Test
@@ -234,7 +241,8 @@ class PublicEventResourceIT {
             .andExpect(jsonPath("$.howManyInstances").value(DEFAULT_HOW_MANY_INSTANCES.intValue()))
             .andExpect(jsonPath("$.cycleLength").value(DEFAULT_CYCLE_LENGTH.intValue()))
             .andExpect(jsonPath("$.cycleUnit").value(DEFAULT_CYCLE_UNIT.toString()))
-            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()));
+            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
+            .andExpect(jsonPath("$.userlogin").value(DEFAULT_USERLOGIN));
     }
 
     @Test
@@ -262,7 +270,8 @@ class PublicEventResourceIT {
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
-            .category(UPDATED_CATEGORY);
+            .category(UPDATED_CATEGORY)
+            .userlogin(UPDATED_USERLOGIN);
 
         restPublicEventMockMvc
             .perform(
@@ -282,6 +291,7 @@ class PublicEventResourceIT {
         assertThat(testPublicEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testPublicEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testPublicEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testPublicEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 
     @Test
@@ -352,7 +362,11 @@ class PublicEventResourceIT {
         PublicEvent partialUpdatedPublicEvent = new PublicEvent();
         partialUpdatedPublicEvent.setId(publicEvent.getId());
 
-        partialUpdatedPublicEvent.eventName(UPDATED_EVENT_NAME).cycleLength(UPDATED_CYCLE_LENGTH).category(UPDATED_CATEGORY);
+        partialUpdatedPublicEvent
+            .eventName(UPDATED_EVENT_NAME)
+            .cycleLength(UPDATED_CYCLE_LENGTH)
+            .category(UPDATED_CATEGORY)
+            .userlogin(UPDATED_USERLOGIN);
 
         restPublicEventMockMvc
             .perform(
@@ -372,6 +386,7 @@ class PublicEventResourceIT {
         assertThat(testPublicEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testPublicEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
         assertThat(testPublicEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testPublicEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 
     @Test
@@ -392,7 +407,8 @@ class PublicEventResourceIT {
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
-            .category(UPDATED_CATEGORY);
+            .category(UPDATED_CATEGORY)
+            .userlogin(UPDATED_USERLOGIN);
 
         restPublicEventMockMvc
             .perform(
@@ -412,6 +428,7 @@ class PublicEventResourceIT {
         assertThat(testPublicEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testPublicEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testPublicEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testPublicEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 
     @Test

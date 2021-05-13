@@ -53,6 +53,7 @@ public class PublicEventResource {
         if (publicEvent.getId() != null) {
             throw new BadRequestAlertException("A new publicEvent cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        publicEvent.setUserlogin(publicEventRepository.getCurrentLogin());
         PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
             .created(new URI("/api/public-events/" + result.getId()))
@@ -87,6 +88,9 @@ public class PublicEventResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
+        if (publicEventRepository.getCurrentLogin() != publicEvent.getUserlogin()) {
+          throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
+        }
         PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
             .ok()
@@ -144,6 +148,9 @@ public class PublicEventResource {
                     if (publicEvent.getCategory() != null) {
                         existingPublicEvent.setCategory(publicEvent.getCategory());
                     }
+                    if (publicEvent.getUserlogin() != null) {
+                        existingPublicEvent.setUserlogin(publicEvent.getUserlogin());
+                    }
 
                     return existingPublicEvent;
                 }
@@ -188,8 +195,14 @@ public class PublicEventResource {
      */
     @DeleteMapping("/public-events/{id}")
     public ResponseEntity<Void> deletePublicEvent(@PathVariable Long id) {
+      Optional<PublicEvent> publicEvent = publicEventRepository.findById(id);
+      if (publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()) {
+        throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
+      }
+      if(publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()){
         log.debug("REST request to delete PublicEvent : {}", id);
         publicEventRepository.deleteById(id);
+      }
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

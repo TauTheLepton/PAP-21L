@@ -32,6 +32,10 @@
       "fieldName": "category",
       "fieldType": "Category",
       "fieldValues": "RECREATION,STUDYING,SPORTS"
+    },
+    {
+      "fieldName": "userlogin",
+      "fieldType": "String"
     }
   ],
   "relationships": [],
