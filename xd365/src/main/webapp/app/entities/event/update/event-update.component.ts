@@ -48,6 +48,14 @@ export class EventUpdateComponent implements OnInit {
     }
   }
 
+  showCycleParams(): boolean {
+    if (this.editForm.get(['howManyInstances'])!.value > 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
