@@ -19,6 +19,7 @@ export class RegisterComponent implements AfterViewInit {
   errorEmailExists = false;
   errorUserExists = false;
   success = false;
+  isSaving = false;
 
   registerForm = this.fb.group({
     login: [
@@ -44,6 +45,7 @@ export class RegisterComponent implements AfterViewInit {
   }
 
   register(): void {
+    this.isSaving = true;
     this.doNotMatch = false;
     this.error = false;
     this.errorEmailExists = false;
