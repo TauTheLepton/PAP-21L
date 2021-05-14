@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   authSubscription?: Subscription;
 
   @ViewChild('modalContent', { static: true })
-  modalContent: TemplateRef<any> | undefined;
+  modalContent!: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;
 
@@ -42,12 +42,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   viewDate: Date = new Date();
 
-  modalData:
-    | {
-        action: string;
-        event: CalendarEvent;
-      }
-    | undefined;
+  modalData!: {
+    action: string;
+    event: CalendarEvent;
+  };
 
   actions: CalendarEventAction[] = [
     {
