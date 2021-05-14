@@ -39,7 +39,7 @@
           <th scope="col"><span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.category">Category</span></th>
-          <th scope="col"><span jhiTranslate="xd365App.event.userlogin">Userlogin</span></th>
+          <!--<th scope="col"><span jhiTranslate="xd365App.event.userlogin">Author</span></th>-->
           <th scope="col"></th>
         </tr>
       </thead>
@@ -54,7 +54,7 @@
           <td>{{ event.cycleLength }}</td>
           <td jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
           <td jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
-          <td>{{ event.userlogin }}</td>
+          <!--<td>{{ event.userlogin }}</td>-->
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

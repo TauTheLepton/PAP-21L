@@ -6,15 +6,22 @@ import { IPublicEvent } from '../public-event.model';
 import { PublicEventService } from '../service/public-event.service';
 import { PublicEventDeleteDialogComponent } from '../delete/public-event-delete-dialog.component';
 
+import { Subscription } from 'rxjs';
+
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
+
 @Component({
   selector: 'jhi-public-event',
   templateUrl: './public-event.component.html',
 })
 export class PublicEventComponent implements OnInit {
+  account: Account | null = null;
   publicEvents?: IPublicEvent[];
+  authSubscription?: Subscription;
   isLoading = false;
 
-  constructor(protected publicEventService: PublicEventService, protected modalService: NgbModal) {}
+  constructor(protected publicEventService: PublicEventService, protected modalService: NgbModal, private accountService: AccountService) {}
 
   loadAll(): void {
     this.isLoading = true;
@@ -31,6 +38,7 @@ export class PublicEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
     this.loadAll();
   }
 
@@ -47,5 +55,13 @@ export class PublicEventComponent implements OnInit {
         this.loadAll();
       }
     });
+  }
+
+  isAuthor(author: string, username: string): boolean {
+    if (author === username) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
