@@ -5,6 +5,11 @@ import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
+import { EventComponent } from '../entities/event/list/event.component';
+import { PublicEventComponent } from '../entities/public-event/list/public-event.component';
+// import { EventModule } from 'app/entities/event/event.module';
+// import { PublicEventModule } from 'app/entities/public-event/public-event.module';
+
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
@@ -67,50 +72,89 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-      draggable: true,
-    },
-  ];
+  events: CalendarEvent[] = [];
+  //   {
+  //     start: subDays(startOfDay(new Date()), 1),
+  //     end: addDays(new Date(), 1),
+  //     title: 'A 3 day event',
+  //     color: colors.red,
+  //     actions: this.actions,
+  //     allDay: true,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true,
+  //     },
+  //     draggable: true,
+  //   },
+  //   {
+  //     start: startOfDay(new Date()),
+  //     title: 'An event with no end date',
+  //     color: colors.yellow,
+  //     actions: this.actions,
+  //   },
+  //   {
+  //     start: subDays(endOfMonth(new Date()), 3),
+  //     end: addDays(endOfMonth(new Date()), 3),
+  //     title: 'A long event that spans 2 months',
+  //     color: colors.blue,
+  //     allDay: true,
+  //   },
+  //   {
+  //     start: addHours(startOfDay(new Date()), 2),
+  //     end: addHours(new Date(), 2),
+  //     title: 'A draggable and resizable event',
+  //     color: colors.yellow,
+  //     actions: this.actions,
+  //     resizable: {
+  //       beforeStart: true,
+  //       afterEnd: true,
+  //     },
+  //     draggable: true,
+  //   },
+  // ];
 
   activeDayIsOpen!: boolean;
 
-  constructor(private modal: NgbModal, private accountService: AccountService, private router: Router) {}
+  constructor(
+    private modal: NgbModal,
+    private accountService: AccountService,
+    private router: Router,
+    private eventComponent: EventComponent,
+    private publicEventComponent: PublicEventComponent
+  ) {}
+
+  importEvents(): void {
+    let events = this.eventComponent.events;
+    const publicEvents = this.publicEventComponent.publicEvents;
+    for (let i = 0; i < 2; i++) {
+      if (i === 1) {
+        events = publicEvents;
+      }
+      if (events !== undefined) {
+        const length = events.length;
+        if (length > 0) {
+          for (let index = 0; index < length; index++) {
+            const event = events[index];
+            let setColor;
+            if (i === 0) {
+              setColor = colors.blue;
+            } else {
+              setColor = colors.yellow;
+            }
+            const startDate = event.eventDate?.format('MMMM DD, YYYY HH:mm:ss');
+            const endDate = event.eventEndDate?.format('MMMM DD, YYYY HH:mm:ss');
+            this.events.push({
+              id: event.id,
+              start: new Date(startDate!),
+              end: new Date(endDate!),
+              title: event.eventName!,
+              color: setColor,
+            });
+          }
+        }
+      }
+    }
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -173,6 +217,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    // odkomentowac to potem zeby sie ladowalo chyba
+    // this.importEvents();
   }
 
   isAuthenticated(): boolean {
