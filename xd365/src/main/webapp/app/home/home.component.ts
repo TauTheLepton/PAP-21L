@@ -5,10 +5,10 @@ import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
-import { EventComponent } from '../entities/event/list/event.component';
-import { PublicEventComponent } from '../entities/public-event/list/public-event.component';
-// import { EventModule } from 'app/entities/event/event.module';
-// import { PublicEventModule } from 'app/entities/public-event/public-event.module';
+// import { EventComponent } from '../entities/event/list/event.component';
+// import { PublicEventComponent } from '../entities/public-event/list/public-event.component';
+import { EventModule } from 'app/entities/event/event.module';
+import { PublicEventModule } from 'app/entities/public-event/public-event.module';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
@@ -119,8 +119,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private modal: NgbModal,
     private accountService: AccountService,
     private router: Router,
-    private eventComponent: EventComponent,
-    private publicEventComponent: PublicEventComponent
+    private eventComponent: EventModule,
+    private publicEventComponent: PublicEventModule
   ) {}
 
   importEvents(): void {
