@@ -5,10 +5,16 @@ import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
-import { EventComponent } from '../entities/event/list/event.component';
-import { PublicEventComponent } from '../entities/public-event/list/public-event.component';
+// import { EventComponent } from '../entities/event/list/event.component';
+// import { PublicEventComponent } from '../entities/public-event/list/public-event.component';
 // import { EventModule } from 'app/entities/event/event.module';
 // import { PublicEventModule } from 'app/entities/public-event/public-event.module';
+import { HttpResponse } from '@angular/common/http';
+import { IEvent } from '../entities/event/event.model';
+import { EventService } from '../entities/event/service/event.service';
+
+import { IPublicEvent } from '../entities/public-event/public-event.model';
+import { PublicEventService } from '../entities/public-event/service/public-event.service';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
@@ -72,6 +78,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
+  iEvents: IEvent[] = [];
+  iPublicEvents: IPublicEvent[] = [];
   events: CalendarEvent[] = [];
   //   {
   //     start: subDays(startOfDay(new Date()), 1),
@@ -115,55 +123,146 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   activeDayIsOpen!: boolean;
 
-  constructor(private modal: NgbModal, private accountService: AccountService, private router: Router) {}
+  constructor(
+    private modal: NgbModal,
+    private accountService: AccountService,
+    private router: Router,
+    protected eventService: EventService,
+    protected publicEventService: PublicEventService
+  ) {}
 
+  // proba zrobienia tego na bazie innej klasy, ale chyba nie pyklo
+  // importEvents(): void {
+  //   const staticEvents = EventComponent.staticEvents;
+  //   const staticPublicEvents = PublicEventComponent.staticPublicEvents;
+  //   let tempEvents;
+  //   // let events = this.eventComponent.events;
+  //   // const publicEvents = this.publicEventComponent.publicEvents;
+  //   let setColor;
+  //   for (let i = 0; i < 2; i++) {
+  //     if (i === 0) {
+  //       tempEvents = staticEvents;
+  //       setColor = colors.blue;
+  //     } else {
+  //       tempEvents = staticPublicEvents;
+  //       setColor = colors.yellow;
+  //     }
+  //     if (tempEvents !== undefined) {
+  //       const length = tempEvents.length;
+  //       if (length > 0) {
+  //         for (let j = 0; j < length; j++) {
+  //           const event = tempEvents[j];
+  //           if (event.eventDate !== undefined && event.eventEndDate !== undefined) {
+  //             // const startDate = event.eventDate?.format('MMMM DD, YYYY HH:mm:ss');
+  //             const startDateYear = Number(event.eventDate.format('YYYY'));
+  //             const startDateMonth = Number(event.eventDate.format('M'));
+  //             const startDateDay = Number(event.eventDate.format('D'));
+  //             const startDateHour = Number(event.eventDate.format('H'));
+  //             const startDateMinute = Number(event.eventDate.format('m'));
+  //             // const endDate = event.eventEndDate?.format('MMMM DD, YYYY HH:mm:ss');
+  //             const endDateYear = Number(event.eventEndDate.format('YYYY'));
+  //             const endDateMonth = Number(event.eventEndDate.format('M'));
+  //             const endDateDay = Number(event.eventEndDate.format('D'));
+  //             const endDateHour = Number(event.eventEndDate.format('H'));
+  //             const endDateMinute = Number(event.eventEndDate.format('m'));
+  //             this.events.push({
+  //               id: event.id,
+  //               // start: new Date(startDate!),
+  //               start: new Date(startDateYear, startDateMonth, startDateDay, startDateHour, startDateMinute, 0, 0),
+  //               // end: new Date(endDate!),
+  //               end: new Date(endDateYear, endDateMonth, endDateDay, endDateHour, endDateMinute, 0, 0),
+  //               title: event.eventName!,
+  //               color: setColor,
+  //             });
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+  // proba z wlasnym czytaniem z bazy danych
   importEvents(): void {
-    const staticEvents = EventComponent.staticEvents;
-    const staticPublicEvents = PublicEventComponent.staticPublicEvents;
-    let tempEvents;
-    // let events = this.eventComponent.events;
-    // const publicEvents = this.publicEventComponent.publicEvents;
-    let setColor;
-    for (let i = 0; i < 2; i++) {
-      if (i === 0) {
-        tempEvents = staticEvents;
-        setColor = colors.blue;
-      } else {
-        tempEvents = staticPublicEvents;
-        setColor = colors.yellow;
+    this.events = [];
+    // this.isLoading = true;
+
+    this.eventService.query().subscribe(
+      (res: HttpResponse<IEvent[]>) => {
+        // this.isLoading = false;
+        this.iEvents = res.body ?? [];
+      },
+      () => {
+        // this.isLoading = false;
       }
-      if (tempEvents !== undefined) {
-        const length = tempEvents.length;
-        if (length > 0) {
-          for (let j = 0; j < length; j++) {
-            const event = tempEvents[j];
-            if (event.eventDate !== undefined && event.eventEndDate !== undefined) {
-              // const startDate = event.eventDate?.format('MMMM DD, YYYY HH:mm:ss');
-              const startDateYear = Number(event.eventDate.format('YYYY'));
-              const startDateMonth = Number(event.eventDate.format('M'));
-              const startDateDay = Number(event.eventDate.format('D'));
-              const startDateHour = Number(event.eventDate.format('H'));
-              const startDateMinute = Number(event.eventDate.format('m'));
-              // const endDate = event.eventEndDate?.format('MMMM DD, YYYY HH:mm:ss');
-              const endDateYear = Number(event.eventEndDate.format('YYYY'));
-              const endDateMonth = Number(event.eventEndDate.format('M'));
-              const endDateDay = Number(event.eventEndDate.format('D'));
-              const endDateHour = Number(event.eventEndDate.format('H'));
-              const endDateMinute = Number(event.eventEndDate.format('m'));
-              this.events.push({
-                id: event.id,
-                // start: new Date(startDate!),
-                start: new Date(startDateYear, startDateMonth, startDateDay, startDateHour, startDateMinute, 0, 0),
-                // end: new Date(endDate!),
-                end: new Date(endDateYear, endDateMonth, endDateDay, endDateHour, endDateMinute, 0, 0),
-                title: event.eventName!,
-                color: setColor,
-              });
-            }
-          }
-        }
-      }
+    );
+
+    // dodaje do eventow IEventy z bd
+    let setColor = colors.blue;
+    let length = this.iEvents.length;
+    // this.events.push({
+    //   start: startOfDay(new Date()),
+    //   title: 'An event with no end date',
+    //   color: colors.yellow,
+    //   actions: this.actions,
+    // })
+    for (let i = 0; i < length; i++) {
+      const event = this.iEvents[i];
+      const resp = this.getIEventsDates(event);
+      this.events.push({
+        id: event.id,
+        start: resp[0],
+        end: resp[1],
+        title: event.eventName!,
+        color: setColor,
+      });
     }
+    // this.isLoading = true;
+
+    this.publicEventService.query().subscribe(
+      (res: HttpResponse<IPublicEvent[]>) => {
+        // this.isLoading = false;
+        this.iPublicEvents = res.body ?? [];
+      },
+      () => {
+        // this.isLoading = false;
+      }
+    );
+
+    // dodaje do eventow IPublicEventy z bd
+    setColor = colors.yellow;
+    length = this.iPublicEvents.length;
+    for (let i = 0; i < length; i++) {
+      const event = this.iPublicEvents[i];
+      const resp = this.getIEventsDates(event);
+      this.events.push({
+        id: event.id,
+        start: resp[0],
+        end: resp[1],
+        title: event.eventName!,
+        color: setColor,
+      });
+    }
+  }
+
+  // zamienia typ IEvent i IPublicEvent na dwie daty, poczatkowa i koncowa
+  getIEventsDates(event: IEvent | IPublicEvent): Date[] {
+    let response = [new Date(), new Date()];
+    if (event.eventDate !== undefined && event.eventEndDate !== undefined) {
+      const startDateYear = Number(event.eventDate.format('YYYY'));
+      const startDateMonth = Number(event.eventDate.format('M'));
+      const startDateDay = Number(event.eventDate.format('D'));
+      const startDateHour = Number(event.eventDate.format('H'));
+      const startDateMinute = Number(event.eventDate.format('m'));
+      const endDateYear = Number(event.eventEndDate.format('YYYY'));
+      const endDateMonth = Number(event.eventEndDate.format('M'));
+      const endDateDay = Number(event.eventEndDate.format('D'));
+      const endDateHour = Number(event.eventEndDate.format('H'));
+      const endDateMinute = Number(event.eventEndDate.format('m'));
+      const resp1 = new Date(startDateYear, startDateMonth, startDateDay, startDateHour, startDateMinute, 0, 0);
+      const resp2 = new Date(endDateYear, endDateMonth, endDateDay, endDateHour, endDateMinute, 0, 0);
+      response = [resp1, resp2];
+    }
+    return response;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -175,7 +274,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       this.viewDate = date;
     }
-    this.importEvents();
   }
 
   eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
