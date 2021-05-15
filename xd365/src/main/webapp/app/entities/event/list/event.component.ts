@@ -11,6 +11,8 @@ import { EventDeleteDialogComponent } from '../delete/event-delete-dialog.compon
   templateUrl: './event.component.html',
 })
 export class EventComponent implements OnInit {
+  static staticEvents?: IEvent[];
+
   events?: IEvent[];
   isLoading = false;
 
@@ -28,6 +30,7 @@ export class EventComponent implements OnInit {
         this.isLoading = false;
       }
     );
+    EventComponent.staticEvents = this.events;
   }
 
   ngOnInit(): void {

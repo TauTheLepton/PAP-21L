@@ -5,8 +5,8 @@ import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
-// import { EventComponent } from '../entities/event/list/event.component';
-// import { PublicEventComponent } from '../entities/public-event/list/public-event.component';
+import { EventComponent } from '../entities/event/list/event.component';
+import { PublicEventComponent } from '../entities/public-event/list/public-event.component';
 // import { EventModule } from 'app/entities/event/event.module';
 // import { PublicEventModule } from 'app/entities/public-event/public-event.module';
 
@@ -115,46 +115,42 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   activeDayIsOpen!: boolean;
 
-  constructor(
-    private modal: NgbModal,
-    private accountService: AccountService,
-    private router: Router
-  ) // private eventComponent: EventComponent,
-  // private publicEventComponent: PublicEventComponent
-  {}
+  constructor(private modal: NgbModal, private accountService: AccountService, private router: Router) {}
 
-  // importEvents(): void {
-  //   let events = this.eventComponent.events;
-  //   const publicEvents = this.publicEventComponent.publicEvents;
-  //   for (let i = 0; i < 2; i++) {
-  //     if (i === 1) {
-  //       events = publicEvents;
-  //     }
-  //     if (events !== undefined) {
-  //       const length = events.length;
-  //       if (length > 0) {
-  //         for (let index = 0; index < length; index++) {
-  //           const event = events[index];
-  //           let setColor;
-  //           if (i === 0) {
-  //             setColor = colors.blue;
-  //           } else {
-  //             setColor = colors.yellow;
-  //           }
-  //           const startDate = event.eventDate?.format('MMMM DD, YYYY HH:mm:ss');
-  //           const endDate = event.eventEndDate?.format('MMMM DD, YYYY HH:mm:ss');
-  //           this.events.push({
-  //             id: event.id,
-  //             start: new Date(startDate!),
-  //             end: new Date(endDate!),
-  //             title: event.eventName!,
-  //             color: setColor,
-  //           });
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  importEvents(): void {
+    const staticEvents = EventComponent.staticEvents;
+    const staticPublicEvents = PublicEventComponent.staticPublicEvents;
+    let tempEvents;
+    // let events = this.eventComponent.events;
+    // const publicEvents = this.publicEventComponent.publicEvents;
+    let setColor;
+    for (let i = 0; i < 2; i++) {
+      if (i === 0) {
+        tempEvents = staticEvents;
+        setColor = colors.blue;
+      } else {
+        tempEvents = staticPublicEvents;
+        setColor = colors.yellow;
+      }
+      if (tempEvents !== undefined) {
+        const length = tempEvents.length;
+        if (length > 0) {
+          for (let j = 0; j < length; j++) {
+            const event = tempEvents[j];
+            const startDate = event.eventDate?.format('MMMM DD, YYYY HH:mm:ss');
+            const endDate = event.eventEndDate?.format('MMMM DD, YYYY HH:mm:ss');
+            this.events.push({
+              id: event.id,
+              start: new Date(startDate!),
+              end: new Date(endDate!),
+              title: event.eventName!,
+              color: setColor,
+            });
+          }
+        }
+      }
+    }
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -165,6 +161,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       this.viewDate = date;
     }
+    this.importEvents();
   }
 
   eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
@@ -224,7 +221,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login']);
     }
     // odkomentowac to potem zeby sie ladowalo chyba
-    // this.importEvents();
+    this.importEvents();
   }
 
   isAuthenticated(): boolean {
