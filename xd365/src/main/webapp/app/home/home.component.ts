@@ -137,15 +137,29 @@ export class HomeComponent implements OnInit, OnDestroy {
         if (length > 0) {
           for (let j = 0; j < length; j++) {
             const event = tempEvents[j];
-            const startDate = event.eventDate?.format('MMMM DD, YYYY HH:mm:ss');
-            const endDate = event.eventEndDate?.format('MMMM DD, YYYY HH:mm:ss');
-            this.events.push({
-              id: event.id,
-              start: new Date(startDate!),
-              end: new Date(endDate!),
-              title: event.eventName!,
-              color: setColor,
-            });
+            if (event.eventDate !== undefined && event.eventEndDate !== undefined) {
+              // const startDate = event.eventDate?.format('MMMM DD, YYYY HH:mm:ss');
+              const startDateYear = Number(event.eventDate.format('YYYY'));
+              const startDateMonth = Number(event.eventDate.format('M'));
+              const startDateDay = Number(event.eventDate.format('D'));
+              const startDateHour = Number(event.eventDate.format('H'));
+              const startDateMinute = Number(event.eventDate.format('m'));
+              // const endDate = event.eventEndDate?.format('MMMM DD, YYYY HH:mm:ss');
+              const endDateYear = Number(event.eventEndDate.format('YYYY'));
+              const endDateMonth = Number(event.eventEndDate.format('M'));
+              const endDateDay = Number(event.eventEndDate.format('D'));
+              const endDateHour = Number(event.eventEndDate.format('H'));
+              const endDateMinute = Number(event.eventEndDate.format('m'));
+              this.events.push({
+                id: event.id,
+                // start: new Date(startDate!),
+                start: new Date(startDateYear, startDateMonth, startDateDay, startDateHour, startDateMinute, 0, 0),
+                // end: new Date(endDate!),
+                end: new Date(endDateYear, endDateMonth, endDateDay, endDateHour, endDateMinute, 0, 0),
+                title: event.eventName!,
+                color: setColor,
+              });
+            }
           }
         }
       }
