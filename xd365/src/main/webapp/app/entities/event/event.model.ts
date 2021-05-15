@@ -6,6 +6,7 @@ export interface IEvent {
   id?: number;
   eventName?: string;
   eventDate?: dayjs.Dayjs;
+  eventEndDate?: dayjs.Dayjs;
   howManyInstances?: number;
   cycleLength?: number | null;
   cycleUnit?: TimeUnits | null;
@@ -18,6 +19,7 @@ export class Event implements IEvent {
     public id?: number,
     public eventName?: string,
     public eventDate?: dayjs.Dayjs,
+    public eventEndDate?: dayjs.Dayjs,
     public howManyInstances?: number,
     public cycleLength?: number | null,
     public cycleUnit?: TimeUnits | null,

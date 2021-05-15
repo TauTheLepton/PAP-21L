@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IPublicEvent, PublicEvent } from '../public-event.model';
 import { PublicEventService } from '../service/public-event.service';
 
@@ -19,6 +22,7 @@ export class PublicEventUpdateComponent implements OnInit {
     id: [],
     eventName: [null, [Validators.required]],
     eventDate: [null, [Validators.required]],
+    eventEndDate: [null, [Validators.required]],
     howManyInstances: [null, [Validators.required, Validators.min(1)]],
     cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
@@ -30,6 +34,12 @@ export class PublicEventUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ publicEvent }) => {
+      if (publicEvent.id === undefined) {
+        const today = dayjs().startOf('day');
+        publicEvent.eventDate = today;
+        publicEvent.eventEndDate = today;
+      }
+
       this.updateForm(publicEvent);
     });
   }
@@ -55,7 +65,7 @@ export class PublicEventUpdateComponent implements OnInit {
       return false;
     }
   }
-
+  
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPublicEvent>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -79,7 +89,8 @@ export class PublicEventUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: publicEvent.id,
       eventName: publicEvent.eventName,
-      eventDate: publicEvent.eventDate,
+      eventDate: publicEvent.eventDate ? publicEvent.eventDate.format(DATE_TIME_FORMAT) : null,
+      eventEndDate: publicEvent.eventEndDate ? publicEvent.eventEndDate.format(DATE_TIME_FORMAT) : null,
       howManyInstances: publicEvent.howManyInstances,
       cycleLength: publicEvent.cycleLength,
       cycleUnit: publicEvent.cycleUnit,
@@ -93,7 +104,10 @@ export class PublicEventUpdateComponent implements OnInit {
       ...new PublicEvent(),
       id: this.editForm.get(['id'])!.value,
       eventName: this.editForm.get(['eventName'])!.value,
-      eventDate: this.editForm.get(['eventDate'])!.value,
+      eventDate: this.editForm.get(['eventDate'])!.value ? dayjs(this.editForm.get(['eventDate'])!.value, DATE_TIME_FORMAT) : undefined,
+      eventEndDate: this.editForm.get(['eventEndDate'])!.value
+        ? dayjs(this.editForm.get(['eventEndDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       howManyInstances: this.editForm.get(['howManyInstances'])!.value,
       cycleLength: this.editForm.get(['cycleLength'])!.value,
       cycleUnit: this.editForm.get(['cycleUnit'])!.value,

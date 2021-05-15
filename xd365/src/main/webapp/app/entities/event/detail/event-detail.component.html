@@ -20,7 +20,11 @@
         </dd>
         <dt><span jhiTranslate="xd365App.event.eventDate">Event Date</span></dt>
         <dd>
-          <span>{{ event.eventDate | formatMediumDate }}</span>
+          <span>{{ event.eventDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="xd365App.event.eventEndDate">Event End Date</span></dt>
+        <dd>
+          <span>{{ event.eventEndDate | formatMediumDatetime }}</span>
         </dd>
         <dt><span jhiTranslate="xd365App.event.howManyInstances">How Many Instances</span></dt>
         <dd>

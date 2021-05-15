@@ -133,6 +133,9 @@ public class EventResource {
                     if (event.getEventDate() != null) {
                         existingEvent.setEventDate(event.getEventDate());
                     }
+                    if (event.getEventEndDate() != null) {
+                        existingEvent.setEventEndDate(event.getEventEndDate());
+                    }
                     if (event.getHowManyInstances() != null) {
                         existingEvent.setHowManyInstances(event.getHowManyInstances());
                     }

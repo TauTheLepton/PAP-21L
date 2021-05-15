@@ -10,8 +10,8 @@ import com.mycompany.myapp.domain.Event;
 import com.mycompany.myapp.domain.enumeration.Category;
 import com.mycompany.myapp.domain.enumeration.TimeUnits;
 import com.mycompany.myapp.repository.EventRepository;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -36,8 +36,11 @@ class EventResourceIT {
     private static final String DEFAULT_EVENT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_EVENT_NAME = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_EVENT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_EVENT_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Instant DEFAULT_EVENT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_EVENT_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_EVENT_END_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_EVENT_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Long DEFAULT_HOW_MANY_INSTANCES = 1L;
     private static final Long UPDATED_HOW_MANY_INSTANCES = 2L;
@@ -81,6 +84,7 @@ class EventResourceIT {
         Event event = new Event()
             .eventName(DEFAULT_EVENT_NAME)
             .eventDate(DEFAULT_EVENT_DATE)
+            .eventEndDate(DEFAULT_EVENT_END_DATE)
             .howManyInstances(DEFAULT_HOW_MANY_INSTANCES)
             .cycleLength(DEFAULT_CYCLE_LENGTH)
             .cycleUnit(DEFAULT_CYCLE_UNIT)
@@ -99,6 +103,7 @@ class EventResourceIT {
         Event event = new Event()
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
+            .eventEndDate(UPDATED_EVENT_END_DATE)
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
@@ -127,6 +132,7 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(DEFAULT_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
+        assertThat(testEvent.getEventEndDate()).isEqualTo(DEFAULT_EVENT_END_DATE);
         assertThat(testEvent.getHowManyInstances()).isEqualTo(DEFAULT_HOW_MANY_INSTANCES);
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
@@ -188,6 +194,23 @@ class EventResourceIT {
 
     @Test
     @Transactional
+    void checkEventEndDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = eventRepository.findAll().size();
+        // set the field null
+        event.setEventEndDate(null);
+
+        // Create the Event, which fails.
+
+        restEventMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(event)))
+            .andExpect(status().isBadRequest());
+
+        List<Event> eventList = eventRepository.findAll();
+        assertThat(eventList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkHowManyInstancesIsRequired() throws Exception {
         int databaseSizeBeforeTest = eventRepository.findAll().size();
         // set the field null
@@ -217,6 +240,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(event.getId().intValue())))
             .andExpect(jsonPath("$.[*].eventName").value(hasItem(DEFAULT_EVENT_NAME)))
             .andExpect(jsonPath("$.[*].eventDate").value(hasItem(DEFAULT_EVENT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].eventEndDate").value(hasItem(DEFAULT_EVENT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].howManyInstances").value(hasItem(DEFAULT_HOW_MANY_INSTANCES.intValue())))
             .andExpect(jsonPath("$.[*].cycleLength").value(hasItem(DEFAULT_CYCLE_LENGTH.intValue())))
             .andExpect(jsonPath("$.[*].cycleUnit").value(hasItem(DEFAULT_CYCLE_UNIT.toString())))
@@ -238,6 +262,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.id").value(event.getId().intValue()))
             .andExpect(jsonPath("$.eventName").value(DEFAULT_EVENT_NAME))
             .andExpect(jsonPath("$.eventDate").value(DEFAULT_EVENT_DATE.toString()))
+            .andExpect(jsonPath("$.eventEndDate").value(DEFAULT_EVENT_END_DATE.toString()))
             .andExpect(jsonPath("$.howManyInstances").value(DEFAULT_HOW_MANY_INSTANCES.intValue()))
             .andExpect(jsonPath("$.cycleLength").value(DEFAULT_CYCLE_LENGTH.intValue()))
             .andExpect(jsonPath("$.cycleUnit").value(DEFAULT_CYCLE_UNIT.toString()))
@@ -267,6 +292,7 @@ class EventResourceIT {
         updatedEvent
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
+            .eventEndDate(UPDATED_EVENT_END_DATE)
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
@@ -287,6 +313,7 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
+        assertThat(testEvent.getEventEndDate()).isEqualTo(UPDATED_EVENT_END_DATE);
         assertThat(testEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
@@ -364,9 +391,10 @@ class EventResourceIT {
 
         partialUpdatedEvent
             .eventName(UPDATED_EVENT_NAME)
-            .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
+            .eventEndDate(UPDATED_EVENT_END_DATE)
+            .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
-            .category(UPDATED_CATEGORY);
+            .userlogin(UPDATED_USERLOGIN);
 
         restEventMockMvc
             .perform(
@@ -382,11 +410,12 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
-        assertThat(testEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
-        assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
+        assertThat(testEvent.getEventEndDate()).isEqualTo(UPDATED_EVENT_END_DATE);
+        assertThat(testEvent.getHowManyInstances()).isEqualTo(DEFAULT_HOW_MANY_INSTANCES);
+        assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
-        assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
-        assertThat(testEvent.getUserlogin()).isEqualTo(DEFAULT_USERLOGIN);
+        assertThat(testEvent.getCategory()).isEqualTo(DEFAULT_CATEGORY);
+        assertThat(testEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 
     @Test
@@ -404,6 +433,7 @@ class EventResourceIT {
         partialUpdatedEvent
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
+            .eventEndDate(UPDATED_EVENT_END_DATE)
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
@@ -424,6 +454,7 @@ class EventResourceIT {
         Event testEvent = eventList.get(eventList.size() - 1);
         assertThat(testEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
+        assertThat(testEvent.getEventEndDate()).isEqualTo(UPDATED_EVENT_END_DATE);
         assertThat(testEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);

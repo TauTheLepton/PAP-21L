@@ -35,6 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="xd365App.publicEvent.eventName">Event Name</span></th>
           <th scope="col"><span jhiTranslate="xd365App.publicEvent.eventDate">Event Date</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.publicEvent.eventEndDate">Event End Date</span></th>
           <th scope="col"><span jhiTranslate="xd365App.publicEvent.howManyInstances">How Many Instances</span></th>
           <th scope="col"><span jhiTranslate="xd365App.publicEvent.cycleLength">Cycle Length</span></th>
           <th scope="col"><span jhiTranslate="xd365App.publicEvent.cycleUnit">Cycle Unit</span></th>
@@ -50,7 +51,8 @@
             <a [routerLink]="['/public-event', publicEvent.id, 'view']">{{ publicEvent.id }}</a>
           </td>
           <td>{{ publicEvent.eventName }}</td>
-          <td>{{ publicEvent.eventDate | formatMediumDate }}</td>
+          <td>{{ publicEvent.eventDate | formatMediumDatetime }}</td>
+          <td>{{ publicEvent.eventEndDate | formatMediumDatetime }}</td>
           <td>{{ publicEvent.howManyInstances }}</td>
           <td>{{ publicEvent.cycleLength }}</td>
           <td jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">{{ publicEvent.cycleUnit }}</td>
@@ -68,21 +70,21 @@
                 <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
               </button>
               <ng-template *ngIf="account" [ngIf]="isAuthor(publicEvent.userlogin!, account.login)">
-                <button
-                  type="submit"
-                  [routerLink]="['/public-event', publicEvent.id, 'edit']"
-                  class="btn btn-primary btn-sm"
-                  data-cy="entityEditButton"
-                >
-                  <fa-icon icon="pencil-alt"></fa-icon>
-                  <span class="d-none d-md-inline">Edit</span>
-                </button>
+              <button
+                type="submit"
+                [routerLink]="['/public-event', publicEvent.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
 
-                <button type="submit" (click)="delete(publicEvent)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                  <fa-icon icon="times"></fa-icon>
-                  <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                </button>
-              </ng-template>
+              <button type="submit" (click)="delete(publicEvent)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </ng-template>
             </div>
           </td>
         </tr>
