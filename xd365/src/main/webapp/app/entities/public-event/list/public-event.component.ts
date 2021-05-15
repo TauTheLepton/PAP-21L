@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -15,7 +15,7 @@ import { Account } from 'app/core/auth/account.model';
   selector: 'jhi-public-event',
   templateUrl: './public-event.component.html',
 })
-export class PublicEventComponent implements OnInit {
+export class PublicEventComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   publicEvents?: IPublicEvent[];
   authSubscription?: Subscription;
@@ -56,12 +56,18 @@ export class PublicEventComponent implements OnInit {
       }
     });
   }
-  
+
   isAuthor(author: string, username: string): boolean {
     if (author === username) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
     }
   }
 }

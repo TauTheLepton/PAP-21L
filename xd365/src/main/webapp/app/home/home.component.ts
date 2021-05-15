@@ -183,7 +183,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    // alert('clicked the ' + event.id.toString() +'!');
+    // this.router.navigate(['/public-event/' + event.id.toString() + '/view']);
+    // this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   addEvent(): void {
@@ -199,6 +201,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           beforeStart: true,
           afterEnd: true,
         },
+        id: '1001',
       },
     ];
   }
@@ -217,6 +220,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    if (!this.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
     // odkomentowac to potem zeby sie ladowalo chyba
     // this.importEvents();
   }
