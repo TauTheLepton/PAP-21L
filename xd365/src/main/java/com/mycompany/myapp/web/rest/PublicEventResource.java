@@ -53,6 +53,9 @@ public class PublicEventResource {
         if (publicEvent.getId() != null) {
             throw new BadRequestAlertException("A new publicEvent cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
+          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+      }
         publicEvent.setUserlogin(publicEventRepository.getCurrentLogin());
         PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
@@ -87,6 +90,9 @@ public class PublicEventResource {
         if (!publicEventRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
+        if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
+          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+      }
 
         if (publicEventRepository.getCurrentLogin() != publicEvent.getUserlogin()) {
           throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
@@ -121,6 +127,9 @@ public class PublicEventResource {
         if (!Objects.equals(id, publicEvent.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
+        if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
+          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+      }
 
         if (!publicEventRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
