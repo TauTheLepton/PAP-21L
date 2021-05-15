@@ -80,12 +80,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         afterEnd: true,
       },
       draggable: true,
+      id: '1001',
     },
     {
       start: startOfDay(new Date()),
       title: 'An event with no end date',
       color: colors.yellow,
       actions: this.actions,
+      id: '1002',
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
@@ -93,6 +95,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       title: 'A long event that spans 2 months',
       color: colors.blue,
       allDay: true,
+      id: '1003',
     },
     {
       start: addHours(startOfDay(new Date()), 2),
@@ -105,6 +108,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         afterEnd: true,
       },
       draggable: true,
+      id: '1004',
     },
   ];
 
@@ -139,7 +143,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    // alert('clicked the ' + event.id.toString() +'!');
+    // this.router.navigate(['/public-event/' + event.id.toString() + '/view']);
+    // this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   addEvent(): void {
@@ -155,6 +161,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           beforeStart: true,
           afterEnd: true,
         },
+        id: '1001',
       },
     ];
   }
@@ -173,6 +180,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    if (!this.isAuthenticated()) {
+      this.router.navigate(['/login']);
+    }
   }
 
   isAuthenticated(): boolean {
