@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IEvent, getEventIdentifier } from '../event.model';
@@ -76,13 +75,15 @@ export class EventService {
 
   protected convertDateFromClient(event: IEvent): IEvent {
     return Object.assign({}, event, {
-      eventDate: event.eventDate?.isValid() ? event.eventDate.format(DATE_FORMAT) : undefined,
+      eventDate: event.eventDate?.isValid() ? event.eventDate.toJSON() : undefined,
+      eventEndDate: event.eventEndDate?.isValid() ? event.eventEndDate.toJSON() : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.eventDate = res.body.eventDate ? dayjs(res.body.eventDate) : undefined;
+      res.body.eventEndDate = res.body.eventEndDate ? dayjs(res.body.eventEndDate) : undefined;
     }
     return res;
   }
@@ -91,6 +92,7 @@ export class EventService {
     if (res.body) {
       res.body.forEach((event: IEvent) => {
         event.eventDate = event.eventDate ? dayjs(event.eventDate) : undefined;
+        event.eventEndDate = event.eventEndDate ? dayjs(event.eventEndDate) : undefined;
       });
     }
     return res;

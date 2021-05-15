@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { TimeUnits } from 'app/entities/enumerations/time-units.model';
 import { Category } from 'app/entities/enumerations/category.model';
 import { IEvent, Event } from '../event.model';
@@ -30,6 +30,7 @@ describe('Service Tests', () => {
         id: 0,
         eventName: 'AAAAAAA',
         eventDate: currentDate,
+        eventEndDate: currentDate,
         howManyInstances: 0,
         cycleLength: 0,
         cycleUnit: TimeUnits.DAYS,
@@ -42,7 +43,8 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            eventDate: currentDate.format(DATE_FORMAT),
+            eventDate: currentDate.format(DATE_TIME_FORMAT),
+            eventEndDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -58,7 +60,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            eventDate: currentDate.format(DATE_FORMAT),
+            eventDate: currentDate.format(DATE_TIME_FORMAT),
+            eventEndDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -66,6 +69,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             eventDate: currentDate,
+            eventEndDate: currentDate,
           },
           returnedFromService
         );
@@ -82,7 +86,8 @@ describe('Service Tests', () => {
           {
             id: 1,
             eventName: 'BBBBBB',
-            eventDate: currentDate.format(DATE_FORMAT),
+            eventDate: currentDate.format(DATE_TIME_FORMAT),
+            eventEndDate: currentDate.format(DATE_TIME_FORMAT),
             howManyInstances: 1,
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
@@ -95,6 +100,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             eventDate: currentDate,
+            eventEndDate: currentDate,
           },
           returnedFromService
         );
@@ -110,9 +116,10 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             eventName: 'BBBBBB',
-            howManyInstances: 1,
+            eventEndDate: currentDate.format(DATE_TIME_FORMAT),
+            cycleLength: 1,
             cycleUnit: 'BBBBBB',
-            category: 'BBBBBB',
+            userlogin: 'BBBBBB',
           },
           new Event()
         );
@@ -122,6 +129,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             eventDate: currentDate,
+            eventEndDate: currentDate,
           },
           returnedFromService
         );
@@ -138,7 +146,8 @@ describe('Service Tests', () => {
           {
             id: 1,
             eventName: 'BBBBBB',
-            eventDate: currentDate.format(DATE_FORMAT),
+            eventDate: currentDate.format(DATE_TIME_FORMAT),
+            eventEndDate: currentDate.format(DATE_TIME_FORMAT),
             howManyInstances: 1,
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
@@ -151,6 +160,7 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             eventDate: currentDate,
+            eventEndDate: currentDate,
           },
           returnedFromService
         );
@@ -200,7 +210,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Event to an array', () => {
-          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 77471 }];
+          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 49927 }];
           const eventCollection: IEvent[] = [{ id: 123 }];
           expectedResult = service.addEventToCollectionIfMissing(eventCollection, ...eventArray);
           expect(expectedResult).toHaveLength(3);

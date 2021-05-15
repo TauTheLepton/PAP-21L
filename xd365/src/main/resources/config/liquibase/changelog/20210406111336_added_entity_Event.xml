@@ -17,7 +17,10 @@
             <column name="event_name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="event_date" type="date">
+            <column name="event_date" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="event_end_date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
             <column name="how_many_instances" type="bigint">
@@ -37,6 +40,8 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="event" columnName="event_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="event" columnName="event_end_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -56,7 +61,8 @@
                   tableName="event">
             <column name="id" type="numeric"/>
             <column name="event_name" type="string"/>
-            <column name="event_date" type="date"/>
+            <column name="event_date" type="${datetimeType}"/>
+            <column name="event_end_date" type="${datetimeType}"/>
             <column name="how_many_instances" type="numeric"/>
             <column name="cycle_length" type="numeric"/>
             <column name="cycle_unit" type="string"/>

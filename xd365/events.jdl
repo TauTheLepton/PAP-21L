@@ -1,7 +1,3 @@
-//entity Category{
-  //categoryName String
-//}
-
 enum Category{
   RECREATION, STUDYING, SPORTS
 }
@@ -16,7 +12,8 @@ enum TimeUnits{
 
 entity Event {
   eventName String required
-  eventDate LocalDate required
+  eventDate Instant required
+  eventEndDate Instant required
   howManyInstances Long min(1) required
   cycleLength Long min(1)
   cycleUnit TimeUnits
@@ -26,7 +23,8 @@ entity Event {
 
 entity PublicEvent {
   eventName String required
-  eventDate LocalDate required
+  eventDate Instant required
+  eventEndDate Instant required
   howManyInstances Long min(1) required
   cycleLength Long min(1)
   cycleUnit TimeUnits

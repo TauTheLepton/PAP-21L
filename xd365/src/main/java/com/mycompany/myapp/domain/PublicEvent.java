@@ -3,7 +3,7 @@ package com.mycompany.myapp.domain;
 import com.mycompany.myapp.domain.enumeration.Category;
 import com.mycompany.myapp.domain.enumeration.TimeUnits;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -30,7 +30,11 @@ public class PublicEvent implements Serializable {
 
     @NotNull
     @Column(name = "event_date", nullable = false)
-    private LocalDate eventDate;
+    private Instant eventDate;
+
+    @NotNull
+    @Column(name = "event_end_date", nullable = false)
+    private Instant eventEndDate;
 
     @NotNull
     @Min(value = 1L)
@@ -79,17 +83,30 @@ public class PublicEvent implements Serializable {
         this.eventName = eventName;
     }
 
-    public LocalDate getEventDate() {
+    public Instant getEventDate() {
         return this.eventDate;
     }
 
-    public PublicEvent eventDate(LocalDate eventDate) {
+    public PublicEvent eventDate(Instant eventDate) {
         this.eventDate = eventDate;
         return this;
     }
 
-    public void setEventDate(LocalDate eventDate) {
+    public void setEventDate(Instant eventDate) {
         this.eventDate = eventDate;
+    }
+
+    public Instant getEventEndDate() {
+        return this.eventEndDate;
+    }
+
+    public PublicEvent eventEndDate(Instant eventEndDate) {
+        this.eventEndDate = eventEndDate;
+        return this;
+    }
+
+    public void setEventEndDate(Instant eventEndDate) {
+        this.eventEndDate = eventEndDate;
     }
 
     public Long getHowManyInstances() {
@@ -183,6 +200,7 @@ public class PublicEvent implements Serializable {
             "id=" + getId() +
             ", eventName='" + getEventName() + "'" +
             ", eventDate='" + getEventDate() + "'" +
+            ", eventEndDate='" + getEventEndDate() + "'" +
             ", howManyInstances=" + getHowManyInstances() +
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +

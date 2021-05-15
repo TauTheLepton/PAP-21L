@@ -35,6 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.eventName">Event Name</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.eventDate">Event Date</span></th>
+          <th scope="col"><span jhiTranslate="xd365App.event.eventEndDate">Event End Date</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.howManyInstances">How Many Instances</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span></th>
@@ -49,7 +50,8 @@
             <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
           </td>
           <td>{{ event.eventName }}</td>
-          <td>{{ event.eventDate | formatMediumDate }}</td>
+          <td>{{ event.eventDate | formatMediumDatetime }}</td>
+          <td>{{ event.eventEndDate | formatMediumDatetime }}</td>
           <td>{{ event.howManyInstances }}</td>
           <td>{{ event.cycleLength }}</td>
           <td jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
