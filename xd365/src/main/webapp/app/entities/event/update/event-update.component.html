@@ -29,22 +29,16 @@
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="xd365App.event.eventDate" for="field_eventDate">Event Date</label>
-          <div class="input-group">
+          <div class="d-flex">
             <input
               id="field_eventDate"
               data-cy="eventDate"
-              type="text"
+              type="datetime-local"
               class="form-control"
               name="eventDate"
-              ngbDatepicker
-              #eventDateDp="ngbDatepicker"
               formControlName="eventDate"
+              placeholder="YYYY-MM-DD HH:mm"
             />
-            <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="eventDateDp.toggle()">
-                <fa-icon icon="calendar-alt"></fa-icon>
-              </button>
-            </span>
           </div>
           <div *ngIf="editForm.get('eventDate')!.invalid && (editForm.get('eventDate')!.dirty || editForm.get('eventDate')!.touched)">
             <small
@@ -53,6 +47,46 @@
               jhiTranslate="entity.validation.required"
             >
               This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('eventDate')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.event.eventEndDate" for="field_eventEndDate">Event End Date</label>
+          <div class="d-flex">
+            <input
+              id="field_eventEndDate"
+              data-cy="eventEndDate"
+              type="datetime-local"
+              class="form-control"
+              name="eventEndDate"
+              formControlName="eventEndDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="editForm.get('eventEndDate')!.invalid && (editForm.get('eventEndDate')!.dirty || editForm.get('eventEndDate')!.touched)"
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('eventEndDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('eventEndDate')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
             </small>
           </div>
         </div>
@@ -115,40 +149,40 @@
               <div
                 *ngIf="editForm.get('cycleLength')!.invalid && (editForm.get('cycleLength')!.dirty || editForm.get('cycleLength')!.touched)"
               >
-                <small
-                  class="form-text text-danger"
-                  *ngIf="editForm.get('cycleLength')?.errors?.min"
-                  jhiTranslate="entity.validation.min"
-                  [translateValues]="{ min: 1 }"
-                >
-                  This field should be at least 1.
-                </small>
-                <small
-                  class="form-text text-danger"
-                  [hidden]="!editForm.get('cycleLength')?.errors?.number"
-                  jhiTranslate="entity.validation.number"
-                >
-                  This field should be a number.
-                </small>
-              </div>
-            </div>
-          </div></ng-template
-        >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('cycleLength')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 1 }"
+            >
+              This field should be at least 1.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('cycleLength')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+      </div></ng-template
+      >
 
-        <ng-template [ngIf]="showCycleParams()"
+      <ng-template [ngIf]="showCycleParams()"
           ><div>
-            <div class="form-group">
-              <label class="form-control-label" jhiTranslate="xd365App.event.cycleUnit" for="field_cycleUnit">Cycle Unit</label>
-              <select class="form-control" name="cycleUnit" formControlName="cycleUnit" id="field_cycleUnit" data-cy="cycleUnit">
-                <option [ngValue]="null">{{ 'xd365App.TimeUnits.null' | translate }}</option>
-                <option value="DAYS">{{ 'xd365App.TimeUnits.DAYS' | translate }}</option>
-                <option value="WEEKS">{{ 'xd365App.TimeUnits.WEEKS' | translate }}</option>
-                <option value="MONTHS">{{ 'xd365App.TimeUnits.MONTHS' | translate }}</option>
-                <option value="YEARS">{{ 'xd365App.TimeUnits.YEARS' | translate }}</option>
-              </select>
-            </div>
-          </div></ng-template
-        >
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.event.cycleUnit" for="field_cycleUnit">Cycle Unit</label>
+          <select class="form-control" name="cycleUnit" formControlName="cycleUnit" id="field_cycleUnit" data-cy="cycleUnit">
+            <option [ngValue]="null">{{ 'xd365App.TimeUnits.null' | translate }}</option>
+            <option value="DAYS">{{ 'xd365App.TimeUnits.DAYS' | translate }}</option>
+            <option value="WEEKS">{{ 'xd365App.TimeUnits.WEEKS' | translate }}</option>
+            <option value="MONTHS">{{ 'xd365App.TimeUnits.MONTHS' | translate }}</option>
+            <option value="YEARS">{{ 'xd365App.TimeUnits.YEARS' | translate }}</option>
+          </select>
+        </div>
+      </div></ng-template
+      >
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="xd365App.event.category" for="field_category">Category</label>

@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IEvent, Event } from '../event.model';
 import { EventService } from '../service/event.service';
 
@@ -19,6 +22,7 @@ export class EventUpdateComponent implements OnInit {
     id: [],
     eventName: [null, [Validators.required]],
     eventDate: [null, [Validators.required]],
+    eventEndDate: [null, [Validators.required]],
     howManyInstances: [null, [Validators.required, Validators.min(1)]],
     cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
@@ -30,6 +34,12 @@ export class EventUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ event }) => {
+      if (event.id === undefined) {
+        const today = dayjs().startOf('day');
+        event.eventDate = today;
+        event.eventEndDate = today;
+      }
+
       this.updateForm(event);
     });
   }
@@ -79,7 +89,8 @@ export class EventUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: event.id,
       eventName: event.eventName,
-      eventDate: event.eventDate,
+      eventDate: event.eventDate ? event.eventDate.format(DATE_TIME_FORMAT) : null,
+      eventEndDate: event.eventEndDate ? event.eventEndDate.format(DATE_TIME_FORMAT) : null,
       howManyInstances: event.howManyInstances,
       cycleLength: event.cycleLength,
       cycleUnit: event.cycleUnit,
@@ -93,7 +104,10 @@ export class EventUpdateComponent implements OnInit {
       ...new Event(),
       id: this.editForm.get(['id'])!.value,
       eventName: this.editForm.get(['eventName'])!.value,
-      eventDate: this.editForm.get(['eventDate'])!.value,
+      eventDate: this.editForm.get(['eventDate'])!.value ? dayjs(this.editForm.get(['eventDate'])!.value, DATE_TIME_FORMAT) : undefined,
+      eventEndDate: this.editForm.get(['eventEndDate'])!.value
+        ? dayjs(this.editForm.get(['eventEndDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       howManyInstances: this.editForm.get(['howManyInstances'])!.value,
       cycleLength: this.editForm.get(['cycleLength'])!.value,
       cycleUnit: this.editForm.get(['cycleUnit'])!.value,

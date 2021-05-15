@@ -1,11 +1,11 @@
-id;event_name;event_date;how_many_instances;cycle_length;cycle_unit;category;userlogin
-1;Tuna integrated deposit;2021-04-06;36812;97725;MONTHS;SPORTS;payment THX SDD
-2;Fresh USB hack;2021-04-05;28742;45971;MONTHS;STUDYING;24/7 data-warehouse
-3;stable Chicken;2021-04-05;31595;22897;YEARS;SPORTS;Ball
-4;transmitting;2021-04-06;92842;76555;DAYS;SPORTS;maximize Metal
-5;quantify discrete Gorgeous;2021-04-05;92941;94532;WEEKS;SPORTS;withdrawal withdrawal
-6;Garden;2021-04-06;8998;12008;MONTHS;STUDYING;Montana Tuna
-7;lavender;2021-04-05;68368;78166;DAYS;RECREATION;Cotton Bike transform
-8;real-time Computer International;2021-04-06;45692;74473;DAYS;STUDYING;invoice
-9;facilitate;2021-04-05;48945;82900;DAYS;STUDYING;Direct
-10;Steel;2021-04-05;17106;54273;DAYS;RECREATION;Hill Prairie
+id;event_name;event_date;event_end_date;how_many_instances;cycle_length;cycle_unit;category;userlogin
+1;Tuna integrated deposit;2021-04-06T00:39:05;2021-04-06T02:23:29;97725;67475;YEARS;SPORTS;Missouri deposit
+2;Sao;2021-04-05T15:25:54;2021-04-05T20:14:19;86647;72936;WEEKS;SPORTS;Shoes
+3;Israel 24/7;2021-04-06T03:15:13;2021-04-06T04:52:07;61689;50333;WEEKS;SPORTS;Chicken Paradigm
+4;Corporate connecting up;2021-04-05T15:07:38;2021-04-05T23:33:15;26461;92842;YEARS;RECREATION;portals Ergonomic payment
+5;quantify discrete Gorgeous;2021-04-05T12:00:21;2021-04-05T12:55:14;94532;30651;YEARS;STUDYING;maximize Mills
+6;sexy;2021-04-06T09:04:01;2021-04-06T08:20:40;69804;48993;MONTHS;STUDYING;green Down-sized
+7;Nauru auxiliary Direct;2021-04-06T06:22:12;2021-04-06T07:17:03;23280;88640;WEEKS;RECREATION;PCI Cuban Fresh
+8;Table Kids;2021-04-05T20:03:00;2021-04-05T15:46:46;30824;32359;WEEKS;STUDYING;Account Organic Direct
+9;Steel;2021-04-05T23:27:28;2021-04-06T07:07:15;54273;1452;DAYS;STUDYING;interactive invoice
+10;Rubber;2021-04-06T10:31:53;2021-04-05T17:04:23;7238;42774;DAYS;RECREATION;Salad Georgia

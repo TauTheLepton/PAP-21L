@@ -56,7 +56,7 @@ export class PublicEventComponent implements OnInit {
       }
     });
   }
-
+  
   isAuthor(author: string, username: string): boolean {
     if (author === username) {
       return true;

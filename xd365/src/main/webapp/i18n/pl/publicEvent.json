@@ -20,6 +20,7 @@
       "id": "ID",
       "eventName": "Event Name",
       "eventDate": "Event Date",
+      "eventEndDate": "Event End Date",
       "howManyInstances": "How Many Instances",
       "cycleLength": "Cycle Length",
       "cycleUnit": "Cycle Unit",
