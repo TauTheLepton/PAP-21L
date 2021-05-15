@@ -131,12 +131,12 @@
     "emailexists": "Użytkownik z takim adresem email już istnieje!",
     "idexists": "Nowy {{entityName}} nie może jeszcze mieć przypisanego ID",
     "idnull": "Błędne ID",
-    "idinvalid": "Invalid Id",
-    "idnotfound": "ID cannot be found",
+    "idinvalid": "Błędne ID",
+    "idnotfound": "Nie znaleziono ID",
     "file": {
-      "could.not.extract": "Could not extract file",
-      "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
+      "could.not.extract": "Nie udało sie wydobyć zdjęcia",
+      "not.image": "Spodziewaliśmy się zdjęcia, a otrzymaliśmy \"{{ fileType }}\""
     }
   },
-  "footer": "To jest stopka"
+  "footer": "xd365 został stworzony przez Tymon Kobylecki, Mateusz Palczuk i Macper Karkowski"
 }
