@@ -2,9 +2,9 @@
   "xd365App": {
     "Category": {
       "null": "",
-      "RECREATION": "RECREATION",
-      "STUDYING": "STUDYING",
-      "SPORTS": "SPORTS"
+      "RECREATION": "REKREACJA",
+      "STUDYING": "NAUKA",
+      "SPORTS": "SPORTOWE"
     }
   }
 }
