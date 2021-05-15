@@ -51,10 +51,11 @@
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
       </button>
-
-      <button type="button" [routerLink]="['/public-event', publicEvent.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-      </button>
+      <ng-template *ngIf="account" [ngIf]="isAuthor(publicEvent.userlogin!, account.login)">
+        <button type="button" [routerLink]="['/public-event', publicEvent.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </ng-template>
     </div>
   </div>
 </div>
