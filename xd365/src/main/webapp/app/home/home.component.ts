@@ -1,5 +1,17 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
+import {
+  startOfDay,
+  endOfDay,
+  subDays,
+  addDays,
+  addWeeks,
+  addMonths,
+  addYears,
+  endOfMonth,
+  isSameDay,
+  isSameMonth,
+  addHours,
+} from 'date-fns';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,6 +30,8 @@ import { PublicEventService } from '../entities/public-event/service/public-even
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { RecursiveTemplateAstVisitor } from '@angular/compiler';
+import * as dayjs from 'dayjs';
 
 const colors: any = {
   red: {
@@ -184,6 +198,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   // proba z wlasnym czytaniem z bazy danych
   importEvents(): void {
     this.events = [];
+
+    // magia sciagnieta z `event.component.ts`
+
     // this.isLoading = true;
 
     this.eventService.query().subscribe(
@@ -196,26 +213,36 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
 
+    // test (to sie nie dodaje)
+    this.iEvents = [
+      {
+        id: 2138,
+        eventName: 'test1',
+        eventDate: dayjs(2021 - 5 - 16).hour(12),
+        eventEndDate: dayjs(2021 - 5 - 16).hour(16),
+        howManyInstances: 1,
+        userlogin: 'admin',
+      },
+    ];
+    // (a to sie dodaje)
+    this.events.push({
+      id: 2137,
+      start: new Date(),
+      end: addDays(new Date(), 1),
+      title: '2 day event test',
+      color: colors.red,
+    });
+
     // dodaje do eventow IEventy z bd
     let setColor = colors.blue;
     let length = this.iEvents.length;
-    // this.events.push({
-    //   start: startOfDay(new Date()),
-    //   title: 'An event with no end date',
-    //   color: colors.yellow,
-    //   actions: this.actions,
-    // })
     for (let i = 0; i < length; i++) {
       const event = this.iEvents[i];
-      const resp = this.getIEventsDates(event);
-      this.events.push({
-        id: event.id,
-        start: resp[0],
-        end: resp[1],
-        title: event.eventName!,
-        color: setColor,
-      });
+      this.loadEvents(event, setColor);
     }
+
+    // magia sciagnieta z `public-event.component.ts`
+
     // this.isLoading = true;
 
     this.publicEventService.query().subscribe(
@@ -233,14 +260,40 @@ export class HomeComponent implements OnInit, OnDestroy {
     length = this.iPublicEvents.length;
     for (let i = 0; i < length; i++) {
       const event = this.iPublicEvents[i];
-      const resp = this.getIEventsDates(event);
+      this.loadEvents(event, setColor);
+    }
+  }
+
+  // dodaje do pola events wszystkie powtórzenia jednego wydarzenia
+  loadEvents(event: IEvent | IPublicEvent, setColor: any): void {
+    let repeats = 1;
+    if (event.howManyInstances !== undefined) {
+      repeats = event.howManyInstances;
+    }
+    const resp = this.getIEventsDates(event);
+    let startEvent = resp[0];
+    let endEvent = resp[1];
+    for (let i = 0; i < repeats; i++) {
       this.events.push({
         id: event.id,
-        start: resp[0],
-        end: resp[1],
+        start: startEvent,
+        end: endEvent,
         title: event.eventName!,
         color: setColor,
       });
+      if (event.cycleUnit === 'DAYS') {
+        startEvent = addDays(startEvent, event.cycleLength!);
+        endEvent = addDays(endEvent, event.cycleLength!);
+      } else if (event.cycleUnit === 'WEEKS') {
+        startEvent = addWeeks(startEvent, event.cycleLength!);
+        endEvent = addWeeks(endEvent, event.cycleLength!);
+      } else if (event.cycleUnit === 'MONTHS') {
+        startEvent = addMonths(startEvent, event.cycleLength!);
+        endEvent = addMonths(endEvent, event.cycleLength!);
+      } else if (event.cycleUnit === 'YEARS') {
+        startEvent = addYears(startEvent, event.cycleLength!);
+        endEvent = addYears(endEvent, event.cycleLength!);
+      }
     }
   }
 
