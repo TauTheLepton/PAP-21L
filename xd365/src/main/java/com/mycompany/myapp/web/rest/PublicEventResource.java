@@ -136,6 +136,9 @@ public class PublicEventResource {
                     if (publicEvent.getEventDate() != null) {
                         existingPublicEvent.setEventDate(publicEvent.getEventDate());
                     }
+                    if (publicEvent.getEventEndDate() != null) {
+                        existingPublicEvent.setEventEndDate(publicEvent.getEventEndDate());
+                    }
                     if (publicEvent.getHowManyInstances() != null) {
                         existingPublicEvent.setHowManyInstances(publicEvent.getHowManyInstances());
                     }
@@ -196,7 +199,7 @@ public class PublicEventResource {
     @DeleteMapping("/public-events/{id}")
     public ResponseEntity<Void> deletePublicEvent(@PathVariable Long id) {
       Optional<PublicEvent> publicEvent = publicEventRepository.findById(id);
-      if (publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()) {
+      if (publicEventRepository.getCurrentLogin() != publicEvent.get().getUserlogin()) {
         throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
       }
       if(publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()){

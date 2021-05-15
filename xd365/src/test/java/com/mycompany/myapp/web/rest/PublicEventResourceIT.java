@@ -10,8 +10,8 @@ import com.mycompany.myapp.domain.PublicEvent;
 import com.mycompany.myapp.domain.enumeration.Category;
 import com.mycompany.myapp.domain.enumeration.TimeUnits;
 import com.mycompany.myapp.repository.PublicEventRepository;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -36,8 +36,11 @@ class PublicEventResourceIT {
     private static final String DEFAULT_EVENT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_EVENT_NAME = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_EVENT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_EVENT_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Instant DEFAULT_EVENT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_EVENT_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_EVENT_END_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_EVENT_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Long DEFAULT_HOW_MANY_INSTANCES = 1L;
     private static final Long UPDATED_HOW_MANY_INSTANCES = 2L;
@@ -81,6 +84,7 @@ class PublicEventResourceIT {
         PublicEvent publicEvent = new PublicEvent()
             .eventName(DEFAULT_EVENT_NAME)
             .eventDate(DEFAULT_EVENT_DATE)
+            .eventEndDate(DEFAULT_EVENT_END_DATE)
             .howManyInstances(DEFAULT_HOW_MANY_INSTANCES)
             .cycleLength(DEFAULT_CYCLE_LENGTH)
             .cycleUnit(DEFAULT_CYCLE_UNIT)
@@ -99,6 +103,7 @@ class PublicEventResourceIT {
         PublicEvent publicEvent = new PublicEvent()
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
+            .eventEndDate(UPDATED_EVENT_END_DATE)
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
@@ -127,6 +132,7 @@ class PublicEventResourceIT {
         PublicEvent testPublicEvent = publicEventList.get(publicEventList.size() - 1);
         assertThat(testPublicEvent.getEventName()).isEqualTo(DEFAULT_EVENT_NAME);
         assertThat(testPublicEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
+        assertThat(testPublicEvent.getEventEndDate()).isEqualTo(DEFAULT_EVENT_END_DATE);
         assertThat(testPublicEvent.getHowManyInstances()).isEqualTo(DEFAULT_HOW_MANY_INSTANCES);
         assertThat(testPublicEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testPublicEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
@@ -188,6 +194,23 @@ class PublicEventResourceIT {
 
     @Test
     @Transactional
+    void checkEventEndDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = publicEventRepository.findAll().size();
+        // set the field null
+        publicEvent.setEventEndDate(null);
+
+        // Create the PublicEvent, which fails.
+
+        restPublicEventMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(publicEvent)))
+            .andExpect(status().isBadRequest());
+
+        List<PublicEvent> publicEventList = publicEventRepository.findAll();
+        assertThat(publicEventList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void checkHowManyInstancesIsRequired() throws Exception {
         int databaseSizeBeforeTest = publicEventRepository.findAll().size();
         // set the field null
@@ -217,6 +240,7 @@ class PublicEventResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(publicEvent.getId().intValue())))
             .andExpect(jsonPath("$.[*].eventName").value(hasItem(DEFAULT_EVENT_NAME)))
             .andExpect(jsonPath("$.[*].eventDate").value(hasItem(DEFAULT_EVENT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].eventEndDate").value(hasItem(DEFAULT_EVENT_END_DATE.toString())))
             .andExpect(jsonPath("$.[*].howManyInstances").value(hasItem(DEFAULT_HOW_MANY_INSTANCES.intValue())))
             .andExpect(jsonPath("$.[*].cycleLength").value(hasItem(DEFAULT_CYCLE_LENGTH.intValue())))
             .andExpect(jsonPath("$.[*].cycleUnit").value(hasItem(DEFAULT_CYCLE_UNIT.toString())))
@@ -238,6 +262,7 @@ class PublicEventResourceIT {
             .andExpect(jsonPath("$.id").value(publicEvent.getId().intValue()))
             .andExpect(jsonPath("$.eventName").value(DEFAULT_EVENT_NAME))
             .andExpect(jsonPath("$.eventDate").value(DEFAULT_EVENT_DATE.toString()))
+            .andExpect(jsonPath("$.eventEndDate").value(DEFAULT_EVENT_END_DATE.toString()))
             .andExpect(jsonPath("$.howManyInstances").value(DEFAULT_HOW_MANY_INSTANCES.intValue()))
             .andExpect(jsonPath("$.cycleLength").value(DEFAULT_CYCLE_LENGTH.intValue()))
             .andExpect(jsonPath("$.cycleUnit").value(DEFAULT_CYCLE_UNIT.toString()))
@@ -267,6 +292,7 @@ class PublicEventResourceIT {
         updatedPublicEvent
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
+            .eventEndDate(UPDATED_EVENT_END_DATE)
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
@@ -287,6 +313,7 @@ class PublicEventResourceIT {
         PublicEvent testPublicEvent = publicEventList.get(publicEventList.size() - 1);
         assertThat(testPublicEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testPublicEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
+        assertThat(testPublicEvent.getEventEndDate()).isEqualTo(UPDATED_EVENT_END_DATE);
         assertThat(testPublicEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
         assertThat(testPublicEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testPublicEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
@@ -364,9 +391,9 @@ class PublicEventResourceIT {
 
         partialUpdatedPublicEvent
             .eventName(UPDATED_EVENT_NAME)
-            .cycleLength(UPDATED_CYCLE_LENGTH)
-            .category(UPDATED_CATEGORY)
-            .userlogin(UPDATED_USERLOGIN);
+            .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
+            .cycleUnit(UPDATED_CYCLE_UNIT)
+            .category(UPDATED_CATEGORY);
 
         restPublicEventMockMvc
             .perform(
@@ -382,11 +409,12 @@ class PublicEventResourceIT {
         PublicEvent testPublicEvent = publicEventList.get(publicEventList.size() - 1);
         assertThat(testPublicEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testPublicEvent.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
-        assertThat(testPublicEvent.getHowManyInstances()).isEqualTo(DEFAULT_HOW_MANY_INSTANCES);
-        assertThat(testPublicEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
-        assertThat(testPublicEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
+        assertThat(testPublicEvent.getEventEndDate()).isEqualTo(DEFAULT_EVENT_END_DATE);
+        assertThat(testPublicEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
+        assertThat(testPublicEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
+        assertThat(testPublicEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testPublicEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
-        assertThat(testPublicEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
+        assertThat(testPublicEvent.getUserlogin()).isEqualTo(DEFAULT_USERLOGIN);
     }
 
     @Test
@@ -404,6 +432,7 @@ class PublicEventResourceIT {
         partialUpdatedPublicEvent
             .eventName(UPDATED_EVENT_NAME)
             .eventDate(UPDATED_EVENT_DATE)
+            .eventEndDate(UPDATED_EVENT_END_DATE)
             .howManyInstances(UPDATED_HOW_MANY_INSTANCES)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
@@ -424,6 +453,7 @@ class PublicEventResourceIT {
         PublicEvent testPublicEvent = publicEventList.get(publicEventList.size() - 1);
         assertThat(testPublicEvent.getEventName()).isEqualTo(UPDATED_EVENT_NAME);
         assertThat(testPublicEvent.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
+        assertThat(testPublicEvent.getEventEndDate()).isEqualTo(UPDATED_EVENT_END_DATE);
         assertThat(testPublicEvent.getHowManyInstances()).isEqualTo(UPDATED_HOW_MANY_INSTANCES);
         assertThat(testPublicEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testPublicEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);

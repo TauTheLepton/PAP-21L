@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IPublicEvent, getPublicEventIdentifier } from '../public-event.model';
@@ -79,13 +78,15 @@ export class PublicEventService {
 
   protected convertDateFromClient(publicEvent: IPublicEvent): IPublicEvent {
     return Object.assign({}, publicEvent, {
-      eventDate: publicEvent.eventDate?.isValid() ? publicEvent.eventDate.format(DATE_FORMAT) : undefined,
+      eventDate: publicEvent.eventDate?.isValid() ? publicEvent.eventDate.toJSON() : undefined,
+      eventEndDate: publicEvent.eventEndDate?.isValid() ? publicEvent.eventEndDate.toJSON() : undefined,
     });
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.eventDate = res.body.eventDate ? dayjs(res.body.eventDate) : undefined;
+      res.body.eventEndDate = res.body.eventEndDate ? dayjs(res.body.eventEndDate) : undefined;
     }
     return res;
   }
@@ -94,6 +95,7 @@ export class PublicEventService {
     if (res.body) {
       res.body.forEach((publicEvent: IPublicEvent) => {
         publicEvent.eventDate = publicEvent.eventDate ? dayjs(publicEvent.eventDate) : undefined;
+        publicEvent.eventEndDate = publicEvent.eventEndDate ? dayjs(publicEvent.eventEndDate) : undefined;
       });
     }
     return res;
