@@ -2,30 +2,30 @@
   "xd365App": {
     "publicEvent": {
       "home": {
-        "title": "Public Event",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Dodaj Public Event",
-        "createOrEditLabel": "Dodaj lub edytuj: Public Event",
-        "notFound": "No Public Events found"
+        "title": "Wydarzenie publiczne",
+        "refreshListLabel": "Odśwież liste",
+        "createLabel": "Dodaj wydarzenie publiczne",
+        "createOrEditLabel": "Dodaj lub edytuj wydarzenie publiczne",
+        "notFound": "Nie znaleziono żadnych wydarzeń publicznych"
       },
-      "created": "Utworzono nowy obiekt typu Public Event z identyfikatorem {{ param }}",
-      "updated": "Uaktualniono obiekt typu Public Event z identyfikatorem {{ param }}",
-      "deleted": "Usunięto obiekt typu Public Event z identyfikatorem {{ param }}",
+      "created": "Utworzono nowe wydarzenie publiczne z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono wydarzenie publiczne z identyfikatorem {{ param }}",
+      "deleted": "Usunięto wydarzenie publiczne z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć Public Event {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć wydarzenie publiczne z identyfikatorem {{ id }}?"
       },
       "detail": {
-        "title": "Public Event"
+        "title": "Wydarzenie publiczne"
       },
       "id": "ID",
-      "eventName": "Event Name",
-      "eventDate": "Event Date",
-      "eventEndDate": "Event End Date",
-      "howManyInstances": "How Many Instances",
-      "cycleLength": "Cycle Length",
-      "cycleUnit": "Cycle Unit",
-      "category": "Category",
-      "userlogin": "Userlogin"
+      "eventName": "Nazwa",
+      "eventDate": "Data",
+      "eventEndDate": "Koniec",
+      "howManyInstances": "Powtórzenia",
+      "cycleLength": "Długość cyklu",
+      "cycleUnit": "Jednostka cyklu",
+      "category": "Kategoria",
+      "userlogin": "Autor"
     }
   }
 }
