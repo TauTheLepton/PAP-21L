@@ -11,6 +11,14 @@
       "homepage": "Important event",
       "homepage2": "Very important event",
       "gitlab": "xd365 repository on GitLab"
+    },
+    "button": {
+      "previous": "Previous",
+      "today": "Today",
+      "next": "Next",
+      "month": "Month",
+      "week": "Week",
+      "day": "Day"
     }
   }
 }

@@ -8,7 +8,7 @@
       "entities": {
         "main": "Wydarzenia",
         "event": "Wydarzenia",
-        "publicEvent": "Wydarzenia Publiczne",
+        "publicEvent": "Wydarzenia publiczne",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

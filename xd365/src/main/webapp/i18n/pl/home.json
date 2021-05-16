@@ -18,6 +18,14 @@
       "follow": "skontaktuj się z @jhipster na Twitterze"
     },
     "like": "Jeśli lubisz JHipster, nie zapomnij dać nam gwiazdki na",
-    "github": "GitHubie"
+    "github": "GitHubie",
+    "button": {
+      "previous": "Poprzedni",
+      "today": "Dzisiaj",
+      "next": "Następny",
+      "month": "Miesiąc",
+      "week": "Tydzień",
+      "day": "Dzień"
+    }
   }
 }
