@@ -16,8 +16,6 @@ import { Account } from 'app/core/auth/account.model';
   templateUrl: './public-event.component.html',
 })
 export class PublicEventComponent implements OnInit, OnDestroy {
-  // static staticPublicEvents?: IPublicEvent[];
-
   account: Account | null = null;
   publicEvents?: IPublicEvent[];
   authSubscription?: Subscription;
@@ -37,7 +35,6 @@ export class PublicEventComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
-    // PublicEventComponent.staticPublicEvents = this.publicEvents;
   }
 
   ngOnInit(): void {

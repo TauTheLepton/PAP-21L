@@ -11,8 +11,6 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { HomeComponent } from './home.component';
-// import { EventModule } from 'app/entities/event/event.module';
-// import { PublicEventModule } from 'app/entities/public-event/public-event.module';
 
 @NgModule({
   imports: [
@@ -25,8 +23,6 @@ import { HomeComponent } from './home.component';
       useFactory: adapterFactory,
     }),
     RouterModule.forChild([HOME_ROUTE]),
-    // EventModule,
-    // PublicEventModule,
   ],
   declarations: [HomeComponent],
 })
