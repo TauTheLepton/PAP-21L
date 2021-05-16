@@ -1,13 +1,17 @@
 {
   "home": {
-    "title": "Witamy, Java Hipsterze!",
-    "subtitle": "To jest twoja strona domowa",
+    "title": "Witamy w xd365!",
+    "subtitle": "Jedyny kalendarz, jakiego będziesz kiedykolwiek potrzebować",
     "logged": {
       "message": "Jesteś zalogowany jako użytkownik \"{{username}}\"."
     },
+    "refreshCalendarLabel": "Odświerz kalendarz",
+    "events": "Dzisiejsze wydarzenia",
     "question": "Jeśli masz jakiekolwiek pytania na temat JHipster:",
     "link": {
       "homepage": "Strona domowa JHipster",
+      "homepage2": "Kliknij, jeżli podoba Ci się to co teraz widzisz!",
+      "gitlab": "Repozytorium xd365 na GitLabie",
       "stackoverflow": "JHipster na Stack Overflow",
       "bugtracker": "JHipster bug tracker",
       "chat": "Publiczny chat room JHipster",

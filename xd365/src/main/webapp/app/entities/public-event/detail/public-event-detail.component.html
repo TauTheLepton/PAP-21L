@@ -30,16 +30,16 @@
         <dd>
           <span>{{ publicEvent.howManyInstances }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.publicEvent.cycleLength">Cycle Length</span></dt>
-        <dd>
+        <dt *ngIf="publicEvent.howManyInstances! > 1"><span jhiTranslate="xd365App.publicEvent.cycleLength">Cycle Length</span></dt>
+        <dd *ngIf="publicEvent.howManyInstances! > 1">
           <span>{{ publicEvent.cycleLength }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.publicEvent.cycleUnit">Cycle Unit</span></dt>
-        <dd>
+        <dt *ngIf="publicEvent.howManyInstances! > 1"><span jhiTranslate="xd365App.publicEvent.cycleUnit">Cycle Unit</span></dt>
+        <dd *ngIf="publicEvent.howManyInstances! > 1">
           <span jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">{{ publicEvent.cycleUnit }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.publicEvent.category">Category</span></dt>
-        <dd>
+        <dt *ngIf="publicEvent.category != null"><span jhiTranslate="xd365App.publicEvent.category">Category</span></dt>
+        <dd *ngIf="publicEvent.category != null">
           <span jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">{{ publicEvent.category }}</span>
         </dd>
         <dt><span jhiTranslate="xd365App.publicEvent.userlogin">Userlogin</span></dt>
@@ -51,10 +51,11 @@
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
       </button>
-
-      <button type="button" [routerLink]="['/public-event', publicEvent.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-      </button>
+      <ng-template *ngIf="account" [ngIf]="isAuthor(publicEvent.userlogin!, account.login)">
+        <button type="button" [routerLink]="['/public-event', publicEvent.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+        </button>
+      </ng-template>
     </div>
   </div>
 </div>

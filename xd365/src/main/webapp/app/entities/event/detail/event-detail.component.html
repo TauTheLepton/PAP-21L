@@ -30,22 +30,22 @@
         <dd>
           <span>{{ event.howManyInstances }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span></dt>
-        <dd>
+        <dt *ngIf="event.howManyInstances! > 1"><span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span></dt>
+        <dd *ngIf="event.howManyInstances! > 1">
           <span>{{ event.cycleLength }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span></dt>
-        <dd>
+        <dt *ngIf="event.howManyInstances! > 1"><span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span></dt>
+        <dd *ngIf="event.howManyInstances! > 1">
           <span jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.event.category">Category</span></dt>
-        <dd>
+        <dt *ngIf="event.category != null"><span jhiTranslate="xd365App.event.category">Category</span></dt>
+        <dd *ngIf="event.category != null">
           <span jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.event.userlogin">Userlogin</span></dt>
+        <!-- <dt><span jhiTranslate="xd365App.event.userlogin">Userlogin</span></dt>
         <dd>
           <span>{{ event.userlogin }}</span>
-        </dd>
+        </dd> -->
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

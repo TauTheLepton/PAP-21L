@@ -2,30 +2,30 @@
   "xd365App": {
     "event": {
       "home": {
-        "title": "Event",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Dodaj Event",
-        "createOrEditLabel": "Dodaj lub edytuj: Event",
-        "notFound": "No Events found"
+        "title": "Wydarzenie",
+        "refreshListLabel": "Odśwież liste",
+        "createLabel": "Dodaj wydarzenie",
+        "createOrEditLabel": "Dodaj lub edytuj wydarzenie",
+        "notFound": "Nie znaleziono wydarzeń"
       },
-      "created": "Utworzono nowy obiekt typu Event z identyfikatorem {{ param }}",
-      "updated": "Uaktualniono obiekt typu Event z identyfikatorem {{ param }}",
-      "deleted": "Usunięto obiekt typu Event z identyfikatorem {{ param }}",
+      "created": "Utworzono nowe wydarzenie z identyfikatorem {{ param }}",
+      "updated": "Uaktualniono wydarzenie z identyfikatorem {{ param }}",
+      "deleted": "Usunięto wydarzenie z identyfikatorem {{ param }}",
       "delete": {
-        "question": "Czy na pewno chcesz usunąć Event {{ id }}?"
+        "question": "Czy na pewno chcesz usunąć wydarzenie z identyfikatorem {{ id }}?"
       },
       "detail": {
-        "title": "Event"
+        "title": "Wydarzenie"
       },
       "id": "ID",
-      "eventName": "Event Name",
-      "eventDate": "Event Date",
-      "eventEndDate": "Event End Date",
-      "howManyInstances": "How Many Instances",
-      "cycleLength": "Cycle Length",
-      "cycleUnit": "Cycle Unit",
-      "category": "Category",
-      "userlogin": "Userlogin"
+      "eventName": "Nazwa",
+      "eventDate": "Data",
+      "eventEndDate": "Koniec",
+      "howManyInstances": "Powtórzenia",
+      "cycleLength": "Długość cyklu",
+      "cycleUnit": "Jednostka cyklu",
+      "category": "Kategoria",
+      "userlogin": "Autor"
     }
   }
 }

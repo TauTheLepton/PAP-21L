@@ -2,8 +2,8 @@
   "xd365App": {
     "YesNo": {
       "null": "",
-      "YES": "YES",
-      "NO": "NO"
+      "YES": "TAK",
+      "NO": "NIE"
     }
   }
 }
