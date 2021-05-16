@@ -22,11 +22,12 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, Cal
 // import { EventModule } from 'app/entities/event/event.module';
 // import { PublicEventModule } from 'app/entities/public-event/public-event.module';
 import { HttpResponse } from '@angular/common/http';
-import { IEvent } from '../entities/event/event.model';
+import { IEvent, Event } from '../entities/event/event.model';
 import { EventService } from '../entities/event/service/event.service';
 
 import { IPublicEvent } from '../entities/public-event/public-event.model';
 import { PublicEventService } from '../entities/public-event/service/public-event.service';
+import { TimeUnits } from '../entities/enumerations/time-units.model';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
@@ -95,6 +96,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   iEvents: IEvent[] = [];
   iPublicEvents: IPublicEvent[] = [];
   events: CalendarEvent[] = [];
+  isLoading = false;
   //   {
   //     start: subDays(startOfDay(new Date()), 1),
   //     end: addDays(new Date(), 1),
@@ -201,34 +203,38 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // magia sciagnieta z `event.component.ts`
 
-    // this.isLoading = true;
+    this.isLoading = true;
 
     this.eventService.query().subscribe(
       (res: HttpResponse<IEvent[]>) => {
-        // this.isLoading = false;
+        this.isLoading = false;
         this.iEvents = res.body ?? [];
       },
       () => {
-        // this.isLoading = false;
+        this.isLoading = false;
       }
     );
 
-    // test (to sie nie dodaje)
-    this.iEvents = [
-      {
-        id: 2138,
-        eventName: 'test1',
-        eventDate: dayjs(2021 - 5 - 16).hour(12),
-        eventEndDate: dayjs(2021 - 5 - 16).hour(16),
-        howManyInstances: 1,
-        userlogin: 'admin',
-      },
-    ];
-    // (a to sie dodaje)
+    // // test (to sie nie dodaje) (jak to jest odkomentowane to to nizej sie nie dodaje)
+    // const nowDayjs = new dayjs.Dayjs(); // CZEMU JAK TO ODKOMENTUJE TO NIE DZIALA NAGLE TO NIZEJ
+    // this.iEvents.push({
+    //   id: 2138,
+    //   eventName: 'test1',
+    //   eventDate: nowDayjs,
+    //   eventEndDate: nowDayjs,
+    //   howManyInstances: 1,
+    //   cycleLength: null,
+    //   cycleUnit: null,
+    //   category: null,
+    //   userlogin: 'admin',
+    // });
+
+    // (a to sie dodaje) (teraz już też nie)
+    const now = new Date();
     this.events.push({
-      id: 2137,
-      start: new Date(),
-      end: addDays(new Date(), 1),
+      // id: 2137,
+      start: now,
+      end: addDays(now, 1),
       title: '2 day event test',
       color: colors.red,
     });
@@ -243,15 +249,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     // magia sciagnieta z `public-event.component.ts`
 
-    // this.isLoading = true;
+    this.isLoading = true;
 
     this.publicEventService.query().subscribe(
       (res: HttpResponse<IPublicEvent[]>) => {
-        // this.isLoading = false;
+        this.isLoading = false;
         this.iPublicEvents = res.body ?? [];
       },
       () => {
-        // this.isLoading = false;
+        this.isLoading = false;
       }
     );
 
@@ -267,53 +273,67 @@ export class HomeComponent implements OnInit, OnDestroy {
   // dodaje do pola events wszystkie powtórzenia jednego wydarzenia
   loadEvents(event: IEvent | IPublicEvent, setColor: any): void {
     let repeats = 1;
-    if (event.howManyInstances !== undefined) {
+    if (event.howManyInstances != null) {
       repeats = event.howManyInstances;
     }
     const resp = this.getIEventsDates(event);
     let startEvent = resp[0];
     let endEvent = resp[1];
     for (let i = 0; i < repeats; i++) {
+      let eventTitle = event.eventName;
+      if (eventTitle == null) {
+        eventTitle = 'Event with no title';
+      }
       this.events.push({
         id: event.id,
         start: startEvent,
         end: endEvent,
-        title: event.eventName!,
+        title: eventTitle,
         color: setColor,
       });
-      if (event.cycleUnit === 'DAYS') {
-        startEvent = addDays(startEvent, event.cycleLength!);
-        endEvent = addDays(endEvent, event.cycleLength!);
-      } else if (event.cycleUnit === 'WEEKS') {
-        startEvent = addWeeks(startEvent, event.cycleLength!);
-        endEvent = addWeeks(endEvent, event.cycleLength!);
-      } else if (event.cycleUnit === 'MONTHS') {
-        startEvent = addMonths(startEvent, event.cycleLength!);
-        endEvent = addMonths(endEvent, event.cycleLength!);
-      } else if (event.cycleUnit === 'YEARS') {
-        startEvent = addYears(startEvent, event.cycleLength!);
-        endEvent = addYears(endEvent, event.cycleLength!);
+      // typeof length !== 'undefined' &&
+      let length = event.cycleLength;
+      if (length == null) {
+        length = 1; // zabezpieczenie
+      }
+      if (event.cycleUnit === TimeUnits.DAYS) {
+        startEvent = addDays(startEvent, length);
+        endEvent = addDays(endEvent, length);
+      } else if (event.cycleUnit === TimeUnits.WEEKS) {
+        startEvent = addWeeks(startEvent, length);
+        endEvent = addWeeks(endEvent, length);
+      } else if (event.cycleUnit === TimeUnits.MONTHS) {
+        startEvent = addMonths(startEvent, length);
+        endEvent = addMonths(endEvent, length);
+      } else if (event.cycleUnit === TimeUnits.YEARS) {
+        startEvent = addYears(startEvent, length);
+        endEvent = addYears(endEvent, length);
       }
     }
   }
 
   // zamienia typ IEvent i IPublicEvent na dwie daty, poczatkowa i koncowa
   getIEventsDates(event: IEvent | IPublicEvent): Date[] {
-    let response = [new Date(), new Date()];
-    if (event.eventDate !== undefined && event.eventEndDate !== undefined) {
-      const startDateYear = Number(event.eventDate.format('YYYY'));
-      const startDateMonth = Number(event.eventDate.format('M'));
-      const startDateDay = Number(event.eventDate.format('D'));
-      const startDateHour = Number(event.eventDate.format('H'));
-      const startDateMinute = Number(event.eventDate.format('m'));
-      const endDateYear = Number(event.eventEndDate.format('YYYY'));
-      const endDateMonth = Number(event.eventEndDate.format('M'));
-      const endDateDay = Number(event.eventEndDate.format('D'));
-      const endDateHour = Number(event.eventEndDate.format('H'));
-      const endDateMinute = Number(event.eventEndDate.format('m'));
-      const resp1 = new Date(startDateYear, startDateMonth, startDateDay, startDateHour, startDateMinute, 0, 0);
-      const resp2 = new Date(endDateYear, endDateMonth, endDateDay, endDateHour, endDateMinute, 0, 0);
-      response = [resp1, resp2];
+    const response = [new Date(), new Date()];
+    if (event.eventDate != null) {
+      // const startDateYear = Number(event.eventDate!.format('YYYY'));
+      // const startDateMonth = Number(event.eventDate!.format('M'));
+      // const startDateDay = Number(event.eventDate!.format('D'));
+      // const startDateHour = Number(event.eventDate!.format('H'));
+      // const startDateMinute = Number(event.eventDate!.format('m'));
+      // const endDateYear = Number(event.eventEndDate!.format('YYYY'));
+      // const endDateMonth = Number(event.eventEndDate!.format('M'));
+      // const endDateDay = Number(event.eventEndDate!.format('D'));
+      // const endDateHour = Number(event.eventEndDate!.format('H'));
+      // const endDateMinute = Number(event.eventEndDate!.format('m'));
+      // const resp1 = new Date(startDateYear, startDateMonth, startDateDay, startDateHour, startDateMinute, 0, 0);
+      // const resp2 = new Date(endDateYear, endDateMonth, endDateDay, endDateHour, endDateMinute, 0, 0);
+      response[0] = event.eventDate.toDate();
+      // response[0] = resp1;
+    }
+    if (event.eventEndDate != null) {
+      response[1] = event.eventEndDate.toDate();
+      // response[1] = resp2;
     }
     return response;
   }
