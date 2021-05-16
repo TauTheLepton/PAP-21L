@@ -5,6 +5,7 @@
     "logged": {
       "message": "You are logged in as user \"{{username}}\"."
     },
+    "refreshCalendarLabel": "Refresh Calendar",
     "events": "Today's events",
     "link": {
       "homepage": "Important event",

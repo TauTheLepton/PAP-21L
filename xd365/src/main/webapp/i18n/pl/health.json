@@ -11,15 +11,15 @@
       "error": "Błąd"
     },
     "indicator": {
-      "discoveryComposite": "Discovery Composite",
+      "discoveryComposite": "Kompozyt odkrywania",
       "refreshScope": "Obszar aktualizacji mikroserwisów",
       "clientConfigServer": "Serwer konfiguracyjny mikroserwisów",
       "hystrix": "Hystrix",
       "diskSpace": "Przestrzeń dyskowa",
       "mail": "Email",
-      "livenessState": "Liveness state",
-      "readinessState": "Readiness state",
-      "ping": "Application",
+      "livenessState": "Stan życia",
+      "readinessState": "Stan gotowości",
+      "ping": "Aplikacja",
       "db": "Baza danych"
     },
     "table": {
