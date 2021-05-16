@@ -52,9 +52,12 @@
           <td>{{ event.eventDate | formatMediumDatetime }}</td>
           <td>{{ event.eventEndDate | formatMediumDatetime }}</td>
           <td>{{ event.howManyInstances }}</td>
-          <td>{{ event.cycleLength }}</td>
-          <td jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
-          <td jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
+          <td *ngIf="event.howManyInstances! > 1">{{ event.cycleLength }}</td>
+          <td *ngIf="event.howManyInstances == 1">-</td>
+          <td *ngIf="event.howManyInstances! > 1" jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
+          <td *ngIf="event.howManyInstances == 1">-</td>
+          <td *ngIf="event.category != null" jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
+          <td *ngIf="event.category == null">-</td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

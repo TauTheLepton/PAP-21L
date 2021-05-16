@@ -53,9 +53,16 @@
           <td>{{ publicEvent.eventDate | formatMediumDatetime }}</td>
           <td>{{ publicEvent.eventEndDate | formatMediumDatetime }}</td>
           <td>{{ publicEvent.howManyInstances }}</td>
-          <td>{{ publicEvent.cycleLength }}</td>
-          <td jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">{{ publicEvent.cycleUnit }}</td>
-          <td jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">{{ publicEvent.category }}</td>
+          <td *ngIf="publicEvent.howManyInstances! > 1">{{ publicEvent.cycleLength }}</td>
+          <td *ngIf="publicEvent.howManyInstances == 1">-</td>
+          <td *ngIf="publicEvent.howManyInstances! > 1" jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">
+            {{ publicEvent.cycleUnit }}
+          </td>
+          <td *ngIf="publicEvent.howManyInstances == 1">-</td>
+          <td *ngIf="publicEvent.category != null" jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">
+            {{ publicEvent.category }}
+          </td>
+          <td *ngIf="publicEvent.category == null">-</td>
           <td>{{ publicEvent.userlogin }}</td>
           <td class="text-right">
             <div class="btn-group">
