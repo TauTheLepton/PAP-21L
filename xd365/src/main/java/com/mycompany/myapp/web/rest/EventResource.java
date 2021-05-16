@@ -57,7 +57,10 @@ public class EventResource {
         }
         if (event.getEventEndDate().compareTo(event.getEventDate()) <= 0) {
           throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
-      }
+        }
+        if ((event.getHowManyInstances() > 1 && event.getCycleLength() == null) || (event.getHowManyInstances() > 1 && event.getCycleUnit() == null)){
+          throw new BadRequestAlertException("Cycle parameters required", ENTITY_NAME, "cycleparamsinvalid");
+        }
         event.setUserlogin(eventRepository.getCurrentLogin());
         Event result = eventRepository.save(event);
         return ResponseEntity
@@ -130,7 +133,7 @@ public class EventResource {
         }
         if (event.getEventEndDate().compareTo(event.getEventDate()) <= 0) {
           throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
-      }
+        }
 
         Optional<Event> result = eventRepository
             .findById(event.getId())
