@@ -245,8 +245,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         color: setColor,
       });
       let length = event.cycleLength;
+      // zabezpieczenie jak ktoś nie poda jednostki cyklu
       if (length == null) {
-        length = 1; // zabezpieczenie
+        length = 1;
       }
       if (event.cycleUnit === TimeUnits.DAYS) {
         startEvent = addDays(startEvent, length);
@@ -260,6 +261,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       } else if (event.cycleUnit === TimeUnits.YEARS) {
         startEvent = addYears(startEvent, length);
         endEvent = addYears(endEvent, length);
+      } else {
+        // zabezpieczenie jak ktoś nie poda długości cyklu
+        startEvent = addDays(startEvent, length);
+        endEvent = addDays(endEvent, length);
       }
     }
   }
