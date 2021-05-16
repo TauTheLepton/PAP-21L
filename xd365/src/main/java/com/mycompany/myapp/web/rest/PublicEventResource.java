@@ -56,6 +56,9 @@ public class PublicEventResource {
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
           throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
       }
+      if ((publicEvent.getHowManyInstances() > 1 && publicEvent.getCycleLength() == null) || (publicEvent.getHowManyInstances() > 1 && publicEvent.getCycleUnit() == null)){
+        throw new BadRequestAlertException("Cycle parameters required", ENTITY_NAME, "cycleparamsinvalid");
+      }
         publicEvent.setUserlogin(publicEventRepository.getCurrentLogin());
         PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
@@ -93,9 +96,11 @@ public class PublicEventResource {
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
           throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
       }
-
-        if (publicEventRepository.getCurrentLogin() != publicEvent.getUserlogin()) {
-          throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
+        if (!publicEventRepository.getCurrentLogin().equals(publicEvent.getUserlogin())) {
+          log.debug(publicEventRepository.getCurrentLogin());
+          log.debug(publicEvent.getUserlogin());
+          log.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+          throw new BadRequestAlertException("Incorrect user" + publicEventRepository.getCurrentLogin() + publicEvent.getUserlogin(), ENTITY_NAME, "userinvalid" + publicEventRepository.getCurrentLogin() + publicEvent.getUserlogin()); 
         }
         PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
@@ -208,16 +213,17 @@ public class PublicEventResource {
     @DeleteMapping("/public-events/{id}")
     public ResponseEntity<Void> deletePublicEvent(@PathVariable Long id) {
       Optional<PublicEvent> publicEvent = publicEventRepository.findById(id);
-      if (publicEventRepository.getCurrentLogin() != publicEvent.get().getUserlogin()) {
+      if (!publicEventRepository.getCurrentLogin().equals(publicEvent.get().getUserlogin())) {
         throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
       }
-      if(publicEventRepository.getCurrentLogin() == publicEvent.get().getUserlogin()){
-        log.debug("REST request to delete PublicEvent : {}", id);
-        publicEventRepository.deleteById(id);
-      }
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
-            .build();
+      log.debug(publicEventRepository.getCurrentLogin());
+      log.debug(publicEvent.get().getUserlogin());
+      log.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+      log.debug("REST request to delete PublicEvent : {}", id);
+      publicEventRepository.deleteById(id);
+      return ResponseEntity
+          .noContent()
+          .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+          .build();
     }
 }
