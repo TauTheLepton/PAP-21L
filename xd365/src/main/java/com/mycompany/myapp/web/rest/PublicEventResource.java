@@ -3,6 +3,7 @@ package com.mycompany.myapp.web.rest;
 import com.mycompany.myapp.domain.PublicEvent;
 import com.mycompany.myapp.repository.PublicEventRepository;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+import com.mycompany.myapp.web.rest.errors.CustomParameterizedException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -54,10 +55,10 @@ public class PublicEventResource {
             throw new BadRequestAlertException("A new publicEvent cannot already have an ID", ENTITY_NAME, "idexists");
         }
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
-          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+          throw new CustomParameterizedException("End date cannot be earlier than start date");
       }
       if ((publicEvent.getHowManyInstances() > 1 && publicEvent.getCycleLength() == null) || (publicEvent.getHowManyInstances() > 1 && publicEvent.getCycleUnit() == null)){
-        throw new BadRequestAlertException("Cycle parameters required", ENTITY_NAME, "cycleparamsinvalid");
+        throw new CustomParameterizedException("Cycle parameters required");
       }
         publicEvent.setUserlogin(publicEventRepository.getCurrentLogin());
         PublicEvent result = publicEventRepository.save(publicEvent);
@@ -94,13 +95,10 @@ public class PublicEventResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
-          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+          throw new CustomParameterizedException("End date cannot be earlier than start date");
       }
         if (!publicEventRepository.getCurrentLogin().equals(publicEvent.getUserlogin())) {
-          log.debug(publicEventRepository.getCurrentLogin());
-          log.debug(publicEvent.getUserlogin());
-          log.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-          throw new BadRequestAlertException("Incorrect user" + publicEventRepository.getCurrentLogin() + publicEvent.getUserlogin(), ENTITY_NAME, "userinvalid" + publicEventRepository.getCurrentLogin() + publicEvent.getUserlogin()); 
+          throw new CustomParameterizedException("Unauthorised user");
         }
         PublicEvent result = publicEventRepository.save(publicEvent);
         return ResponseEntity
@@ -133,7 +131,7 @@ public class PublicEventResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
-          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+          throw new CustomParameterizedException("End date cannot be earlier than start date");
       }
 
         if (!publicEventRepository.existsById(id)) {
@@ -214,11 +212,8 @@ public class PublicEventResource {
     public ResponseEntity<Void> deletePublicEvent(@PathVariable Long id) {
       Optional<PublicEvent> publicEvent = publicEventRepository.findById(id);
       if (!publicEventRepository.getCurrentLogin().equals(publicEvent.get().getUserlogin())) {
-        throw new BadRequestAlertException("Incorrect user", ENTITY_NAME, "userinvalid");
+        throw new CustomParameterizedException("Unauthorised");
       }
-      log.debug(publicEventRepository.getCurrentLogin());
-      log.debug(publicEvent.get().getUserlogin());
-      log.debug("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       log.debug("REST request to delete PublicEvent : {}", id);
       publicEventRepository.deleteById(id);
       return ResponseEntity

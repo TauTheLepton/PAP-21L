@@ -4,6 +4,7 @@ import com.mycompany.myapp.domain.Event;
 import com.mycompany.myapp.repository.EventRepository;
 import com.mycompany.myapp.security.SecurityUtils;
 import com.mycompany.myapp.web.rest.errors.BadRequestAlertException;
+import com.mycompany.myapp.web.rest.errors.CustomParameterizedException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,10 +57,10 @@ public class EventResource {
             throw new BadRequestAlertException("A new event cannot already have an ID", ENTITY_NAME, "idexists");
         }
         if (event.getEventEndDate().compareTo(event.getEventDate()) <= 0) {
-          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+          throw new CustomParameterizedException("End date cannot be earlier than start date");
         }
         if ((event.getHowManyInstances() > 1 && event.getCycleLength() == null) || (event.getHowManyInstances() > 1 && event.getCycleUnit() == null)){
-          throw new BadRequestAlertException("Cycle parameters required", ENTITY_NAME, "cycleparamsinvalid");
+          throw new CustomParameterizedException("Cycle parameters required");
         }
         event.setUserlogin(eventRepository.getCurrentLogin());
         Event result = eventRepository.save(event);
@@ -90,7 +91,7 @@ public class EventResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
         if (event.getEventEndDate().compareTo(event.getEventDate()) <= 0) {
-          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+          throw new CustomParameterizedException("End date cannot be earlier than start date");
       }
 
         if (!eventRepository.existsById(id)) {
@@ -132,7 +133,7 @@ public class EventResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
         if (event.getEventEndDate().compareTo(event.getEventDate()) <= 0) {
-          throw new BadRequestAlertException("End date earlier than start date", ENTITY_NAME, "enddateinvalid");
+          throw new CustomParameterizedException("End date cannot be earlier than start date");
         }
 
         Optional<Event> result = eventRepository
