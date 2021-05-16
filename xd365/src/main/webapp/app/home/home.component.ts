@@ -3,10 +3,14 @@ import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMo
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+
+import { IPublicEvent } from '../entities/public-event/public-event.model';
+import { PublicEventService } from '../entities/public-event/service/public-event.service';
+import { HttpResponse } from '@angular/common/http';
 
 const colors: any = {
   red: {
@@ -33,6 +37,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
 
+  publicEventList!: IPublicEvent[];
+  isLoading = false;
+
   @ViewChild('modalContent', { static: true })
   modalContent!: TemplateRef<any>;
 
@@ -47,33 +54,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
-
   refresh: Subject<any> = new Subject();
 
-  events: CalendarEvent[] = [
-    {
+  events: CalendarEvent[] = [];
+  /*{
       start: subDays(startOfDay(new Date()), 1),
       end: addDays(new Date(), 1),
       title: 'A 3 day event',
       color: colors.red,
-      actions: this.actions,
       allDay: true,
       resizable: {
         beforeStart: true,
@@ -86,7 +74,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       start: startOfDay(new Date()),
       title: 'An event with no end date',
       color: colors.yellow,
-      actions: this.actions,
       id: '1002',
     },
     {
@@ -102,7 +89,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       end: addHours(new Date(), 2),
       title: 'A draggable and resizable event',
       color: colors.yellow,
-      actions: this.actions,
       resizable: {
         beforeStart: true,
         afterEnd: true,
@@ -110,11 +96,40 @@ export class HomeComponent implements OnInit, OnDestroy {
       draggable: true,
       id: '1004',
     },
-  ];
+  ];*/
 
   activeDayIsOpen!: boolean;
 
-  constructor(private modal: NgbModal, private accountService: AccountService, private router: Router) {}
+  constructor(
+    private modal: NgbModal,
+    private accountService: AccountService,
+    private router: Router,
+    protected eventService: PublicEventService
+  ) {}
+
+  loadPublicEvents(): void {
+    this.isLoading = true;
+
+    this.eventService.query().subscribe(
+      (res: HttpResponse<IPublicEvent[]>) => {
+        this.isLoading = false;
+        this.publicEventList = res.body ?? [];
+      },
+      () => {
+        this.isLoading = false;
+      }
+    );
+  }
+
+  transferEvents(): boolean {
+    this.events = [];
+    for (const e of this.publicEventList) {
+      const id = e.id!;
+      const name = e.eventName!;
+      this.addEvent('public-event/' + id.toString(), name);
+    }
+    return true;
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -144,24 +159,24 @@ export class HomeComponent implements OnInit, OnDestroy {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     // alert('clicked the ' + event.id.toString() +'!');
-    // this.router.navigate(['/public-event/' + event.id.toString() + '/view']);
+    this.router.navigate(['/' + event.id.toString() + '/view']);
     // this.modal.open(this.modalContent, { size: 'lg' });
   }
 
-  addEvent(): void {
+  addEvent(eID: string, name: string): void {
     this.events = [
       ...this.events,
       {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
+        title: name,
+        start: subDays(startOfDay(new Date()), 1),
+        end: addDays(new Date(), 1),
         color: colors.red,
         draggable: true,
         resizable: {
           beforeStart: true,
           afterEnd: true,
         },
-        id: '1001',
+        id: eID,
       },
     ];
   }
@@ -183,6 +198,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!this.isAuthenticated()) {
       this.router.navigate(['/login']);
     }
+    this.loadPublicEvents();
   }
 
   isAuthenticated(): boolean {
