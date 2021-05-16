@@ -2,7 +2,7 @@
   "xd365App": {
     "event": {
       "home": {
-        "title": "Wydarzenie",
+        "title": "Wydarzenia",
         "refreshListLabel": "Odśwież liste",
         "createLabel": "Dodaj wydarzenie",
         "createOrEditLabel": "Dodaj lub edytuj wydarzenie",
