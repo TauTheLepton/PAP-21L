@@ -15,9 +15,6 @@
         >
       </div>
     </div>
-    <!-- <button class="btn btn-info mr-2" (click)="importEvents()">
-      <span jhiTranslate="home.refreshCalendarLabel">Refresh Calendar</span>
-    </button> -->
   </div>
 </div>
 <ng-template [ngIf]="importEvents()"> </ng-template>
@@ -77,6 +74,28 @@
   >
   </mwl-calendar-day-view>
 </div>
+
+<br />
+
+<button
+  id="jh-create-entity"
+  data-cy="entityCreateButton"
+  class="btn btn-primary jh-create-entity create-event"
+  [routerLink]="['/event/new']"
+>
+  <fa-icon icon="plus"></fa-icon>
+  <span jhiTranslate="xd365App.event.home.createLabel"> Create a new Event </span>
+</button>
+<button
+  id="jh-create-entity"
+  data-cy="entityCreateButton"
+  class="btn btn-primary jh-create-entity create-public-event"
+  [routerLink]="['/public-event/new']"
+>
+  <fa-icon icon="plus"></fa-icon>
+  <span jhiTranslate="xd365App.publicEvent.home.createLabel"> Create a new Public Event </span>
+</button>
+
 <ng-template #modalContent let-close="close">
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>
