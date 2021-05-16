@@ -15,12 +15,12 @@
         >
       </div>
     </div>
-    <button class="btn btn-info mr-2" (click)="importEvents()">
-      <!-- <fa-icon icon="sync" [spin]="isLoading"></fa-icon> -->
+    <!-- <button class="btn btn-info mr-2" (click)="importEvents()">
       <span jhiTranslate="home.refreshCalendarLabel">Refresh Calendar</span>
-    </button>
+    </button> -->
   </div>
 </div>
+<ng-template [ngIf]="importEvents()"> </ng-template>
 
 <div class="row text-center">
   <div class="col-md-4">

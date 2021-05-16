@@ -93,49 +93,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   refresh: Subject<any> = new Subject();
 
-  iEvents: IEvent[] = [];
-  iPublicEvents: IPublicEvent[] = [];
+  // // ten kod jest zly, nie wiem czemu takie deklarowanie listy nie działało, ale siedzialem nad tym pie....... 2 dni i nic nie wykminiłem
+  // // chciałbym ten komentarz zadedykować użytkownikowi KACPER MARKOWSKI za swoje zasługi i zrobienie tego dobrze, z całego serca DZIĘKUJĘ!
+  // iEvents: IEvent[] = [];
+  // iPublicEvents: IPublicEvent[] = [];
+
+  iEvents!: IEvent[];
+  iPublicEvents!: IPublicEvent[];
   events: CalendarEvent[] = [];
   isLoading = false;
-  //   {
-  //     start: subDays(startOfDay(new Date()), 1),
-  //     end: addDays(new Date(), 1),
-  //     title: 'A 3 day event',
-  //     color: colors.red,
-  //     actions: this.actions,
-  //     allDay: true,
-  //     resizable: {
-  //       beforeStart: true,
-  //       afterEnd: true,
-  //     },
-  //     draggable: true,
-  //   },
-  //   {
-  //     start: startOfDay(new Date()),
-  //     title: 'An event with no end date',
-  //     color: colors.yellow,
-  //     actions: this.actions,
-  //   },
-  //   {
-  //     start: subDays(endOfMonth(new Date()), 3),
-  //     end: addDays(endOfMonth(new Date()), 3),
-  //     title: 'A long event that spans 2 months',
-  //     color: colors.blue,
-  //     allDay: true,
-  //   },
-  //   {
-  //     start: addHours(startOfDay(new Date()), 2),
-  //     end: addHours(new Date(), 2),
-  //     title: 'A draggable and resizable event',
-  //     color: colors.yellow,
-  //     actions: this.actions,
-  //     resizable: {
-  //       beforeStart: true,
-  //       afterEnd: true,
-  //     },
-  //     draggable: true,
-  //   },
-  // ];
 
   activeDayIsOpen!: boolean;
 
@@ -197,14 +163,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  // proba z wlasnym czytaniem z bazy danych
-  importEvents(): void {
+  // importuje eventy z bazy danych i ustawia wszystkie w liście `events`
+  // wywołuje się w htmlu
+  importEvents(): boolean {
     this.events = [];
 
     // magia sciagnieta z `event.component.ts`
-
     this.isLoading = true;
-
     this.eventService.query().subscribe(
       (res: HttpResponse<IEvent[]>) => {
         this.isLoading = false;
@@ -215,42 +180,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
 
-    // // test (to sie nie dodaje) (jak to jest odkomentowane to to nizej sie nie dodaje)
-    // const nowDayjs = new dayjs.Dayjs(); // CZEMU JAK TO ODKOMENTUJE TO NIE DZIALA NAGLE TO NIZEJ
-    // this.iEvents.push({
-    //   id: 2138,
-    //   eventName: 'test1',
-    //   eventDate: nowDayjs,
-    //   eventEndDate: nowDayjs,
-    //   howManyInstances: 1,
-    //   cycleLength: null,
-    //   cycleUnit: null,
-    //   category: null,
-    //   userlogin: 'admin',
-    // });
-
-    // (a to sie dodaje) (teraz już też nie)
-    const now = new Date();
-    this.events.push({
-      // id: 2137,
-      start: now,
-      end: addDays(now, 1),
-      title: '2 day event test',
-      color: colors.red,
-    });
-
     // dodaje do eventow IEventy z bd
     let setColor = colors.blue;
     let length = this.iEvents.length;
     for (let i = 0; i < length; i++) {
       const event = this.iEvents[i];
-      this.loadEvents(event, setColor);
+      const link = 'event/' + event.id!.toString();
+      this.loadEvents(event, setColor, link);
     }
 
     // magia sciagnieta z `public-event.component.ts`
-
     this.isLoading = true;
-
     this.publicEventService.query().subscribe(
       (res: HttpResponse<IPublicEvent[]>) => {
         this.isLoading = false;
@@ -266,12 +206,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     length = this.iPublicEvents.length;
     for (let i = 0; i < length; i++) {
       const event = this.iPublicEvents[i];
-      this.loadEvents(event, setColor);
+      const link = 'public-event/' + event.id!.toString();
+      this.loadEvents(event, setColor, link);
     }
+    return true;
   }
 
   // dodaje do pola events wszystkie powtórzenia jednego wydarzenia
-  loadEvents(event: IEvent | IPublicEvent, setColor: any): void {
+  loadEvents(event: IEvent | IPublicEvent, setColor: any, link: string): void {
     let repeats = 1;
     if (event.howManyInstances != null) {
       repeats = event.howManyInstances;
@@ -284,14 +226,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (eventTitle == null) {
         eventTitle = 'Event with no title';
       }
+      // // oba sa poprawne afaik
+      // this.events = [
+      //   ...this.events,
+      //   {
+      //     title: eventTitle,
+      //     start: startEvent,
+      //     end: endEvent,
+      //     color: setColor,
+      //     id: link,
+      //   },
+      // ];
       this.events.push({
-        id: event.id,
+        id: link,
         start: startEvent,
         end: endEvent,
         title: eventTitle,
         color: setColor,
       });
-      // typeof length !== 'undefined' &&
       let length = event.cycleLength;
       if (length == null) {
         length = 1; // zabezpieczenie
@@ -316,24 +268,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   getIEventsDates(event: IEvent | IPublicEvent): Date[] {
     const response = [new Date(), new Date()];
     if (event.eventDate != null) {
-      // const startDateYear = Number(event.eventDate!.format('YYYY'));
-      // const startDateMonth = Number(event.eventDate!.format('M'));
-      // const startDateDay = Number(event.eventDate!.format('D'));
-      // const startDateHour = Number(event.eventDate!.format('H'));
-      // const startDateMinute = Number(event.eventDate!.format('m'));
-      // const endDateYear = Number(event.eventEndDate!.format('YYYY'));
-      // const endDateMonth = Number(event.eventEndDate!.format('M'));
-      // const endDateDay = Number(event.eventEndDate!.format('D'));
-      // const endDateHour = Number(event.eventEndDate!.format('H'));
-      // const endDateMinute = Number(event.eventEndDate!.format('m'));
-      // const resp1 = new Date(startDateYear, startDateMonth, startDateDay, startDateHour, startDateMinute, 0, 0);
-      // const resp2 = new Date(endDateYear, endDateMonth, endDateDay, endDateHour, endDateMinute, 0, 0);
       response[0] = event.eventDate.toDate();
-      // response[0] = resp1;
     }
     if (event.eventEndDate != null) {
       response[1] = event.eventEndDate.toDate();
-      // response[1] = resp2;
     }
     return response;
   }
@@ -365,6 +303,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
+    this.router.navigate(['/' + event.id!.toString() + '/view']);
     // alert('clicked the ' + event.id.toString() +'!');
     // this.router.navigate(['/public-event/' + event.id.toString() + '/view']);
     // this.modal.open(this.modalContent, { size: 'lg' });
@@ -405,8 +344,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!this.isAuthenticated()) {
       this.router.navigate(['/login']);
     }
-    // odkomentowac to potem zeby sie ladowalo chyba
-    this.importEvents();
   }
 
   isAuthenticated(): boolean {
