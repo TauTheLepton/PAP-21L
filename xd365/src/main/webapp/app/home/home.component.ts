@@ -82,6 +82,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     protected publicEventService: PublicEventService
   ) {}
 
+  // metoda uzywana przez guzik do ukrywania/pokazywania public-eventów
   togglePublicEventsView(): void {
     if (this.showPublicEvents === true) {
       this.showPublicEvents = false;
@@ -90,6 +91,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  // metoda służąca do ukrywania listy dzisiejszych eventów
   isTodayEventsEmpty(): boolean {
     if (this.todayEvents.length === 0) {
       return true;
@@ -98,6 +100,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  // zwraca string godziny z podanej daty
+  // używane w liście dzisiejszych eventów w metodzie todayEventsGetHours()
   getEventTimeToString(date: Date): string {
     let hours;
     let minutes;
@@ -114,6 +118,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     return hours + ':' + minutes;
   }
 
+  // ustawia odpowiednie godziny i statusy dla danego eventa
+  // używane dla listy dzisiejszych eventów w htmlu
   todayEventsGetHours(event: CalendarEvent): boolean {
     this.hours = '';
     this.listHoursStatus = 0;
@@ -246,6 +252,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  // zapisuje event o podanych parametrach do podanej listy
   loadEvent(list: CalendarEvent[], link: string, startEvent: Date, endEvent: Date, eventTitle: string, setColor: any): void {
     list.push({
       id: link,
