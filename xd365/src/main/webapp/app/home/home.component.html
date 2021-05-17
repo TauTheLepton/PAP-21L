@@ -1,3 +1,4 @@
+<ng-template [ngIf]="importEvents()"> </ng-template>
 <div class="row">
   <div class="col-md-3">
     <span class="hipster img-fluid rounded"></span>
@@ -15,9 +16,16 @@
         >
       </div>
     </div>
+
+    <p jhiTranslate="home.events" *ngIf="!isTodayEventsEmpty()">Today's events</p>
+
+    <ul>
+      <div *ngFor="let event of todayEvents">
+        <li>{{ event.title }}</li>
+      </div>
+    </ul>
   </div>
 </div>
-<ng-template [ngIf]="importEvents()"> </ng-template>
 
 <div class="row text-center">
   <div class="col-md-4">

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { addDays, addWeeks, addMonths, addYears, isSameDay, isSameMonth } from 'date-fns';
+import { addDays, addWeeks, addMonths, addYears, isSameDay, isSameMonth, isBefore, isAfter } from 'date-fns';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -66,6 +66,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   iEvents!: IEvent[];
   iPublicEvents!: IPublicEvent[];
   events: CalendarEvent[] = [];
+  todayEvents: CalendarEvent[] = [];
   isLoading = false;
   showPublicEvents = true;
 
@@ -87,10 +88,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  isTodayEventsEmpty(): boolean {
+    if (this.todayEvents.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   // importuje eventy z bazy danych i ustawia wszystkie w liście `events`
   // wywołuje się w htmlu
   importEvents(): boolean {
     this.events = [];
+    this.todayEvents = [];
 
     // pobieranie eventów z BD
     this.isLoading = true;
@@ -138,7 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  // dodaje do pola events wszystkie powtórzenia jednego wydarzenia
+  // dodaje do pola events i todayEvents wszystkie powtórzenia jednego wydarzenia
   loadEvents(event: IEvent | IPublicEvent, setColor: any, link: string): void {
     let repeats = 1;
     if (event.howManyInstances != null) {
@@ -152,13 +162,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (eventTitle == null) {
         eventTitle = 'Event with no title';
       }
-      this.events.push({
-        id: link,
-        start: startEvent,
-        end: endEvent,
-        title: eventTitle,
-        color: setColor,
-      });
+      this.loadEvent(this.events, link, startEvent, endEvent, eventTitle, setColor);
+      const today = new Date();
+      if (isSameDay(startEvent, today) || isSameDay(endEvent, today) || (isBefore(startEvent, today) && isAfter(endEvent, today))) {
+        this.loadEvent(this.todayEvents, link, startEvent, endEvent, eventTitle, setColor);
+      }
       let length = event.cycleLength;
       // zabezpieczenie jak ktoś nie poda jednostki cyklu
       if (length == null) {
@@ -182,6 +190,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         endEvent = addDays(endEvent, length);
       }
     }
+  }
+
+  loadEvent(list: CalendarEvent[], link: string, startEvent: Date, endEvent: Date, eventTitle: string, setColor: any): void {
+    list.push({
+      id: link,
+      start: startEvent,
+      end: endEvent,
+      title: eventTitle,
+      color: setColor,
+    });
   }
 
   // zamienia typ IEvent i IPublicEvent na dwie daty, poczatkowa i koncowa
