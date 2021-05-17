@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   isNavbarCollapsed = true;
   languages = LANGUAGES;
   openAPIEnabled?: boolean;
-  version = '';
+  version = 'v0.21.37';
 
   constructor(
     private loginService: LoginService,
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
     private router: Router
   ) {
     if (VERSION) {
-      this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION;
+      // this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION;
     }
   }
 
