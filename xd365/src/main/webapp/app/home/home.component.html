@@ -21,8 +21,23 @@
 
     <ul>
       <div *ngFor="let event of todayEvents">
+        <ng-template [ngIf]="todayEventsGetHours(event)"> </ng-template>
         <li>
-          <a [routerLink]="['/' + event.id + '/view']">{{ event.title }}</a>
+          <a *ngIf="listHoursStatus == 0" [routerLink]="['/' + event.id + '/view']">
+            <span>{{ event.title }}:</span>
+            <span jhiTranslate="home.listHoursStatus.0"> Whole day</span>
+          </a>
+          <a *ngIf="listHoursStatus == 2" [routerLink]="['/' + event.id + '/view']">
+            <span>{{ event.title }}:</span>
+            <span jhiTranslate="home.listHoursStatus.2"> From </span>
+            <span>{{ hours }}</span>
+          </a>
+          <a *ngIf="listHoursStatus == 3" [routerLink]="['/' + event.id + '/view']">
+            <span>{{ event.title }}:</span>
+            <span jhiTranslate="home.listHoursStatus.3"> To </span>
+            <span>{{ hours }}</span>
+          </a>
+          <a *ngIf="listHoursStatus == 1" [routerLink]="['/' + event.id + '/view']">{{ event.title }}: {{ hours }}</a>
         </li>
       </div>
     </ul>

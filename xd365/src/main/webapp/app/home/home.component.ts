@@ -69,6 +69,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   todayEvents: CalendarEvent[] = [];
   isLoading = false;
   showPublicEvents = true;
+  hours = '';
+  listHoursStatus = 0;
 
   activeDayIsOpen!: boolean;
 
@@ -94,6 +96,39 @@ export class HomeComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  getEventTimeToString(date: Date): string {
+    let hours;
+    let minutes;
+    if (date.getHours() < 10) {
+      hours = '0' + date.getHours().toString();
+    } else {
+      hours = date.getHours().toString();
+    }
+    if (date.getMinutes() < 10) {
+      minutes = '0' + date.getMinutes().toString();
+    } else {
+      minutes = date.getMinutes().toString();
+    }
+    return hours + ':' + minutes;
+  }
+
+  todayEventsGetHours(event: CalendarEvent): boolean {
+    this.hours = '';
+    this.listHoursStatus = 0;
+    const today = new Date();
+    if (isSameDay(event.start, today) && isSameDay(event.end!, today)) {
+      this.hours = this.getEventTimeToString(event.start) + ' - ' + this.getEventTimeToString(event.end!);
+      this.listHoursStatus = 1;
+    } else if (isSameDay(event.start, today) && !isSameDay(event.end!, today)) {
+      this.hours = this.getEventTimeToString(event.start);
+      this.listHoursStatus = 2;
+    } else if (!isSameDay(event.start, today) && isSameDay(event.end!, today)) {
+      this.hours = this.getEventTimeToString(event.end!);
+      this.listHoursStatus = 3;
+    }
+    return true;
   }
 
   // importuje eventy z bazy danych i ustawia wszystkie w liście `events`
