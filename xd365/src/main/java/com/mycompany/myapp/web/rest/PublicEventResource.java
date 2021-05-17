@@ -55,7 +55,7 @@ public class PublicEventResource {
             throw new BadRequestAlertException("A new publicEvent cannot already have an ID", ENTITY_NAME, "idexists");
         }
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
-          throw new CustomParameterizedException("End date cannot be earlier than start date");
+          throw new CustomParameterizedException("End date cannot be earlier or equal to start date");
       }
       if ((publicEvent.getHowManyInstances() > 1 && publicEvent.getCycleLength() == null) || (publicEvent.getHowManyInstances() > 1 && publicEvent.getCycleUnit() == null)){
         throw new CustomParameterizedException("Cycle parameters required");
@@ -95,7 +95,7 @@ public class PublicEventResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
-          throw new CustomParameterizedException("End date cannot be earlier than start date");
+          throw new CustomParameterizedException("End date cannot be earlier or equal to start date");
       }
         if (!publicEventRepository.getCurrentLogin().equals(publicEvent.getUserlogin())) {
           throw new CustomParameterizedException("Unauthorised user");
@@ -131,7 +131,7 @@ public class PublicEventResource {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
         if (publicEvent.getEventEndDate().compareTo(publicEvent.getEventDate()) <= 0) {
-          throw new CustomParameterizedException("End date cannot be earlier than start date");
+          throw new CustomParameterizedException("End date cannot be earlier or equal to than start date");
       }
 
         if (!publicEventRepository.existsById(id)) {
