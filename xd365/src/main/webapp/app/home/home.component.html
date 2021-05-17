@@ -131,6 +131,11 @@
   <span jhiTranslate="xd365App.publicEvent.home.createLabel"> Create a new Public Event </span>
 </button>
 
+<button id="showPublicEvents" class="btn btn-primary jh-create-entity create-public-event" (click)="togglePublicEventsView()">
+  <span jhiTranslate="home.publicEventView.show" *ngIf="!showPublicEvents"> Show public events </span>
+  <span jhiTranslate="home.publicEventView.hide" *ngIf="showPublicEvents"> Hide public events </span>
+</button>
+
 <ng-template #modalContent let-close="close">
   <div class="modal-header">
     <h5 class="modal-title">Event action occurred</h5>

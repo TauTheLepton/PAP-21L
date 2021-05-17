@@ -26,6 +26,10 @@
       "month": "Miesiąc",
       "week": "Tydzień",
       "day": "Dzień"
+    },
+    "publicEventView": {
+      "show": "Pokaż wydarzenia publiczne",
+      "hide": "Ukryj wydarzenia publiczne"
     }
   }
 }
