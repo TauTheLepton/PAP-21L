@@ -155,39 +155,58 @@ export class HomeComponent implements OnInit, OnDestroy {
       repeats = event.howManyInstances;
     }
     const resp = this.getIEventsDates(event);
+    const originalStartEvent = resp[0];
     let startEvent = resp[0];
+    const originalEndEvent = resp[1];
     let endEvent = resp[1];
     for (let i = 0; i < repeats; i++) {
       let eventTitle = event.eventName;
       if (eventTitle == null) {
         eventTitle = 'Event with no title';
       }
-      this.loadEvent(this.events, link, startEvent, endEvent, eventTitle, setColor);
-      const today = new Date();
-      if (isSameDay(startEvent, today) || isSameDay(endEvent, today) || (isBefore(startEvent, today) && isAfter(endEvent, today))) {
-        this.loadEvent(this.todayEvents, link, startEvent, endEvent, eventTitle, setColor);
-      }
       let length = event.cycleLength;
       // zabezpieczenie jak ktoś nie poda jednostki cyklu
       if (length == null) {
         length = 1;
       }
+      length = length * i;
+      let load = true;
       if (event.cycleUnit === TimeUnits.DAYS) {
-        startEvent = addDays(startEvent, length);
-        endEvent = addDays(endEvent, length);
+        startEvent = addDays(originalStartEvent, length);
+        endEvent = addDays(originalEndEvent, length);
       } else if (event.cycleUnit === TimeUnits.WEEKS) {
-        startEvent = addWeeks(startEvent, length);
-        endEvent = addWeeks(endEvent, length);
+        startEvent = addWeeks(originalStartEvent, length);
+        endEvent = addWeeks(originalEndEvent, length);
       } else if (event.cycleUnit === TimeUnits.MONTHS) {
-        startEvent = addMonths(startEvent, length);
-        endEvent = addMonths(endEvent, length);
+        startEvent = addMonths(originalStartEvent, length);
+        endEvent = addMonths(originalEndEvent, length);
+        // upewnienie się, że to ten sam dzień
+        if (startEvent.getDate() !== originalStartEvent.getDate() || endEvent.getDate() !== originalEndEvent.getDate()) {
+          load = false;
+        }
       } else if (event.cycleUnit === TimeUnits.YEARS) {
-        startEvent = addYears(startEvent, length);
-        endEvent = addYears(endEvent, length);
+        startEvent = addYears(originalStartEvent, length);
+        endEvent = addYears(originalEndEvent, length);
+        // upewnienie się, że to ten sam dzień i miesiąc
+        if (
+          startEvent.getDate() !== originalStartEvent.getDate() ||
+          endEvent.getDate() !== originalEndEvent.getDate() ||
+          startEvent.getMonth() !== originalStartEvent.getMonth() ||
+          endEvent.getMonth() !== originalEndEvent.getMonth()
+        ) {
+          load = false;
+        }
       } else {
         // zabezpieczenie jak ktoś nie poda długości cyklu
-        startEvent = addDays(startEvent, length);
-        endEvent = addDays(endEvent, length);
+        startEvent = addDays(originalStartEvent, length);
+        endEvent = addDays(originalEndEvent, length);
+      }
+      if (load) {
+        this.loadEvent(this.events, link, startEvent, endEvent, eventTitle, setColor);
+        const today = new Date();
+        if (isSameDay(startEvent, today) || isSameDay(endEvent, today) || (isBefore(startEvent, today) && isAfter(endEvent, today))) {
+          this.loadEvent(this.todayEvents, link, startEvent, endEvent, eventTitle, setColor);
+        }
       }
     }
   }
