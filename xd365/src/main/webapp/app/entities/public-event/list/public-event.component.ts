@@ -6,6 +6,8 @@ import { IPublicEvent } from '../public-event.model';
 import { PublicEventService } from '../service/public-event.service';
 import { PublicEventDeleteDialogComponent } from '../delete/public-event-delete-dialog.component';
 
+import { FormBuilder } from '@angular/forms';
+
 import { Subscription } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
@@ -16,14 +18,26 @@ import { Account } from 'app/core/auth/account.model';
   templateUrl: './public-event.component.html',
 })
 export class PublicEventComponent implements OnInit, OnDestroy {
+  searchName!: string;
+
   account: Account | null = null;
   publicEvents?: IPublicEvent[];
   authSubscription?: Subscription;
   isLoading = false;
 
-  constructor(protected publicEventService: PublicEventService, protected modalService: NgbModal, private accountService: AccountService) {}
+  editForm = this.fb.group({
+    searchName: [],
+  });
+
+  constructor(
+    protected publicEventService: PublicEventService,
+    protected modalService: NgbModal,
+    private accountService: AccountService,
+    protected fb: FormBuilder
+  ) {}
 
   loadAll(): void {
+    this.updateSearchFilter();
     this.isLoading = true;
 
     this.publicEventService.query().subscribe(
@@ -35,6 +49,26 @@ export class PublicEventComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
+  }
+
+  searchFilter(name: string): boolean {
+    if (this.searchName === '') {
+      return true;
+    } else {
+      if (name.toLowerCase().includes(this.searchName.toLowerCase())) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  updateSearchFilter(): void {
+    if (this.editForm.get(['searchName'])!.value == null) {
+      this.searchName = '';
+    } else {
+      this.searchName = this.editForm.get(['searchName'])!.value;
+    }
   }
 
   ngOnInit(): void {
