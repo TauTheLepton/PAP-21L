@@ -30,16 +30,16 @@
         <dd>
           <span>{{ publicEvent.howManyInstances }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.publicEvent.cycleLength">Cycle Length</span></dt>
-        <dd>
+        <dt *ngIf="publicEvent.howManyInstances! > 1"><span jhiTranslate="xd365App.publicEvent.cycleLength">Cycle Length</span></dt>
+        <dd *ngIf="publicEvent.howManyInstances! > 1">
           <span>{{ publicEvent.cycleLength }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.publicEvent.cycleUnit">Cycle Unit</span></dt>
-        <dd>
+        <dt *ngIf="publicEvent.howManyInstances! > 1"><span jhiTranslate="xd365App.publicEvent.cycleUnit">Cycle Unit</span></dt>
+        <dd *ngIf="publicEvent.howManyInstances! > 1">
           <span jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">{{ publicEvent.cycleUnit }}</span>
         </dd>
-        <dt><span jhiTranslate="xd365App.publicEvent.category">Category</span></dt>
-        <dd>
+        <dt *ngIf="publicEvent.category != null"><span jhiTranslate="xd365App.publicEvent.category">Category</span></dt>
+        <dd *ngIf="publicEvent.category != null">
           <span jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">{{ publicEvent.category }}</span>
         </dd>
         <dt><span jhiTranslate="xd365App.publicEvent.userlogin">Userlogin</span></dt>

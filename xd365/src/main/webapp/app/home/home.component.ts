@@ -67,6 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   iPublicEvents!: IPublicEvent[];
   events: CalendarEvent[] = [];
   isLoading = false;
+  showPublicEvents = true;
 
   activeDayIsOpen!: boolean;
 
@@ -77,6 +78,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected publicEventService: PublicEventService
   ) {}
+
+  togglePublicEventsView(): void {
+    if (this.showPublicEvents === true) {
+      this.showPublicEvents = false;
+    } else {
+      this.showPublicEvents = true;
+    }
+  }
+
   // importuje eventy z bazy danych i ustawia wszystkie w liście `events`
   // wywołuje się w htmlu
   importEvents(): boolean {
@@ -103,25 +113,27 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loadEvents(event, setColor, link);
     }
 
-    // pobieranie public-eventów z BD
-    this.isLoading = true;
-    this.publicEventService.query().subscribe(
-      (res: HttpResponse<IPublicEvent[]>) => {
-        this.isLoading = false;
-        this.iPublicEvents = res.body ?? [];
-      },
-      () => {
-        this.isLoading = false;
-      }
-    );
+    if (this.showPublicEvents) {
+      // pobieranie public-eventów z BD
+      this.isLoading = true;
+      this.publicEventService.query().subscribe(
+        (res: HttpResponse<IPublicEvent[]>) => {
+          this.isLoading = false;
+          this.iPublicEvents = res.body ?? [];
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
 
-    // dodaje do eventow IPublicEventy z bd
-    setColor = colors.yellow;
-    length = this.iPublicEvents.length;
-    for (let i = 0; i < length; i++) {
-      const event = this.iPublicEvents[i];
-      const link = 'public-event/' + event.id!.toString();
-      this.loadEvents(event, setColor, link);
+      // dodaje do eventow IPublicEventy z bd
+      setColor = colors.yellow;
+      length = this.iPublicEvents.length;
+      for (let i = 0; i < length; i++) {
+        const event = this.iPublicEvents[i];
+        const link = 'public-event/' + event.id!.toString();
+        this.loadEvents(event, setColor, link);
+      }
     }
     return true;
   }

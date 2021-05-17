@@ -6,9 +6,9 @@
       "home": "Home",
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
-        "main": "Entities",
-        "event": "Event",
-        "publicEvent": "Public Event",
+        "main": "Events",
+        "event": "Events",
+        "publicEvent": "Public Events",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
