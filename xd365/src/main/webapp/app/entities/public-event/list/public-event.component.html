@@ -3,6 +3,22 @@
     <span jhiTranslate="xd365App.publicEvent.home.title">Public Events</span>
 
     <div class="d-flex justify-content-end">
+      <form name="editForm" role="form" novalidate (ngSubmit)="updateSearchFilter()" [formGroup]="editForm">
+        <div class="form-group">
+          <div class="d-flex">
+            <input
+              id="field_searchName"
+              data-cy="searchName"
+              type="string"
+              class="form-control"
+              name="searchName"
+              formControlName="searchName"
+              placeholder="Search..."
+            />
+          </div>
+        </div>
+      </form>
+
       <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="xd365App.publicEvent.home.refreshListLabel">Refresh List</span>
@@ -46,53 +62,55 @@
       </thead>
       <tbody>
         <tr *ngFor="let publicEvent of publicEvents; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/public-event', publicEvent.id, 'view']">{{ publicEvent.id }}</a>
-          </td>
-          <td>{{ publicEvent.eventName }}</td>
-          <td>{{ publicEvent.eventDate | formatMediumDatetime }}</td>
-          <td>{{ publicEvent.eventEndDate | formatMediumDatetime }}</td>
-          <td>{{ publicEvent.howManyInstances }}</td>
-          <td *ngIf="publicEvent.howManyInstances! > 1">{{ publicEvent.cycleLength }}</td>
-          <td *ngIf="publicEvent.howManyInstances == 1">-</td>
-          <td *ngIf="publicEvent.howManyInstances! > 1" jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">
-            {{ publicEvent.cycleUnit }}
-          </td>
-          <td *ngIf="publicEvent.howManyInstances == 1">-</td>
-          <td *ngIf="publicEvent.category != null" jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">
-            {{ publicEvent.category }}
-          </td>
-          <td *ngIf="publicEvent.category == null">-</td>
-          <td>{{ publicEvent.userlogin }}</td>
-          <td class="text-right">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/public-event', publicEvent.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
-              <ng-template *ngIf="account" [ngIf]="isAuthor(publicEvent.userlogin!, account.login)">
+          <ng-template [ngIf]="searchFilter(publicEvent.eventName!)">
+            <td>
+              <a [routerLink]="['/public-event', publicEvent.id, 'view']">{{ publicEvent.id }}</a>
+            </td>
+            <td>{{ publicEvent.eventName }}</td>
+            <td>{{ publicEvent.eventDate | formatMediumDatetime }}</td>
+            <td>{{ publicEvent.eventEndDate | formatMediumDatetime }}</td>
+            <td>{{ publicEvent.howManyInstances }}</td>
+            <td *ngIf="publicEvent.howManyInstances! > 1">{{ publicEvent.cycleLength }}</td>
+            <td *ngIf="publicEvent.howManyInstances == 1">-</td>
+            <td *ngIf="publicEvent.howManyInstances! > 1" jhiTranslate="{{ 'xd365App.TimeUnits.' + publicEvent.cycleUnit }}">
+              {{ publicEvent.cycleUnit }}
+            </td>
+            <td *ngIf="publicEvent.howManyInstances == 1">-</td>
+            <td *ngIf="publicEvent.category != null" jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">
+              {{ publicEvent.category }}
+            </td>
+            <td *ngIf="publicEvent.category == null">-</td>
+            <td>{{ publicEvent.userlogin }}</td>
+            <td class="text-right">
+              <div class="btn-group">
                 <button
                   type="submit"
-                  [routerLink]="['/public-event', publicEvent.id, 'edit']"
-                  class="btn btn-primary btn-sm"
-                  data-cy="entityEditButton"
+                  [routerLink]="['/public-event', publicEvent.id, 'view']"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
                 >
-                  <fa-icon icon="pencil-alt"></fa-icon>
-                  <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  <fa-icon icon="eye"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
                 </button>
+                <ng-template *ngIf="account" [ngIf]="isAuthor(publicEvent.userlogin!, account.login)">
+                  <button
+                    type="submit"
+                    [routerLink]="['/public-event', publicEvent.id, 'edit']"
+                    class="btn btn-primary btn-sm"
+                    data-cy="entityEditButton"
+                  >
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                  </button>
 
-                <button type="submit" (click)="delete(publicEvent)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                  <fa-icon icon="times"></fa-icon>
-                  <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-                </button>
-              </ng-template>
-            </div>
-          </td>
+                  <button type="submit" (click)="delete(publicEvent)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                  </button>
+                </ng-template>
+              </div>
+            </td>
+          </ng-template>
         </tr>
       </tbody>
     </table>
