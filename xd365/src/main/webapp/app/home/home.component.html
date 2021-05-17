@@ -22,11 +22,25 @@
 <div class="row text-center">
   <div class="col-md-4">
     <div class="btn-group">
-      <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+      <div
+        jhiTranslate="home.button.previous"
+        class="btn btn-primary"
+        mwlCalendarPreviousView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
+      >
         Previous
       </div>
-      <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
-      <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+      <div jhiTranslate="home.button.today" class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">Today</div>
+      <div
+        jhiTranslate="home.button.next"
+        class="btn btn-primary"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="closeOpenMonthViewDay()"
+      >
         Next
       </div>
     </div>
@@ -36,9 +50,30 @@
   </div>
   <div class="col-md-4">
     <div class="btn-group">
-      <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">Month</div>
-      <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">Week</div>
-      <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">Day</div>
+      <div
+        jhiTranslate="home.button.month"
+        class="btn btn-primary"
+        (click)="setView(CalendarView.Month)"
+        [class.active]="view === CalendarView.Month"
+      >
+        Month
+      </div>
+      <div
+        jhiTranslate="home.button.week"
+        class="btn btn-primary"
+        (click)="setView(CalendarView.Week)"
+        [class.active]="view === CalendarView.Week"
+      >
+        Week
+      </div>
+      <div
+        jhiTranslate="home.button.day"
+        class="btn btn-primary"
+        (click)="setView(CalendarView.Day)"
+        [class.active]="view === CalendarView.Day"
+      >
+        Day
+      </div>
     </div>
   </div>
 </div>
