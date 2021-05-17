@@ -39,7 +39,6 @@ export class PublicEventComponent implements OnInit, OnDestroy {
   loadAll(): void {
     this.updateSearchFilter();
     this.isLoading = true;
-
     this.publicEventService.query().subscribe(
       (res: HttpResponse<IPublicEvent[]>) => {
         this.isLoading = false;
@@ -51,6 +50,7 @@ export class PublicEventComponent implements OnInit, OnDestroy {
     );
   }
 
+  // funkcja sprawdzająca czy event podpada pod kryteria wyszukiwania
   searchFilter(name: string): boolean {
     if (this.searchName === '') {
       return true;
@@ -63,6 +63,7 @@ export class PublicEventComponent implements OnInit, OnDestroy {
     }
   }
 
+  // funkcja aktualizująca zmienną przechowującą wyszukiwaną fraze
   updateSearchFilter(): void {
     if (this.editForm.get(['searchName'])!.value == null) {
       this.searchName = '';
@@ -91,6 +92,7 @@ export class PublicEventComponent implements OnInit, OnDestroy {
     });
   }
 
+  // funkcja sprawdzajaca czy użytkownik jest autorem eventu
   isAuthor(author: string, username: string): boolean {
     if (author === username) {
       return true;

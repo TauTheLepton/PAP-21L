@@ -27,7 +27,6 @@ export class EventComponent implements OnInit {
   loadAll(): void {
     this.updateSearchFilter();
     this.isLoading = true;
-
     this.eventService.query().subscribe(
       (res: HttpResponse<IEvent[]>) => {
         this.isLoading = false;
@@ -39,6 +38,7 @@ export class EventComponent implements OnInit {
     );
   }
 
+  // funkcja sprawdzająca czy dany event podlega kryteriom wyszukiwania
   searchFilter(name: string): boolean {
     if (this.searchName === '') {
       return true;
@@ -51,6 +51,7 @@ export class EventComponent implements OnInit {
     }
   }
 
+  // funkcja aktualizująca zmienną przechowującą wyszukaną fraze
   updateSearchFilter(): void {
     if (this.editForm.get(['searchName'])!.value == null) {
       this.searchName = '';
