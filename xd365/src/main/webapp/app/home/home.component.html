@@ -21,7 +21,9 @@
 
     <ul>
       <div *ngFor="let event of todayEvents">
-        <li>{{ event.title }}</li>
+        <li>
+          <a [routerLink]="['/' + event.id + '/view']">{{ event.title }}</a>
+        </li>
       </div>
     </ul>
   </div>
