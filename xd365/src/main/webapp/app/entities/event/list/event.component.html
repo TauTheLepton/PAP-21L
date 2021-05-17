@@ -3,6 +3,21 @@
     <span jhiTranslate="xd365App.event.home.title">Events</span>
 
     <div class="d-flex justify-content-end">
+      <form name="editForm" role="form" novalidate (ngSubmit)="updateSearchFilter()" [formGroup]="editForm">
+        <div class="form-group">
+          <div class="d-flex">
+            <input
+              id="field_searchName"
+              data-cy="searchName"
+              type="string"
+              class="form-control"
+              name="searchName"
+              formControlName="searchName"
+              placeholder="Search..."
+            />
+          </div>
+        </div>
+      </form>
       <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="xd365App.event.home.refreshListLabel">Refresh List</span>
@@ -45,37 +60,39 @@
       </thead>
       <tbody>
         <tr *ngFor="let event of events; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
-          </td>
-          <td>{{ event.eventName }}</td>
-          <td>{{ event.eventDate | formatMediumDatetime }}</td>
-          <td>{{ event.eventEndDate | formatMediumDatetime }}</td>
-          <td>{{ event.howManyInstances }}</td>
-          <td *ngIf="event.howManyInstances! > 1">{{ event.cycleLength }}</td>
-          <td *ngIf="event.howManyInstances == 1">-</td>
-          <td *ngIf="event.howManyInstances! > 1" jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
-          <td *ngIf="event.howManyInstances == 1">-</td>
-          <td *ngIf="event.category != null" jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
-          <td *ngIf="event.category == null">-</td>
-          <td class="text-right">
-            <div class="btn-group">
-              <button type="submit" [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
+          <ng-template [ngIf]="searchFilter(event.eventName!)">
+            <td>
+              <a [routerLink]="['/event', event.id, 'view']">{{ event.id }}</a>
+            </td>
+            <td>{{ event.eventName }}</td>
+            <td>{{ event.eventDate | formatMediumDatetime }}</td>
+            <td>{{ event.eventEndDate | formatMediumDatetime }}</td>
+            <td>{{ event.howManyInstances }}</td>
+            <td *ngIf="event.howManyInstances! > 1">{{ event.cycleLength }}</td>
+            <td *ngIf="event.howManyInstances == 1">-</td>
+            <td *ngIf="event.howManyInstances! > 1" jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
+            <td *ngIf="event.howManyInstances == 1">-</td>
+            <td *ngIf="event.category != null" jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</td>
+            <td *ngIf="event.category == null">-</td>
+            <td class="text-right">
+              <div class="btn-group">
+                <button type="submit" [routerLink]="['/event', event.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                  <fa-icon icon="eye"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                </button>
 
-              <button type="submit" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
+                <button type="submit" [routerLink]="['/event', event.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                  <fa-icon icon="pencil-alt"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                </button>
 
-              <button type="submit" (click)="delete(event)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
-            </div>
-          </td>
+                <button type="submit" (click)="delete(event)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                  <fa-icon icon="times"></fa-icon>
+                  <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                </button>
+              </div>
+            </td>
+          </ng-template>
         </tr>
       </tbody>
     </table>
