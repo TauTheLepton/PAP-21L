@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en' }}</h3>
+    <h3>{{ viewDate | calendarDate: view + 'ViewTitle':'en':weekStartsOn }}</h3>
   </div>
   <div class="col-md-4">
     <div class="btn-group">
@@ -50,6 +50,7 @@
     [events]="events"
     [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
+    [weekStartsOn]="weekStartsOn"
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
@@ -60,6 +61,7 @@
     [viewDate]="viewDate"
     [events]="events"
     [refresh]="refresh"
+    [weekStartsOn]="weekStartsOn"
     (eventClicked)="handleEvent('Clicked', $event.event)"
     (eventTimesChanged)="eventTimesChanged($event)"
   >

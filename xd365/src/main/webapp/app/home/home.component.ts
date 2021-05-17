@@ -3,7 +3,7 @@ import { addDays, addWeeks, addMonths, addYears, isSameDay, isSameMonth } from '
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarView, DAYS_OF_WEEK } from 'angular-calendar';
 
 import { HttpResponse } from '@angular/common/http';
 import { IEvent } from '../entities/event/event.model';
@@ -41,6 +41,8 @@ const colors: any = {
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
+
+  weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
 
   @ViewChild('modalContent', { static: true })
   modalContent!: TemplateRef<any>;
