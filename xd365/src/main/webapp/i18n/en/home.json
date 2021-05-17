@@ -23,6 +23,11 @@
     "publicEventView": {
       "show": "Show public events",
       "hide": "Hide public events"
+    },
+    "listHoursStatus": {
+      "0": "Whole day",
+      "2": "From ",
+      "3": "To "
     }
   }
 }

@@ -30,6 +30,11 @@
     "publicEventView": {
       "show": "Pokaż wydarzenia publiczne",
       "hide": "Ukryj wydarzenia publiczne"
+    },
+    "listHoursStatus": {
+      "0": "Cały dzień",
+      "2": "Od ",
+      "3": "Do "
     }
   }
 }

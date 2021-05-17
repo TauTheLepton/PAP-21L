@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { addDays, addWeeks, addMonths, addYears, isSameDay, isSameMonth } from 'date-fns';
+import { addDays, addWeeks, addMonths, addYears, isSameDay, isSameMonth, isBefore, isAfter } from 'date-fns';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -66,8 +66,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   iEvents!: IEvent[];
   iPublicEvents!: IPublicEvent[];
   events: CalendarEvent[] = [];
+  todayEvents: CalendarEvent[] = [];
   isLoading = false;
   showPublicEvents = true;
+  hours = '';
+  listHoursStatus = 0;
 
   activeDayIsOpen!: boolean;
 
@@ -87,10 +90,52 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
+  isTodayEventsEmpty(): boolean {
+    if (this.todayEvents.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getEventTimeToString(date: Date): string {
+    let hours;
+    let minutes;
+    if (date.getHours() < 10) {
+      hours = '0' + date.getHours().toString();
+    } else {
+      hours = date.getHours().toString();
+    }
+    if (date.getMinutes() < 10) {
+      minutes = '0' + date.getMinutes().toString();
+    } else {
+      minutes = date.getMinutes().toString();
+    }
+    return hours + ':' + minutes;
+  }
+
+  todayEventsGetHours(event: CalendarEvent): boolean {
+    this.hours = '';
+    this.listHoursStatus = 0;
+    const today = new Date();
+    if (isSameDay(event.start, today) && isSameDay(event.end!, today)) {
+      this.hours = this.getEventTimeToString(event.start) + ' - ' + this.getEventTimeToString(event.end!);
+      this.listHoursStatus = 1;
+    } else if (isSameDay(event.start, today) && !isSameDay(event.end!, today)) {
+      this.hours = this.getEventTimeToString(event.start);
+      this.listHoursStatus = 2;
+    } else if (!isSameDay(event.start, today) && isSameDay(event.end!, today)) {
+      this.hours = this.getEventTimeToString(event.end!);
+      this.listHoursStatus = 3;
+    }
+    return true;
+  }
+
   // importuje eventy z bazy danych i ustawia wszystkie w liście `events`
   // wywołuje się w htmlu
   importEvents(): boolean {
     this.events = [];
+    this.todayEvents = [];
 
     // pobieranie eventów z BD
     this.isLoading = true;
@@ -138,50 +183,77 @@ export class HomeComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  // dodaje do pola events wszystkie powtórzenia jednego wydarzenia
+  // dodaje do pola events i todayEvents wszystkie powtórzenia jednego wydarzenia
   loadEvents(event: IEvent | IPublicEvent, setColor: any, link: string): void {
     let repeats = 1;
     if (event.howManyInstances != null) {
       repeats = event.howManyInstances;
     }
     const resp = this.getIEventsDates(event);
+    const originalStartEvent = resp[0];
     let startEvent = resp[0];
+    const originalEndEvent = resp[1];
     let endEvent = resp[1];
     for (let i = 0; i < repeats; i++) {
       let eventTitle = event.eventName;
       if (eventTitle == null) {
         eventTitle = 'Event with no title';
       }
-      this.events.push({
-        id: link,
-        start: startEvent,
-        end: endEvent,
-        title: eventTitle,
-        color: setColor,
-      });
       let length = event.cycleLength;
       // zabezpieczenie jak ktoś nie poda jednostki cyklu
       if (length == null) {
         length = 1;
       }
+      length = length * i;
+      let load = true;
       if (event.cycleUnit === TimeUnits.DAYS) {
-        startEvent = addDays(startEvent, length);
-        endEvent = addDays(endEvent, length);
+        startEvent = addDays(originalStartEvent, length);
+        endEvent = addDays(originalEndEvent, length);
       } else if (event.cycleUnit === TimeUnits.WEEKS) {
-        startEvent = addWeeks(startEvent, length);
-        endEvent = addWeeks(endEvent, length);
+        startEvent = addWeeks(originalStartEvent, length);
+        endEvent = addWeeks(originalEndEvent, length);
       } else if (event.cycleUnit === TimeUnits.MONTHS) {
-        startEvent = addMonths(startEvent, length);
-        endEvent = addMonths(endEvent, length);
+        startEvent = addMonths(originalStartEvent, length);
+        endEvent = addMonths(originalEndEvent, length);
+        // upewnienie się, że to ten sam dzień
+        if (startEvent.getDate() !== originalStartEvent.getDate() || endEvent.getDate() !== originalEndEvent.getDate()) {
+          load = false;
+        }
       } else if (event.cycleUnit === TimeUnits.YEARS) {
-        startEvent = addYears(startEvent, length);
-        endEvent = addYears(endEvent, length);
+        startEvent = addYears(originalStartEvent, length);
+        endEvent = addYears(originalEndEvent, length);
+        // upewnienie się, że to ten sam dzień i miesiąc
+        if (
+          startEvent.getDate() !== originalStartEvent.getDate() ||
+          endEvent.getDate() !== originalEndEvent.getDate() ||
+          startEvent.getMonth() !== originalStartEvent.getMonth() ||
+          endEvent.getMonth() !== originalEndEvent.getMonth()
+        ) {
+          load = false;
+        }
       } else {
         // zabezpieczenie jak ktoś nie poda długości cyklu
-        startEvent = addDays(startEvent, length);
-        endEvent = addDays(endEvent, length);
+        startEvent = addDays(originalStartEvent, length);
+        endEvent = addDays(originalEndEvent, length);
+      }
+      if (load) {
+        this.loadEvent(this.events, link, startEvent, endEvent, eventTitle, setColor);
+        const today = new Date();
+        if (isSameDay(startEvent, today) || isSameDay(endEvent, today) || (isBefore(startEvent, today) && isAfter(endEvent, today))) {
+          this.loadEvent(this.todayEvents, link, startEvent, endEvent, eventTitle, setColor);
+        }
       }
     }
+  }
+
+  loadEvent(list: CalendarEvent[], link: string, startEvent: Date, endEvent: Date, eventTitle: string, setColor: any): void {
+    list.push({
+      id: link,
+      start: startEvent,
+      end: endEvent,
+      title: eventTitle,
+      color: setColor,
+    });
   }
 
   // zamienia typ IEvent i IPublicEvent na dwie daty, poczatkowa i koncowa
