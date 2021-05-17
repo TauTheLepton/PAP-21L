@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ViewChild, TemplateRef } from '@angular/core';
-import { addDays, addWeeks, addMonths, addYears, isSameDay, isSameMonth, isBefore, isAfter } from 'date-fns';
+import { addDays, addWeeks, addMonths, addYears, isSameDay, isSameMonth, isBefore, isAfter, startOfMonth, endOfMonth } from 'date-fns';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -222,20 +222,38 @@ export class HomeComponent implements OnInit, OnDestroy {
         startEvent = addMonths(originalStartEvent, length);
         endEvent = addMonths(originalEndEvent, length);
         // upewnienie się, że to ten sam dzień
-        if (startEvent.getDate() !== originalStartEvent.getDate() || endEvent.getDate() !== originalEndEvent.getDate()) {
-          load = false;
+        if (originalStartEvent.getDate() === originalEndEvent.getDate()) {
+          if (startEvent.getDate() !== originalStartEvent.getDate() || endEvent.getDate() !== originalEndEvent.getDate()) {
+            load = false;
+          }
+        } else {
+          if (startEvent.getDate() !== originalStartEvent.getDate()) {
+            startEvent = startOfMonth(addMonths(startEvent, 1));
+          }
+          if (endEvent.getDate() !== originalEndEvent.getDate()) {
+            endEvent = endOfMonth(endEvent);
+          }
         }
       } else if (event.cycleUnit === TimeUnits.YEARS) {
         startEvent = addYears(originalStartEvent, length);
         endEvent = addYears(originalEndEvent, length);
         // upewnienie się, że to ten sam dzień i miesiąc
-        if (
-          startEvent.getDate() !== originalStartEvent.getDate() ||
-          endEvent.getDate() !== originalEndEvent.getDate() ||
-          startEvent.getMonth() !== originalStartEvent.getMonth() ||
-          endEvent.getMonth() !== originalEndEvent.getMonth()
-        ) {
-          load = false;
+        if (originalStartEvent.getDate() === originalEndEvent.getDate() && originalStartEvent.getMonth() === originalEndEvent.getMonth()) {
+          if (
+            startEvent.getDate() !== originalStartEvent.getDate() ||
+            endEvent.getDate() !== originalEndEvent.getDate() ||
+            startEvent.getMonth() !== originalStartEvent.getMonth() ||
+            endEvent.getMonth() !== originalEndEvent.getMonth()
+          ) {
+            load = false;
+          }
+        } else {
+          if (startEvent.getDate() !== originalStartEvent.getDate() || startEvent.getMonth() !== originalStartEvent.getMonth()) {
+            startEvent = startOfMonth(addMonths(startEvent, 1));
+          }
+          if (endEvent.getDate() !== originalEndEvent.getDate() || endEvent.getMonth() !== originalEndEvent.getMonth()) {
+            endEvent = endOfMonth(endEvent);
+          }
         }
       } else {
         // zabezpieczenie jak ktoś nie poda długości cyklu
