@@ -54,6 +54,9 @@ class EventResourceIT {
     private static final Category DEFAULT_CATEGORY = Category.RECREATION;
     private static final Category UPDATED_CATEGORY = Category.STUDYING;
 
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
     private static final String DEFAULT_USERLOGIN = "AAAAAAAAAA";
     private static final String UPDATED_USERLOGIN = "BBBBBBBBBB";
 
@@ -89,6 +92,7 @@ class EventResourceIT {
             .cycleLength(DEFAULT_CYCLE_LENGTH)
             .cycleUnit(DEFAULT_CYCLE_UNIT)
             .category(DEFAULT_CATEGORY)
+            .description(DEFAULT_DESCRIPTION)
             .userlogin(DEFAULT_USERLOGIN);
         return event;
     }
@@ -108,6 +112,7 @@ class EventResourceIT {
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .category(UPDATED_CATEGORY)
+            .description(UPDATED_DESCRIPTION)
             .userlogin(UPDATED_USERLOGIN);
         return event;
     }
@@ -137,6 +142,7 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(DEFAULT_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(DEFAULT_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(DEFAULT_CATEGORY);
+        assertThat(testEvent.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testEvent.getUserlogin()).isEqualTo(DEFAULT_USERLOGIN);
     }
 
@@ -245,6 +251,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.[*].cycleLength").value(hasItem(DEFAULT_CYCLE_LENGTH.intValue())))
             .andExpect(jsonPath("$.[*].cycleUnit").value(hasItem(DEFAULT_CYCLE_UNIT.toString())))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].userlogin").value(hasItem(DEFAULT_USERLOGIN)));
     }
 
@@ -267,6 +274,7 @@ class EventResourceIT {
             .andExpect(jsonPath("$.cycleLength").value(DEFAULT_CYCLE_LENGTH.intValue()))
             .andExpect(jsonPath("$.cycleUnit").value(DEFAULT_CYCLE_UNIT.toString()))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.userlogin").value(DEFAULT_USERLOGIN));
     }
 
@@ -297,6 +305,7 @@ class EventResourceIT {
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .category(UPDATED_CATEGORY)
+            .description(UPDATED_DESCRIPTION)
             .userlogin(UPDATED_USERLOGIN);
 
         restEventMockMvc
@@ -318,6 +327,7 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testEvent.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 
@@ -394,7 +404,7 @@ class EventResourceIT {
             .eventEndDate(UPDATED_EVENT_END_DATE)
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
-            .userlogin(UPDATED_USERLOGIN);
+            .description(UPDATED_DESCRIPTION);
 
         restEventMockMvc
             .perform(
@@ -415,7 +425,8 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(DEFAULT_CATEGORY);
-        assertThat(testEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
+        assertThat(testEvent.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testEvent.getUserlogin()).isEqualTo(DEFAULT_USERLOGIN);
     }
 
     @Test
@@ -438,6 +449,7 @@ class EventResourceIT {
             .cycleLength(UPDATED_CYCLE_LENGTH)
             .cycleUnit(UPDATED_CYCLE_UNIT)
             .category(UPDATED_CATEGORY)
+            .description(UPDATED_DESCRIPTION)
             .userlogin(UPDATED_USERLOGIN);
 
         restEventMockMvc
@@ -459,6 +471,7 @@ class EventResourceIT {
         assertThat(testEvent.getCycleLength()).isEqualTo(UPDATED_CYCLE_LENGTH);
         assertThat(testEvent.getCycleUnit()).isEqualTo(UPDATED_CYCLE_UNIT);
         assertThat(testEvent.getCategory()).isEqualTo(UPDATED_CATEGORY);
+        assertThat(testEvent.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testEvent.getUserlogin()).isEqualTo(UPDATED_USERLOGIN);
     }
 

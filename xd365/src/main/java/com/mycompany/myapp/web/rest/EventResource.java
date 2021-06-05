@@ -161,6 +161,9 @@ public class EventResource {
                     if (event.getCategory() != null) {
                         existingEvent.setCategory(event.getCategory());
                     }
+                    if (event.getDescription() != null) {
+                        existingEvent.setDescription(event.getDescription());
+                    }
                     if (event.getUserlogin() != null) {
                         existingEvent.setUserlogin(event.getUserlogin());
                     }

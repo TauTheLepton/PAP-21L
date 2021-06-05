@@ -18,6 +18,7 @@ entity Event {
   cycleLength Long min(1)
   cycleUnit TimeUnits
   category Category
+  description String
   userlogin String
 }
 
@@ -29,5 +30,6 @@ entity PublicEvent {
   cycleLength Long min(1)
   cycleUnit TimeUnits
   category Category
+  description String
   userlogin String
 }

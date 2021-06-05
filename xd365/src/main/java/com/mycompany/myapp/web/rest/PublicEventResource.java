@@ -163,6 +163,9 @@ public class PublicEventResource {
                     if (publicEvent.getCategory() != null) {
                         existingPublicEvent.setCategory(publicEvent.getCategory());
                     }
+                    if (publicEvent.getDescription() != null) {
+                        existingPublicEvent.setDescription(publicEvent.getDescription());
+                    }
                     if (publicEvent.getUserlogin() != null) {
                         existingPublicEvent.setUserlogin(publicEvent.getUserlogin());
                     }

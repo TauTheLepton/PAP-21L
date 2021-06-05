@@ -35,6 +35,9 @@
             <column name="category" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="userlogin" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -67,6 +70,7 @@
             <column name="cycle_length" type="numeric"/>
             <column name="cycle_unit" type="string"/>
             <column name="category" type="string"/>
+            <column name="description" type="string"/>
             <column name="userlogin" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

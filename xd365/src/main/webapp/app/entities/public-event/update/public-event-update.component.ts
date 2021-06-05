@@ -27,6 +27,7 @@ export class PublicEventUpdateComponent implements OnInit {
     cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
     category: [],
+    description: [],
     userlogin: [],
   });
 
@@ -65,7 +66,7 @@ export class PublicEventUpdateComponent implements OnInit {
       return false;
     }
   }
-  
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPublicEvent>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -95,6 +96,7 @@ export class PublicEventUpdateComponent implements OnInit {
       cycleLength: publicEvent.cycleLength,
       cycleUnit: publicEvent.cycleUnit,
       category: publicEvent.category,
+      description: publicEvent.description,
       userlogin: publicEvent.userlogin,
     });
   }
@@ -112,6 +114,7 @@ export class PublicEventUpdateComponent implements OnInit {
       cycleLength: this.editForm.get(['cycleLength'])!.value,
       cycleUnit: this.editForm.get(['cycleUnit'])!.value,
       category: this.editForm.get(['category'])!.value,
+      description: this.editForm.get(['description'])!.value,
       userlogin: this.editForm.get(['userlogin'])!.value,
     };
   }
