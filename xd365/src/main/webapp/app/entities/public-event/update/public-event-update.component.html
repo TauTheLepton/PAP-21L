@@ -133,49 +133,47 @@
             </small>
           </div>
         </div>
-        <ng-template [ngIf]="showCycleParams()">
-          <div class="form-group">
-            <label class="form-control-label" jhiTranslate="xd365App.publicEvent.cycleLength" for="field_cycleLength">Cycle Length</label>
-            <input
-              type="number"
-              class="form-control"
-              name="cycleLength"
-              id="field_cycleLength"
-              data-cy="cycleLength"
-              formControlName="cycleLength"
-            />
-            <div
-              *ngIf="editForm.get('cycleLength')!.invalid && (editForm.get('cycleLength')!.dirty || editForm.get('cycleLength')!.touched)"
-            >
-              <small
-                class="form-text text-danger"
-                *ngIf="editForm.get('cycleLength')?.errors?.min"
-                jhiTranslate="entity.validation.min"
-                [translateValues]="{ min: 1 }"
-              >
-                This field should be at least 1.
-              </small>
-              <small
-                class="form-text text-danger"
-                [hidden]="!editForm.get('cycleLength')?.errors?.number"
-                jhiTranslate="entity.validation.number"
-              >
-                This field should be a number.
-              </small>
-            </div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-control-label" jhiTranslate="xd365App.publicEvent.cycleUnit" for="field_cycleUnit">Cycle Unit</label>
-            <select class="form-control" name="cycleUnit" formControlName="cycleUnit" id="field_cycleUnit" data-cy="cycleUnit">
-              <option [ngValue]="null">{{ 'xd365App.TimeUnits.null' | translate }}</option>
-              <option value="DAYS">{{ 'xd365App.TimeUnits.DAYS' | translate }}</option>
-              <option value="WEEKS">{{ 'xd365App.TimeUnits.WEEKS' | translate }}</option>
-              <option value="MONTHS">{{ 'xd365App.TimeUnits.MONTHS' | translate }}</option>
-              <option value="YEARS">{{ 'xd365App.TimeUnits.YEARS' | translate }}</option>
-            </select>
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.cycleLength" for="field_cycleLength">Cycle Length</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cycleLength"
+            id="field_cycleLength"
+            data-cy="cycleLength"
+            formControlName="cycleLength"
+          />
+          <div *ngIf="editForm.get('cycleLength')!.invalid && (editForm.get('cycleLength')!.dirty || editForm.get('cycleLength')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('cycleLength')?.errors?.min"
+              jhiTranslate="entity.validation.min"
+              [translateValues]="{ min: 1 }"
+            >
+              This field should be at least 1.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('cycleLength')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
           </div>
-        </ng-template>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.cycleUnit" for="field_cycleUnit">Cycle Unit</label>
+          <select class="form-control" name="cycleUnit" formControlName="cycleUnit" id="field_cycleUnit" data-cy="cycleUnit">
+            <option [ngValue]="null">{{ 'xd365App.TimeUnits.null' | translate }}</option>
+            <option value="DAYS">{{ 'xd365App.TimeUnits.DAYS' | translate }}</option>
+            <option value="WEEKS">{{ 'xd365App.TimeUnits.WEEKS' | translate }}</option>
+            <option value="MONTHS">{{ 'xd365App.TimeUnits.MONTHS' | translate }}</option>
+            <option value="YEARS">{{ 'xd365App.TimeUnits.YEARS' | translate }}</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="xd365App.publicEvent.category" for="field_category">Category</label>
           <select class="form-control" name="category" formControlName="category" id="field_category" data-cy="category">
@@ -184,6 +182,23 @@
             <option value="STUDYING">{{ 'xd365App.Category.STUDYING' | translate }}</option>
             <option value="SPORTS">{{ 'xd365App.Category.SPORTS' | translate }}</option>
           </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.publicEvent.userlogin" for="field_userlogin">Userlogin</label>
+          <input type="text" class="form-control" name="userlogin" id="field_userlogin" data-cy="userlogin" formControlName="userlogin" />
         </div>
       </div>
 

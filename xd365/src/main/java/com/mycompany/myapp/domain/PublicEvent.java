@@ -53,6 +53,9 @@ public class PublicEvent implements Serializable {
     @Column(name = "category")
     private Category category;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "userlogin")
     private String userlogin;
 
@@ -161,6 +164,19 @@ public class PublicEvent implements Serializable {
         this.category = category;
     }
 
+    public String getDescription() {
+        return this.description;
+    }
+
+    public PublicEvent description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getUserlogin() {
         return this.userlogin;
     }
@@ -205,6 +221,7 @@ public class PublicEvent implements Serializable {
             ", cycleLength=" + getCycleLength() +
             ", cycleUnit='" + getCycleUnit() + "'" +
             ", category='" + getCategory() + "'" +
+            ", description='" + getDescription() + "'" +
             ", userlogin='" + getUserlogin() + "'" +
             "}";
     }

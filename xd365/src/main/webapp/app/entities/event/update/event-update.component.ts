@@ -27,6 +27,7 @@ export class EventUpdateComponent implements OnInit {
     cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
     category: [],
+    description: [],
     userlogin: [],
   });
 
@@ -65,7 +66,7 @@ export class EventUpdateComponent implements OnInit {
       return false;
     }
   }
-
+  
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -95,6 +96,7 @@ export class EventUpdateComponent implements OnInit {
       cycleLength: event.cycleLength,
       cycleUnit: event.cycleUnit,
       category: event.category,
+      description: event.description,
       userlogin: event.userlogin,
     });
   }
@@ -112,6 +114,7 @@ export class EventUpdateComponent implements OnInit {
       cycleLength: this.editForm.get(['cycleLength'])!.value,
       cycleUnit: this.editForm.get(['cycleUnit'])!.value,
       category: this.editForm.get(['category'])!.value,
+      description: this.editForm.get(['description'])!.value,
       userlogin: this.editForm.get(['userlogin'])!.value,
     };
   }
