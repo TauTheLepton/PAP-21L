@@ -35,6 +35,7 @@ describe('Service Tests', () => {
         cycleLength: 0,
         cycleUnit: TimeUnits.DAYS,
         category: Category.RECREATION,
+        description: 'AAAAAAA',
         userlogin: 'AAAAAAA',
       };
     });
@@ -92,6 +93,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
+            description: 'BBBBBB',
             userlogin: 'BBBBBB',
           },
           elemDefault
@@ -119,7 +121,7 @@ describe('Service Tests', () => {
             eventEndDate: currentDate.format(DATE_TIME_FORMAT),
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
-            userlogin: 'BBBBBB',
+            description: 'BBBBBB',
           },
           new Event()
         );
@@ -152,6 +154,7 @@ describe('Service Tests', () => {
             cycleLength: 1,
             cycleUnit: 'BBBBBB',
             category: 'BBBBBB',
+            description: 'BBBBBB',
             userlogin: 'BBBBBB',
           },
           elemDefault
@@ -210,7 +213,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Event to an array', () => {
-          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 49927 }];
+          const eventArray: IEvent[] = [{ id: 123 }, { id: 456 }, { id: 63979 }];
           const eventCollection: IEvent[] = [{ id: 123 }];
           expectedResult = service.addEventToCollectionIfMissing(eventCollection, ...eventArray);
           expect(expectedResult).toHaveLength(3);

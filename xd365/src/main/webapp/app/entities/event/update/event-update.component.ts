@@ -20,13 +20,14 @@ export class EventUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    eventName: [null, [Validators.required]],
+    eventName: [null, [Validators.required, Validators.maxLength(30)]],
     eventDate: [null, [Validators.required]],
     eventEndDate: [null, [Validators.required]],
-    howManyInstances: [null, [Validators.required, Validators.min(1)]],
-    cycleLength: [null, [Validators.min(1)]],
+    howManyInstances: [null, [Validators.required, Validators.min(1), Validators.max(10000)]],
+    cycleLength: [null, [Validators.min(1), Validators.max(10000)]],
     cycleUnit: [],
     category: [],
+    description: [null, [Validators.maxLength(250)]],
     userlogin: [],
   });
 
@@ -65,7 +66,7 @@ export class EventUpdateComponent implements OnInit {
       return false;
     }
   }
-
+  
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IEvent>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(
       () => this.onSaveSuccess(),
@@ -95,6 +96,7 @@ export class EventUpdateComponent implements OnInit {
       cycleLength: event.cycleLength,
       cycleUnit: event.cycleUnit,
       category: event.category,
+      description: event.description,
       userlogin: event.userlogin,
     });
   }
@@ -112,6 +114,7 @@ export class EventUpdateComponent implements OnInit {
       cycleLength: this.editForm.get(['cycleLength'])!.value,
       cycleUnit: this.editForm.get(['cycleUnit'])!.value,
       category: this.editForm.get(['category'])!.value,
+      description: this.editForm.get(['description'])!.value,
       userlogin: this.editForm.get(['userlogin'])!.value,
     };
   }

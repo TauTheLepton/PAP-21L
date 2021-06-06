@@ -42,6 +42,10 @@
         <dd *ngIf="publicEvent.category != null">
           <span jhiTranslate="{{ 'xd365App.Category.' + publicEvent.category }}">{{ publicEvent.category }}</span>
         </dd>
+        <dt><span jhiTranslate="xd365App.publicEvent.description">Description</span></dt>
+        <dd>
+          <span>{{ publicEvent.description }}</span>
+        </dd>
         <dt><span jhiTranslate="xd365App.publicEvent.userlogin">Userlogin</span></dt>
         <dd>
           <span>{{ publicEvent.userlogin }}</span>

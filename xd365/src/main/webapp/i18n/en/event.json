@@ -25,6 +25,7 @@
       "cycleLength": "Cycle Length",
       "cycleUnit": "Cycle Unit",
       "category": "Category",
+      "description": "Description",
       "userlogin": "Author"
     }
   }

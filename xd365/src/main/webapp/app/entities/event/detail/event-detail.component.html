@@ -42,10 +42,10 @@
         <dd *ngIf="event.category != null">
           <span jhiTranslate="{{ 'xd365App.Category.' + event.category }}">{{ event.category }}</span>
         </dd>
-        <!-- <dt><span jhiTranslate="xd365App.event.userlogin">Userlogin</span></dt>
+        <dt><span jhiTranslate="xd365App.event.description">Description</span></dt>
         <dd>
-          <span>{{ event.userlogin }}</span>
-        </dd> -->
+          <span>{{ event.description }}</span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

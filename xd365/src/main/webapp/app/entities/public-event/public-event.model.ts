@@ -11,6 +11,7 @@ export interface IPublicEvent {
   cycleLength?: number | null;
   cycleUnit?: TimeUnits | null;
   category?: Category | null;
+  description?: string | null;
   userlogin?: string | null;
 }
 
@@ -24,6 +25,7 @@ export class PublicEvent implements IPublicEvent {
     public cycleLength?: number | null,
     public cycleUnit?: TimeUnits | null,
     public category?: Category | null,
+    public description?: string | null,
     public userlogin?: string | null
   ) {}
 }
