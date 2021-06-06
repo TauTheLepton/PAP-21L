@@ -22,7 +22,7 @@ module.exports = (config, options, targetOptions) => {
       new FriendlyErrorsWebpackPlugin(),
       new WebpackNotifierPlugin({
         title: 'Xd 365',
-        contentImage: path.join(__dirname, 'logo-jhipster.png'),
+        contentImage: path.join(__dirname, 'xd365home.png'),
       })
     );
     if (!process.env.JHI_DISABLE_WEBPACK_LOGS) {
