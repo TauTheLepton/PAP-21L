@@ -3,7 +3,7 @@
     <span jhiTranslate="xd365App.event.home.title">Events</span>
 
     <div class="d-flex justify-content-end">
-           <form name="editForm" role="form" novalidate (ngSubmit)="updateSearchFilter()" [formGroup]="editForm">
+      <form name="editForm" role="form" novalidate (ngSubmit)="updateSearchFilter()" [formGroup]="editForm">
         <div class="form-group">
           <div class="d-flex">
             <input
@@ -55,8 +55,7 @@
           <th scope="col"><span jhiTranslate="xd365App.event.cycleLength">Cycle Length</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.cycleUnit">Cycle Unit</span></th>
           <th scope="col"><span jhiTranslate="xd365App.event.category">Category</span></th>
-      <th scope="col"><span jhiTranslate="xd365App.event.description">Description</span></th>
-               <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -69,7 +68,6 @@
             <td>{{ event.eventDate | formatMediumDatetime }}</td>
             <td>{{ event.eventEndDate | formatMediumDatetime }}</td>
             <td>{{ event.howManyInstances }}</td>
-            <td>{{ event.description }}</td>
             <td *ngIf="event.howManyInstances! > 1">{{ event.cycleLength }}</td>
             <td *ngIf="event.howManyInstances == 1">-</td>
             <td *ngIf="event.howManyInstances! > 1" jhiTranslate="{{ 'xd365App.TimeUnits.' + event.cycleUnit }}">{{ event.cycleUnit }}</td>
