@@ -20,14 +20,14 @@ export class EventUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    eventName: [null, [Validators.required]],
+    eventName: [null, [Validators.required, Validators.maxLength(30)]],
     eventDate: [null, [Validators.required]],
     eventEndDate: [null, [Validators.required]],
     howManyInstances: [null, [Validators.required, Validators.min(1)]],
     cycleLength: [null, [Validators.min(1)]],
     cycleUnit: [],
     category: [],
-    description: [],
+    description: [null, [Validators.maxLength(250)]],
     userlogin: [],
   });
 

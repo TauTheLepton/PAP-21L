@@ -4,7 +4,8 @@
     {
       "fieldName": "eventName",
       "fieldType": "String",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "30"
     },
     {
       "fieldName": "eventDate",
@@ -40,7 +41,9 @@
     },
     {
       "fieldName": "description",
-      "fieldType": "String"
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "250"
     },
     {
       "fieldName": "userlogin",

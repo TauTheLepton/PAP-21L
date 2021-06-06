@@ -26,6 +26,14 @@
             </small>
           </div>
         </div>
+        <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('eventName')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 30 }"
+            >
+              This field cannot be longer than 30 characters.
+            </small>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="xd365App.event.eventDate" for="field_eventDate">Event Date</label>
@@ -204,11 +212,17 @@
             formControlName="description"
           />
         </div>
+        <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get('description')?.errors?.maxlength"
+            jhiTranslate="entity.validation.maxlength"
+            [translateValues]="{ max: 250 }"
+          >
+            This field cannot be longer than 250 characters.
+          </small>
+          </div>
 
-        <!-- <div class="form-group">
-          <label class="form-control-label" jhiTranslate="xd365App.event.userlogin" for="field_userlogin">Userlogin</label>
-          <input type="text" class="form-control" name="userlogin" id="field_userlogin" data-cy="userlogin" formControlName="userlogin" />
-        </div> -->
       </div>
 
       <div>

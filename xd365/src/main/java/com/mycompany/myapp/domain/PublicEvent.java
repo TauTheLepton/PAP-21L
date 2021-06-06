@@ -25,7 +25,8 @@ public class PublicEvent implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "event_name", nullable = false)
+    @Size(max = 30)
+    @Column(name = "event_name", length = 30, nullable = false)
     private String eventName;
 
     @NotNull
@@ -53,7 +54,8 @@ public class PublicEvent implements Serializable {
     @Column(name = "category")
     private Category category;
 
-    @Column(name = "description")
+    @Size(max = 250)
+    @Column(name = "description", length = 250)
     private String description;
 
     @Column(name = "userlogin")
