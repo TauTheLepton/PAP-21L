@@ -39,10 +39,12 @@ public class Event implements Serializable {
 
     @NotNull
     @Min(value = 1L)
+    @Max(value = 10000L)
     @Column(name = "how_many_instances", nullable = false)
     private Long howManyInstances;
 
     @Min(value = 1L)
+    @Max(value = 10000L)
     @Column(name = "cycle_length")
     private Long cycleLength;
 

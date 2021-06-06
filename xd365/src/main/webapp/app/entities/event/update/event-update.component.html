@@ -24,9 +24,7 @@
             >
               This field is required.
             </small>
-          </div>
-        </div>
-        <small
+            <small
               class="form-text text-danger"
               *ngIf="editForm.get('eventName')?.errors?.maxlength"
               jhiTranslate="entity.validation.maxlength"
@@ -34,6 +32,8 @@
             >
               This field cannot be longer than 30 characters.
             </small>
+          </div>
+        </div>
 
         <div class="form-group">
           <label class="form-control-label" jhiTranslate="xd365App.event.eventDate" for="field_eventDate">Event Date</label>
@@ -134,6 +134,14 @@
             </small>
             <small
               class="form-text text-danger"
+              *ngIf="editForm.get('howManyInstances')?.errors?.max"
+              jhiTranslate="entity.validation.max"
+              [translateValues]="{ max: 10000 }"
+            >
+              This field cannot be more than 10000.
+            </small>
+            <small
+              class="form-text text-danger"
               [hidden]="!editForm.get('howManyInstances')?.errors?.number"
               jhiTranslate="entity.validation.number"
             >
@@ -144,17 +152,17 @@
 
         <ng-template [ngIf]="showCycleParams()"
           ><div>
-            <div class="form-group">
-              <label class="form-control-label" jhiTranslate="xd365App.event.cycleLength" for="field_cycleLength">Cycle Length</label>
-              <input
-                type="number"
-                class="form-control"
-                name="cycleLength"
-                id="field_cycleLength"
-                data-cy="cycleLength"
-                formControlName="cycleLength"
-              />
-              <div
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="xd365App.event.cycleLength" for="field_cycleLength">Cycle Length</label>
+          <input
+            type="number"
+            class="form-control"
+            name="cycleLength"
+            id="field_cycleLength"
+            data-cy="cycleLength"
+            formControlName="cycleLength"
+          />
+          <div
                 *ngIf="editForm.get('cycleLength')!.invalid && (editForm.get('cycleLength')!.dirty || editForm.get('cycleLength')!.touched)"
               >
             <small
@@ -164,6 +172,14 @@
               [translateValues]="{ min: 1 }"
             >
               This field should be at least 1.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('cycleLength')?.errors?.max"
+              jhiTranslate="entity.validation.max"
+              [translateValues]="{ max: 10000 }"
+            >
+              This field cannot be more than 10000.
             </small>
             <small
               class="form-text text-danger"
@@ -211,16 +227,16 @@
             data-cy="description"
             formControlName="description"
           />
-        </div>
-        <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
-          <small
-            class="form-text text-danger"
-            *ngIf="editForm.get('description')?.errors?.maxlength"
-            jhiTranslate="entity.validation.maxlength"
-            [translateValues]="{ max: 250 }"
-          >
-            This field cannot be longer than 250 characters.
-          </small>
+          </div>
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('description')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 250 }"
+            >
+              This field cannot be longer than 250 characters.
+            </small>
           </div>
 
       </div>

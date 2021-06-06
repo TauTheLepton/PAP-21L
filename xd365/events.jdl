@@ -14,8 +14,8 @@ entity Event {
   eventName String required maxlength(30)
   eventDate Instant required
   eventEndDate Instant required
-  howManyInstances Long min(1) required
-  cycleLength Long min(1)
+  howManyInstances Long min(1) max(10000) required
+  cycleLength Long min(1) max(10000)
   cycleUnit TimeUnits
   category Category
   description String maxlength(250)
@@ -26,8 +26,8 @@ entity PublicEvent {
   eventName String required maxlength(30)
   eventDate Instant required
   eventEndDate Instant required
-  howManyInstances Long min(1) required
-  cycleLength Long min(1)
+  howManyInstances Long min(1) max(10000) required
+  cycleLength Long min(1) max(10000)
   cycleUnit TimeUnits
   category Category
   description String maxlength(250)
