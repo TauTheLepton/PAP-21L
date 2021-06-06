@@ -72,6 +72,20 @@ export class PublicEventComponent implements OnInit, OnDestroy {
     }
   }
 
+  // funkcja sprawdzająca czy kryteria wyszukiwania są spełnione przez przynajmniej 1 event
+  noSearchResults(): boolean {
+    let listEmpty = true;
+    for (const event of this.publicEvents!) {
+      if (event.eventName!.toLowerCase().includes(this.searchName.toLowerCase())) {
+        listEmpty = false;
+      }
+    }
+    if (listEmpty) {
+      return true;
+    }
+    return false;
+  }
+
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
     this.loadAll();

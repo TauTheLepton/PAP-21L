@@ -60,6 +60,20 @@ export class EventComponent implements OnInit {
     }
   }
 
+  // funkcja sprawdzająca czy kryteria wyszukiwania są spełnione przez przynajmniej 1 event
+  noSearchResults(): boolean {
+    let listEmpty = true;
+    for (const event of this.events!) {
+      if (event.eventName!.toLowerCase().includes(this.searchName.toLowerCase())) {
+        listEmpty = false;
+      }
+    }
+    if (listEmpty) {
+      return true;
+    }
+    return false;
+  }
+
   ngOnInit(): void {
     this.loadAll();
   }
